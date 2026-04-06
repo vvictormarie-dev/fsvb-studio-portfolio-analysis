@@ -1,0 +1,111 @@
+/* Build Stamp - Informations de version visibles */
+
+.buildStamp {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: #6b7280;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+  z-index: 9999;
+}
+
+.buildStamp:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #374151;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Position footer (en bas de page) */
+.footer {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  opacity: 0.7;
+}
+
+.footer:hover {
+  opacity: 1;
+}
+
+/* Position corner (coin discret) */
+.corner {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  opacity: 0.4;
+  font-size: 10px;
+}
+
+.corner:hover {
+  opacity: 0.8;
+}
+
+/* Éléments texte */
+.label {
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.date {
+  color: #059669;
+}
+
+.commit {
+  color: #dc2626;
+  font-weight: 500;
+}
+
+.branch {
+  color: #7c3aed;
+  font-style: italic;
+}
+
+.separator {
+  margin: 0 4px;
+  opacity: 0.5;
+}
+
+/* Mode sombre - DÉSACTIVÉ pour éviter l'adaptation navigateur
+/* @media (prefers-color-scheme: dark) {
+  .buildStamp {
+    color: #9ca3af;
+    background: rgba(255, 255, 255, 0.02);
+    border-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .buildStamp:hover {
+    color: #e5e7eb;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .date {
+    color: #10b981;
+  }
+
+  .commit {
+    color: #f87171;
+  }
+
+  .branch {
+    color: #a78bfa;
+  }
+} */
+
+/* Responsive */
+@media (max-width: 768px) {
+  .buildStamp {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+
+  .footer {
+    bottom: 5px;
+    right: 5px;
+  }
+}

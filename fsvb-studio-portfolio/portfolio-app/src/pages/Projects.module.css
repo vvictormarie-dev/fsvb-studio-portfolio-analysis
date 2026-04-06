@@ -1,0 +1,65 @@
+.introSection {
+  padding: 4rem 0 3rem 0;
+  text-align: center;
+}
+
+.title {
+  font-family: var(--font-title, 'Playfair Display', serif);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--gold-bright);
+  margin-bottom: 1.2rem;
+}
+
+.text {
+  font-family: var(--font-body, 'Open Sans', sans-serif);
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.ctaButtonGold {
+  display: inline-block;
+  background-color: var(--gold-bright);
+  color: var(--bg-primary);
+  font-weight: 600;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 1rem 2.2rem;
+  font-size: 1.1rem;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: background 0.2s, color 0.2s;
+  margin-top: 1.2rem;
+}
+
+.projectsSection {
+  padding: 2rem 0 2rem 0;
+}
+
+.ctaSection {
+  padding: 3rem 0 3rem 0;
+  text-align: center;
+}
+
+.ctaTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1B1B2F;
+  margin-bottom: 1.2rem;
+}
+
+.ctaButton {
+  display: inline-block;
+  background-color: var(--bg-primary);
+  color: var(--gold-bright);
+  font-weight: 600;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 1rem 2.2rem;
+  font-size: 1.1rem;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: background 0.2s, color 0.2s;
+  margin-top: 1.2rem;
+}

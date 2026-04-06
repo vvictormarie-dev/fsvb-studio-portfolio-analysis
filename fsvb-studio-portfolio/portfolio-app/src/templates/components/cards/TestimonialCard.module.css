@@ -1,0 +1,168 @@
+/* TestimonialCard.module.css */
+@import '../../styles/themes.css';
+@import '../../styles/template-base.css';
+@import '../../styles/template-components.css';
+
+.card {
+  background: var(--template-card-bg, rgba(255, 255, 255, 0.1));
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--template-border, rgba(255, 255, 255, 0.2));
+  border-radius: var(--template-radius, 16px);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-height: 280px;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg, 
+    var(--template-accent, rgba(139, 92, 246, 0.1)) 0%,
+    transparent 50%,
+    var(--template-accent-alt, rgba(59, 130, 246, 0.1)) 100%
+  );
+  pointer-events: none;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--template-accent, rgba(139, 92, 246, 0.4));
+  box-shadow: 
+    0 20px 40px var(--template-shadow, rgba(0, 0, 0, 0.1)),
+    0 0 0 1px var(--template-accent, rgba(139, 92, 246, 0.2));
+}
+
+.quoteIcon {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  font-size: 4rem;
+  font-weight: bold;
+  color: var(--template-accent, #8b5cf6);
+  opacity: 0.2;
+  font-family: serif;
+  line-height: 1;
+}
+
+.text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--template-text, #ffffff);
+  margin: 0;
+  position: relative;
+  z-index: 1;
+  font-style: italic;
+  flex: 1;
+}
+
+.rating {
+  display: flex;
+  gap: 0.25rem;
+  margin: 0.5rem 0;
+}
+
+.star {
+  font-size: 1.2rem;
+  color: var(--template-muted, rgba(255, 255, 255, 0.4));
+  transition: color 0.2s ease;
+}
+
+.star.filled {
+  color: var(--template-accent, #8b5cf6);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--template-accent, #8b5cf6);
+  flex-shrink: 0;
+}
+
+.author {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.name {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--template-text, #ffffff);
+}
+
+.role {
+  font-size: 0.875rem;
+  color: var(--template-muted, rgba(255, 255, 255, 0.7));
+  line-height: 1.4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .card {
+    padding: 1.5rem;
+    min-height: 240px;
+  }
+  
+  .quoteIcon {
+    font-size: 3rem;
+    top: 0.75rem;
+    right: 1rem;
+  }
+  
+  .text {
+    font-size: 1rem;
+  }
+  
+  .footer {
+    gap: 0.75rem;
+  }
+  
+  .avatar {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* Theme-specific adjustments */
+[data-theme="zen"] .card {
+  background: var(--template-card-bg, rgba(248, 250, 252, 0.95));
+}
+
+[data-theme="zen"] .text,
+[data-theme="zen"] .name {
+  color: var(--template-text, #1e293b);
+}
+
+[data-theme="zen"] .role {
+  color: var(--template-muted, #64748b);
+}
+
+[data-theme="minimaliste"] .card {
+  border-radius: var(--template-radius, 8px);
+  border: 1px solid var(--template-border, #e2e8f0);
+}
+
+[data-theme="minimaliste"] .quoteIcon {
+  color: var(--template-accent, #000000);
+}

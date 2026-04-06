@@ -1,0 +1,16 @@
+{
+  "name": "portfolio-workspace",
+  "version": "1.0.0",
+  "description": "Workspace root for portfolio project",
+  "private": true,
+  "scripts": {
+    "dev": "cd portfolio-app && npm run dev",
+    "build": "cd portfolio-app && npm run build",
+    "preview": "cd portfolio-app && npm run preview",
+    "lint": "cd portfolio-app && npm run lint",
+    "install-deps": "cd portfolio-app && npm install"
+  },
+  "keywords": ["portfolio", "react", "typescript", "vite"],
+  "author": "Rename IA",
+  "license": "MIT"
+}

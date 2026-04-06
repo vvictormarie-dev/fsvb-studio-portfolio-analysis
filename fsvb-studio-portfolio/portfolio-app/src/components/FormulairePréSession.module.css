@@ -1,0 +1,433 @@
+/* Styles pour FormulairePréSession */
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #04040E, #14133F, #211F68);
+  color: #ffffff;
+  padding: 2rem;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.header {
+  max-width: 800px;
+  margin: 0 auto 3rem;
+  text-align: center;
+}
+
+.header h1 {
+  color: #CFAE60;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.header p {
+  color: #E0E0E0;
+  font-size: 1.1rem;
+  margin-bottom: 0;
+}
+
+.intro {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.intro p {
+  margin: 0.5rem 0;
+  line-height: 1.6;
+}
+
+.form {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.section {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.section h3 {
+  color: #CFAE60;
+  font-size: 1.3rem;
+  margin: 0 0 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sectionDescription {
+  background: rgba(207, 174, 96, 0.1);
+  border-left: 3px solid #CFAE60;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.sectionDescription strong {
+  color: #CFAE60;
+}
+
+.field {
+  margin-bottom: 1.5rem;
+}
+
+.field label {
+  display: block;
+  color: #E0E0E0;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.helper {
+  display: block;
+  color: #A0A0A0;
+  font-weight: 400;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  font-style: italic;
+}
+
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  outline: none;
+  border-color: #CFAE60;
+  box-shadow: 0 0 0 2px rgba(207, 174, 96, 0.2);
+}
+
+/* Styles spécifiques pour les options du select */
+.field select option {
+  background: #ffffff;
+  color: #1a1a1a;
+  padding: 0.5rem;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: #999;
+}
+
+.servicesList {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.serviceItem {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.serviceHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.serviceHeader span {
+  color: #CFAE60;
+  font-weight: 600;
+}
+
+.removeButton {
+  background: rgba(220, 53, 69, 0.8);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.removeButton:hover {
+  background: rgba(220, 53, 69, 1);
+}
+
+.addButton {
+  background: rgba(207, 174, 96, 0.8);
+  color: #04040E;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: block;
+  margin: 1rem auto 0;
+}
+
+.addButton:hover {
+  background: #CFAE60;
+  transform: translateY(-2px);
+}
+
+.submitButton {
+  width: 100%;
+  background: linear-gradient(135deg, #CFAE60, #FFD700);
+  color: #04040E;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 2rem;
+}
+
+.submitButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(207, 174, 96, 0.3);
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.errorMessage {
+  background: rgba(220, 53, 69, 0.1);
+  border: 1px solid rgba(220, 53, 69, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  color: #ff6b6b;
+  margin: 1rem 0;
+}
+
+.success {
+  max-width: 600px;
+  margin: 4rem auto;
+  text-align: center;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 12px;
+  padding: 3rem 2rem;
+}
+
+.success h2 {
+  color: #10b981;
+  margin-bottom: 1rem;
+}
+
+.successDetails {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.successDetails p {
+  margin: 0.5rem 0;
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+.error {
+  max-width: 600px;
+  margin: 4rem auto;
+  text-align: center;
+  background: rgba(220, 53, 69, 0.1);
+  border: 1px solid rgba(220, 53, 69, 0.3);
+  border-radius: 12px;
+  padding: 3rem 2rem;
+}
+
+.error h2 {
+  color: #dc3545;
+  margin-bottom: 1rem;
+}
+
+.comingSoon {
+  text-align: center;
+  color: #A0A0A0;
+  font-style: italic;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .header h1 {
+    font-size: 2rem;
+  }
+  
+  .section {
+    padding: 1.5rem;
+  }
+  
+  .serviceItem {
+    padding: 1rem;
+  }
+  
+  .serviceHeader {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+}
+
+/* Nouvelles classes pour le formulaire restructuré */
+
+/* Grille des sections souhaitées */
+.sectionsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+@media (min-width: 768px) {
+  .sectionsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .sectionsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.sectionCard {
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 0;
+  background: white;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.sectionCard:hover {
+  border-color: #d1d5db;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.sectionCard:has(input:checked) {
+  border-color: #4f46e5;
+  background: #fef7ff;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
+}
+
+.sectionLabel {
+  display: block;
+  padding: 1.5rem;
+  cursor: pointer;
+  height: 100%;
+}
+
+.sectionLabel input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0 0 1rem 0;
+  accent-color: #4f46e5;
+}
+
+.sectionInfo h4 {
+  margin: 0 0 0.5rem 0;
+  color: #1f2937;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sectionInfo p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+/* Groupes radio */
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .radioGroup {
+    flex-direction: row;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+  color: #E0E0E0;
+}
+
+.radioLabel:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.radioLabel input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  margin-right: 0.5rem;
+  accent-color: #4f46e5;
+}
+
+.conditionalField {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border: 1px solid #374151;
+}
+
+.conditionalField label {
+  font-size: 0.875rem;
+  color: #E0E0E0;
+  font-weight: 500;
+}
+
+.conditionalField input,
+.conditionalField textarea {
+  margin-top: 0.5rem;
+}

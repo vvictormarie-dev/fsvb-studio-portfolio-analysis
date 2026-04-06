@@ -1,0 +1,63 @@
+/* TemplateSection - Utilise variables --template-* */
+
+.section {
+  width: 100%;
+  position: relative;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--template-space-lg);
+}
+
+/* Background variants */
+.default {
+  background: transparent;
+}
+
+.alternate {
+  background: rgba(var(--template-text-primary), 0.02);
+  border-top: 1px solid var(--template-glass-border);
+  border-bottom: 1px solid var(--template-glass-border);
+}
+
+/* Padding variants */
+.sm {
+  padding: var(--template-space-md) 0;
+}
+
+.md {
+  padding: var(--template-space-lg) 0;
+}
+
+.lg {
+  padding: var(--template-space-xl) 0;
+}
+
+.xl {
+  padding: calc(var(--template-space-xl) * 1.5) 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--template-space-md);
+  }
+  
+  .sm {
+    padding: var(--template-space-sm) 0;
+  }
+  
+  .md {
+    padding: var(--template-space-md) 0;
+  }
+  
+  .lg {
+    padding: var(--template-space-lg) 0;
+  }
+  
+  .xl {
+    padding: var(--template-space-xl) 0;
+  }
+}

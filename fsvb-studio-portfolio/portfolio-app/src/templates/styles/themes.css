@@ -1,0 +1,264 @@
+/* SYSTÈME MULTI-THÈMES TEMPLATES */
+
+/* THÈME 1 - EMPIRE (Tech/SaaS) - DEFAULT */
+[data-theme="empire"] {
+  --template-bg-start: #04040E;
+  --template-bg-middle: #14133F;
+  --template-bg-end: #211F68;
+  --template-primary: #2563EB;
+  --template-secondary: #1E40AF;
+  --template-accent: #CFAE60;
+  --template-accent-hover: #FFD700;
+  --template-text-primary: #FFFFFF;
+  --template-text-secondary: #E0E0E0;
+}
+
+/* THÈME 2 - LUMIÈRE (Professionnel blanc) */
+[data-theme="lumiere"] {
+  --template-bg-start: #ffffff;
+  --template-bg-middle: #f8f9fa;
+  --template-bg-end: #e9ecef;
+  --template-primary: #2563eb;
+  --template-secondary: #1d4ed8;
+  --template-accent: #FBBF24;
+  --template-accent-hover: #1d4ed8;
+  --template-text-primary: #1a1a1a;
+  --template-text-secondary: #4a5568;
+}
+
+/* THÈME 3 - CHALEUR (Restaurant/Gourmand) */
+[data-theme="chaleur"] {
+  --template-bg-start: #2d1810;
+  --template-bg-middle: #1f1108;
+  --template-bg-end: #1a0f0a;
+  --template-primary: #ff8a4f;
+  --template-secondary: #ff6b2c;
+  --template-accent: #FBBF24;
+  --template-accent-hover: #ff6b2c;
+  --template-text-primary: #fff5e6;
+  --template-text-secondary: #d4a574;
+}
+
+/* THÈME 4 - ZEN (Coach/Bien-être) */
+[data-theme="zen"] {
+  --template-bg-start: #1a2332;
+  --template-bg-middle: #141c28;
+  --template-bg-end: #0f1419;
+  --template-primary: #7dd3c0;
+  --template-secondary: #5fc9b4;
+  --template-accent: #FBBF24;
+  --template-accent-hover: #5fc9b4;
+  --template-text-primary: #f0f4f8;
+  --template-text-secondary: #a8c5da;
+}
+
+/* THÈME 5 - MINIMALISTE (Designer/Architecte) */
+[data-theme="minimaliste"] {
+  --template-bg-start: #18181b;
+  --template-bg-middle: #111113;
+  --template-bg-end: #09090b;
+  --template-primary: #ffffff;
+  --template-secondary: #e5e5e5;
+  --template-accent: #FBBF24;
+  --template-accent-hover: #e5e5e5;
+  --template-text-primary: #fafafa;
+  --template-text-secondary: #a1a1aa;
+}
+
+/* VARIABLES COMMUNES (hérités tokens.css) */
+:root {
+  --template-glass-bg: rgba(255, 255, 255, 0.08);
+  --template-glass-blur: blur(10px);
+  --template-glass-border: rgba(255, 255, 255, 0.1);
+  --template-radius-sm: 8px;
+  --template-radius-md: 12px;
+  --template-radius-lg: 16px;
+  --template-space-sm: 1rem;
+  --template-space-md: 1.5rem;
+  --template-space-lg: 2rem;
+  --template-space-xl: 2.5rem;  /* Réduit de 3rem → 2.5rem pour espacement sections */
+
+  /* TYPOGRAPHY - Tailles et poids */
+  --template-font-size-xs: 0.75rem;
+  --template-font-size-sm: 0.875rem;
+  --template-font-size-base: 1rem;
+  --template-font-size-lg: 1.125rem;
+  --template-font-size-xl: 1.25rem;
+  --template-font-size-2xl: 1.5rem;
+  --template-font-size-3xl: 2rem;
+  --template-font-size-hero: 3.5rem;
+
+  --template-font-weight-normal: 400;
+  --template-font-weight-semibold: 600;
+  --template-font-weight-bold: 700;
+
+  --template-line-height-tight: 1.2;
+  --template-line-height-normal: 1.5;
+  --template-line-height-relaxed: 1.75;
+
+  /* SPACING SUPPLÉMENTAIRES */
+  --template-space-xs: 0.5rem;
+  --template-space-2xl: 4rem;
+  --template-space-3xl: 6rem;
+
+  /* SHADOWS */
+  --template-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --template-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --template-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.15);
+  --template-shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.2);
+
+  /* TRANSITIONS */
+  --template-transition-fast: 0.15s ease;
+  --template-transition-normal: 0.3s ease;
+  --template-transition-slow: 0.5s ease;
+
+  /* Z-INDEX */
+  --template-z-base: 1;
+  --template-z-dropdown: 100;
+  --template-z-navbar: 1000;
+  --template-z-modal: 2000;
+
+  /* COULEURS UTILITAIRES */
+  --template-success: #10b981;
+  --template-warning: #f59e0b;
+  --template-error: #ef4444;
+  --template-border: rgba(255, 255, 255, 0.1);
+
+  /* BREAKPOINTS (pour référence documentation) */
+  /* Mobile: < 640px */
+  /* Tablet: 640px - 1024px */
+  /* Desktop: > 1024px */
+}
+
+/* ========================================
+   🔗 MAPPING VARIABLES TEMPLATE ↔ COMPOSANTS
+   Relie les variables --template-* aux variables utilisées par les composants
+   ======================================== */
+
+/* Mapping pour tous les thèmes - Relie template-* aux variables des composants */
+[data-theme="empire"],
+[data-theme="lumiere"], 
+[data-theme="chaleur"],
+[data-theme="zen"],
+[data-theme="minimaliste"],
+[data-theme="white-classic"],
+[data-theme="restaurant-chaleureux"],
+[data-theme="restaurant-frais"],
+[data-theme="coach-zen"],
+[data-theme="coach-dynamique"],
+[data-theme="restaurant-creme"],
+[data-theme="coach-creme"] {
+  /* Couleurs principales → utilisées par les boutons, titres, etc. */
+  --gold-primary: var(--template-primary);
+  --gold-bright: var(--template-primary);
+  --gold-soft: var(--template-secondary);
+  --gold-dark: var(--template-secondary);
+  
+  /* Couleurs d'accent → utilisées par les CTA, highlights */
+  --accent-gold: var(--template-accent);
+  --accent-blue: var(--template-accent);
+  --accent-blue-hover: var(--template-accent-hover, var(--template-accent));
+  
+  /* Couleurs de texte */
+  --text-primary: var(--template-text-primary);
+  --text-secondary: var(--template-text-secondary);
+  
+  /* Couleurs principales alternatives pour certains composants */
+  --color-primary: var(--template-primary);
+  --color-accent: var(--template-accent);
+}
+
+/* ========================================= */
+/* NOUVEAUX THÈMES - Janvier 2026 */
+/* ========================================= */
+
+/* THÈME 6 - BLANC CLASSIQUE (Épuré, sans dégradés) */
+[data-theme="white-classic"] {
+  --template-bg-start: #ffffff;
+  --template-bg-middle: #ffffff;
+  --template-bg-end: #ffffff;
+  --template-primary: #000000;
+  --template-secondary: #666666;
+  --template-accent: #0066CC;
+  --template-accent-hover: #0052A3;
+  --template-text-primary: #333333;
+  --template-text-secondary: #666666;
+}
+
+/* THÈME 7 - RESTAURANT CHALEUREUX (Or + Brun) */
+[data-theme="restaurant-chaleureux"] {
+  --template-bg-start: #2C1810;
+  --template-bg-middle: #1A0F08;
+  --template-bg-end: #0F0604;
+  --template-primary: #D4AF37;
+  --template-secondary: #2C1810;
+  --template-accent: #F4C430;
+  --template-accent-hover: #E6B800;
+  --template-text-primary: #FFF8E1;
+  --template-text-secondary: #E6D5B7;
+}
+
+/* THÈME 8 - RESTAURANT FRAIS (Vert + Crème) */
+[data-theme="restaurant-frais"] {
+  --template-bg-start: #1B5E20;
+  --template-bg-middle: #2E7D32;
+  --template-bg-end: #388E3C;
+  --template-primary: #4CAF50;
+  --template-secondary: #FFF8DC;
+  --template-accent: #8BC34A;
+  --template-accent-hover: #689F38;
+  --template-text-primary: #FFFFFF;
+  --template-text-secondary: #E8F5E8;
+}
+
+/* THÈME 9 - COACH ZEN (Bleu doux + Beige) */
+[data-theme="coach-zen"] {
+  --template-bg-start: #263238;
+  --template-bg-middle: #37474F;
+  --template-bg-end: #455A64;
+  --template-primary: #6A9FB5;
+  --template-secondary: #F0E5D8;
+  --template-accent: #81C784;
+  --template-accent-hover: #66BB6A;
+  --template-text-primary: #FFFFFF;
+  --template-text-secondary: #B0BEC5;
+}
+
+/* THÈME 10 - COACH DYNAMIQUE (Corail + Turquoise) */
+[data-theme="coach-dynamique"] {
+  --template-bg-start: #1A1A2E;
+  --template-bg-middle: #16213E;
+  --template-bg-end: #0F3460;
+  --template-primary: #FF6B6B;
+  --template-secondary: #4ECDC4;
+  --template-accent: #45B7D1;
+  --template-accent-hover: #2196F3;
+  --template-text-primary: #FFFFFF;
+  --template-text-secondary: #E1F5FE;
+}
+
+/* THÈME 11 - RESTAURANT CRÈME (Élégant, fond clair) */
+[data-theme="restaurant-creme"] {
+  --template-bg-start: #FFFEF7;
+  --template-bg-middle: #FDF6E3;
+  --template-bg-end: #F7E8D0;
+  --template-primary: #8B4513;
+  --template-secondary: #A0522D;
+  --template-accent: #D2691E;
+  --template-accent-hover: #B8860B;
+  --template-text-primary: #2F1B14;
+  --template-text-secondary: #5D4E37;
+}
+
+/* THÈME 12 - COACH CRÈME (Zen, fond clair) */
+[data-theme="coach-creme"] {
+  --template-bg-start: #FFFEF9;
+  --template-bg-middle: #F8F6F0;
+  --template-bg-end: #F0EDE3;
+  --template-primary: #4A6741;
+  --template-secondary: #6B8E4E;
+  --template-accent: #8FBC8F;
+  --template-accent-hover: #556B2F;
+  --template-text-primary: #2C3E2D;
+  --template-text-secondary: #5A6B5D;
+}

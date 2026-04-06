@@ -1,0 +1,57 @@
+.section {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  width: 100%;
+  min-height: 80vh;
+}
+
+@media (max-width: 900px) {
+  .section {
+    min-height: 60vh;
+  }
+}
+
+.title {
+  text-align: center;
+  font-family: var(--font-title, 'Playfair Display', serif);
+  font-size: 2.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+}
+
+.text {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 1.15rem;
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ctaWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.ctaButton {
+  background: var(--gold-primary);
+  color: var(--bg-primary);
+  font-weight: 600;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 1rem 2.2rem;
+  font-size: 1.1rem;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: background 0.2s, color 0.2s;
+  text-align: center;
+}
+
+.ctaButton:hover {
+  background-color: var(--gold-soft);
+  color: var(--bg-primary);
+  transition: all 0.3s ease;
+}

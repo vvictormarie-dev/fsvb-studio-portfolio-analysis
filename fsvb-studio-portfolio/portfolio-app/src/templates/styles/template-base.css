@@ -1,0 +1,35 @@
+/* LAYOUT COMMUN TEMPLATES */
+
+.templateWrapper {
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    var(--template-bg-start),
+    var(--template-bg-middle),
+    var(--template-bg-end)
+  );
+  color: var(--template-text-primary);
+  transition: background 0.3s ease;
+}
+
+.templateSection {
+  padding: var(--template-space-lg) var(--template-space-md);  /* 2rem vertical au lieu de xl */
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.templateHero {
+  min-height: 55vh;
+  max-height: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.templateContainer {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--template-space-md);
+}

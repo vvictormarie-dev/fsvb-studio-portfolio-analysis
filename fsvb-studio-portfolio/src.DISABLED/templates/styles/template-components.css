@@ -1,0 +1,46 @@
+/* COMPOSANTS RÉUTILISABLES TEMPLATES */
+
+.templateButton {
+  padding: 1rem 2rem;
+  background: var(--template-primary);
+  color: var(--template-bg-start);
+  border: none;
+  border-radius: var(--template-radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.templateButton:hover {
+  background: var(--template-secondary);
+  transform: translateY(-2px);
+}
+
+.templateButton.accent {
+  background: var(--template-accent);
+}
+
+.templateButton.accent:hover {
+  background: var(--template-accent-hover);
+}
+
+.templateCard {
+  background: var(--template-glass-bg);
+  backdrop-filter: var(--template-glass-blur);
+  border: 1px solid var(--template-glass-border);
+  border-radius: var(--template-radius-lg);
+  padding: var(--template-space-lg);
+}
+
+.templateTitle {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: var(--template-space-md);
+  color: var(--template-text-primary);
+}
+
+.templateSubtitle {
+  font-size: 1.25rem;
+  color: var(--template-text-secondary);
+  margin-bottom: var(--template-space-lg);
+}

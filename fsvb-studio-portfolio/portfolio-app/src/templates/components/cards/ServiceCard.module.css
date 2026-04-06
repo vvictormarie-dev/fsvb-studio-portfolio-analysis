@@ -1,0 +1,120 @@
+/* ServiceCard - Utilise variables --template-* */
+
+.card {
+  background: var(--template-glass-bg);
+  backdrop-filter: var(--template-glass-blur);
+  border: 1px solid var(--template-glass-border);
+  border-radius: var(--template-radius-lg);
+  padding: var(--template-space-lg);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  border-color: var(--template-accent);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.recommended {
+  border-color: var(--template-accent);
+  box-shadow: 0 0 20px rgba(var(--template-accent), 0.2);
+}
+
+.badge {
+  position: absolute;
+  top: -10px;
+  right: var(--template-space-md);
+  background: var(--template-accent);
+  color: var(--template-bg-start);
+  padding: 0.5rem 1rem;
+  border-radius: var(--template-radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  z-index: 1;
+}
+
+.header {
+  margin-bottom: var(--template-space-md);
+}
+
+.name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--template-text-primary);
+  margin: 0 0 0.5rem 0;
+}
+
+.price {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--template-accent);
+  line-height: 1;
+}
+
+.description {
+  color: var(--template-text-secondary);
+  margin: 0 0 var(--template-space-lg) 0;
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+.features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--template-space-lg) 0;
+}
+
+.feature {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--template-space-sm);
+  margin-bottom: var(--template-space-sm);
+  color: var(--template-text-secondary);
+  line-height: 1.4;
+}
+
+.checkmark {
+  color: #10b981;
+  font-weight: 700;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.selectButton {
+  background: var(--template-accent);
+  color: var(--template-bg-start);
+  border: none;
+  border-radius: var(--template-radius-md);
+  padding: 1rem 1.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: auto;
+}
+
+.selectButton:hover {
+  background: var(--template-accent-hover);
+  transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card {
+    padding: var(--template-space-md);
+  }
+  
+  .price {
+    font-size: 2rem;
+  }
+  
+  .name {
+    font-size: 1.25rem;
+  }
+}

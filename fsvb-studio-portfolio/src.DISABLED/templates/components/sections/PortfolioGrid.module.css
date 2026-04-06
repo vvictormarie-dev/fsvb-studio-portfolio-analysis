@@ -1,0 +1,179 @@
+/* PortfolioGrid.module.css */
+@import '../../styles/themes.css';
+@import '../../styles/template-base.css';
+@import '../../styles/template-components.css';
+
+.section {
+  padding: var(--template-space-xl, 3rem) 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--template-space-lg, 2rem);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--template-space-2xl, 4rem);
+}
+
+.title {
+  font-size: var(--template-font-size-3xl, 2rem);
+  font-weight: var(--template-font-weight-bold, 700);
+  line-height: var(--template-line-height-tight, 1.2);
+  color: var(--template-text, #ffffff);
+  margin: 0 0 var(--template-space-md, 1.5rem) 0;
+  background: linear-gradient(135deg, 
+    var(--template-accent, #8b5cf6), 
+    var(--template-accent-alt, #3b82f6)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: var(--template-font-size-lg, 1.125rem);
+  line-height: var(--template-line-height-relaxed, 1.75);
+  color: var(--template-muted, rgba(255, 255, 255, 0.8));
+  margin: 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.grid {
+  display: grid;
+  gap: var(--template-space-lg, 2rem);
+  margin-bottom: var(--template-space-xl, 3rem);
+}
+
+/* Column layouts */
+.columns2 {
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+}
+
+.columns3 {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.columns4 {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* Desktop: exact column counts */
+@media (min-width: 1024px) {
+  .columns2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .columns3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .columns4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Tablet: responsive columns */
+@media (max-width: 1023px) and (min-width: 640px) {
+  .columns2,
+  .columns3,
+  .columns4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile: single column */
+@media (max-width: 639px) {
+  .section {
+    padding: var(--template-space-lg, 2rem) 0;
+  }
+  
+  .header {
+    margin-bottom: var(--template-space-xl, 3rem);
+  }
+  
+  .title {
+    font-size: var(--template-font-size-2xl, 1.5rem);
+  }
+  
+  .columns2,
+  .columns3,
+  .columns4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.portfolioItem {
+  height: 100%;
+}
+
+.loadMore {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--template-space-lg, 2rem);
+}
+
+.loadMoreButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--template-space-xs, 0.5rem);
+  padding: var(--template-space-md, 1.5rem) var(--template-space-lg, 2rem);
+  background: transparent;
+  color: var(--template-text, #ffffff);
+  border: 2px solid var(--template-border, rgba(255, 255, 255, 0.3));
+  border-radius: var(--template-radius-md, 12px);
+  font-size: var(--template-font-size-base, 1rem);
+  font-weight: var(--template-font-weight-semibold, 600);
+  cursor: pointer;
+  transition: all var(--template-transition-normal, 0.3s ease);
+}
+
+.loadMoreButton:hover {
+  background: var(--template-accent, rgba(139, 92, 246, 0.1));
+  border-color: var(--template-accent, #8b5cf6);
+  color: var(--template-accent, #8b5cf6);
+  transform: translateY(-2px);
+}
+
+.arrow {
+  transition: transform var(--template-transition-normal, 0.3s ease);
+}
+
+.loadMoreButton:hover .arrow {
+  transform: translateY(2px);
+}
+
+/* Theme-specific adjustments */
+[data-theme="zen"] .title {
+  color: var(--template-text, #1e293b);
+}
+
+[data-theme="zen"] .subtitle {
+  color: var(--template-muted, #64748b);
+}
+
+[data-theme="zen"] .loadMoreButton {
+  color: var(--template-text, #1e293b);
+  border-color: var(--template-border, #cbd5e1);
+}
+
+[data-theme="zen"] .loadMoreButton:hover {
+  color: var(--template-accent, #7dd3c0);
+  border-color: var(--template-accent, #7dd3c0);
+}
+
+[data-theme="minimaliste"] .title {
+  background: var(--template-accent, #000000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="minimaliste"] .loadMoreButton:hover {
+  color: var(--template-accent, #000000);
+  border-color: var(--template-accent, #000000);
+}

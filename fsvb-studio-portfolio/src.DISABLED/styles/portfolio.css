@@ -1,0 +1,274 @@
+/**
+ * PORTFOLIO - CSS CUSTOM
+ * Styles spécifiques au portfolio qui étendent le système tokens.css
+ * Usage: Importé automatiquement via global.css
+ */
+
+/* SECTIONS ALTERNÉES HOME */
+:root {
+  --portfolio-section-a: linear-gradient(90deg, var(--bg-primary), var(--bg-secondary), var(--bg-tertiary));
+  --portfolio-section-b: linear-gradient(90deg, var(--bg-tertiary), var(--bg-secondary), var(--bg-primary));
+}
+
+.sectionBgA {
+  background: var(--portfolio-section-a);
+}
+
+.sectionBgB {
+  background: var(--portfolio-section-b);
+}
+
+/* SIDEBAR FIXE SERVICES */
+.portfolioSidebar {
+  position: fixed;
+  left: 0;
+  top: 60px;
+  width: 260px;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border-right: 1px solid var(--glass-border);
+  z-index: 100;
+  padding: var(--space-6);
+}
+
+.portfolioContentWithSidebar {
+  margin-left: 280px;
+  padding: var(--space-8);
+  min-height: calc(100vh - 60px);
+}
+
+/* TITRES SOUS NAVBAR */
+.pageTitle {
+  padding-top: calc(60px + var(--space-8));
+  margin-bottom: var(--space-6);
+}
+
+/* GLASS CARDS (fusionné depuis GlassCard.module.css) */
+.glassCard {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  transition: var(--transition-normal);
+}
+
+.glassCardBordered {
+  border: 1px solid var(--border-primary);
+}
+
+.glassCardInteractive {
+  cursor: pointer;
+}
+
+.glassCardInteractive:hover {
+  transform: translateY(-4px);
+  background: var(--glass-bg-hover);
+  border-color: var(--border-secondary);
+  box-shadow: var(--shadow-lg);
+}
+
+/* CLASSES UTILITAIRES TEMPLATES */
+.templateSection {
+  padding: var(--space-8) 0;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.templateHeader {
+  text-align: center;
+  margin-bottom: var(--space-6);
+}
+
+.templateTitle {
+  font-size: var(--font-size-hero-subtitle);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-secondary);
+  font-size: var(--font-size-small);
+  margin-bottom: var(--space-4);
+}
+
+.templateFeatures {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+  color: var(--text-secondary);
+  font-size: var(--font-size-small);
+}
+
+.templateIcon {
+  font-size: 3rem;
+  margin-bottom: var(--space-4);
+}
+
+.templateDescription {
+  color: var(--text-secondary);
+  margin-bottom: var(--space-6);
+  line-height: 1.6;
+}
+
+.templateCardDimmed {
+  max-width: 900px;
+  margin: 0 auto;
+  overflow: hidden;
+  opacity: 0.8;
+}
+
+.templateMeta {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.templateTag {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-semibold);
+}
+
+.templateTag.price {
+  background: var(--gold-primary);
+  color: var(--bg-primary);
+}
+
+.templateTag.delivery {
+  background: var(--accent-secondary);
+  color: var(--text-primary);
+}
+
+.templateTag.comingSoon {
+  background: var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.templateCard {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.templatePreview {
+  position: relative;
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.templateImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.templateOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.templateCard:hover .templateOverlay {
+  opacity: 1;
+}
+
+.templateCard:hover .templateImage {
+  transform: scale(1.05);
+}
+
+.templateInfo {
+  padding: var(--space-4);
+}
+
+.templateDescription {
+  margin-bottom: var(--space-4);
+}
+
+.templateName {
+  font-size: var(--font-size-hero-subtitle);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-1);
+}
+
+.templateSubtitle {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.templateFeatures {
+  margin-bottom: var(--space-4);
+}
+
+.featuresTitle {
+  font-size: var(--font-size-section-title);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-3);
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-secondary);
+  font-size: var(--font-size-small);
+}
+
+.templateActions {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: center;
+}
+
+.comingSoonContent {
+  padding: var(--space-6) var(--space-4);
+  text-align: center;
+}
+
+.comingSoonIcon {
+  font-size: 3rem;
+  margin-bottom: var(--space-2);
+}
+
+.comingSoonTitle {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.comingSoonDescription {
+  color: var(--text-secondary);
+  margin-bottom: var(--space-3);
+  line-height: var(--line-height-relaxed);
+}
+
+.comingSoonFeatures {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-4);
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+}

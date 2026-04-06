@@ -1,0 +1,39 @@
+/* Section.module.css */
+@import '../../styles/themes.css';
+@import '../../styles/template-base.css';
+@import '../../styles/template-components.css';
+
+.section {
+  width: 100%;
+  position: relative;
+  padding: 2.5rem 0;  /* Réduit de 4rem → 2.5rem (40px) */
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .section {
+    padding: 2rem 0;  /* Tablette : 32px */
+  }
+  
+  .container {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 1.5rem 0;  /* Mobile : 24px */
+  }
+  
+  .container {
+    padding: 0 1rem;
+  }
+}

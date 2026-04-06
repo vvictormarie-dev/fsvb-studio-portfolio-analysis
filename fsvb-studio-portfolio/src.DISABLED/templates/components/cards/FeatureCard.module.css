@@ -1,0 +1,66 @@
+/* FeatureCard - Utilise variables --template-* */
+
+.card {
+  background: var(--template-glass-bg);
+  backdrop-filter: var(--template-glass-blur);
+  border: 1px solid var(--template-glass-border);
+  border-radius: var(--template-radius-md);
+  padding: var(--template-space-md);
+  text-align: center;
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--template-accent);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.icon {
+  font-size: 3rem;
+  color: var(--template-accent);
+  margin-bottom: var(--template-space-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 4rem;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--template-text-primary);
+  margin: 0 0 var(--template-space-sm) 0;
+}
+
+.description {
+  font-size: 1rem;
+  color: var(--template-text-secondary);
+  margin: 0;
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card {
+    padding: var(--template-space-sm);
+  }
+  
+  .icon {
+    font-size: 2.5rem;
+    height: 3rem;
+  }
+  
+  .title {
+    font-size: 1.125rem;
+  }
+  
+  .description {
+    font-size: 0.9rem;
+  }
+}

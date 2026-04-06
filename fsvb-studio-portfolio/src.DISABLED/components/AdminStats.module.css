@@ -1,0 +1,83 @@
+/* AdminStats.module.css */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+
+.statCard {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.statCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.caCard {
+  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+  color: white;
+  border: none;
+}
+
+.icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.number {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #2d3748;
+}
+
+.caCard .number {
+  color: white;
+}
+
+.label {
+  font-size: 14px;
+  color: #718096;
+  font-weight: 500;
+}
+
+.caCard .label {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+@media (max-width: 1200px) {
+  .statsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  
+  .statCard {
+    padding: 16px;
+  }
+  
+  .number {
+    font-size: 24px;
+  }
+  
+  .icon {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+}

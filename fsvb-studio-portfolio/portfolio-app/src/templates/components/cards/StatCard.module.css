@@ -1,0 +1,221 @@
+/* StatCard.module.css */
+@import '../../styles/themes.css';
+@import '../../styles/template-base.css';
+@import '../../styles/template-components.css';
+
+.card {
+  background: var(--template-card-bg, rgba(255, 255, 255, 0.1));
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--template-border, rgba(255, 255, 255, 0.2));
+  border-radius: var(--template-radius, 16px);
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: slideUp 0.6s ease forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg, 
+    var(--template-accent, rgba(139, 92, 246, 0.1)) 0%,
+    transparent 50%,
+    var(--template-accent-alt, rgba(59, 130, 246, 0.1)) 100%
+  );
+  pointer-events: none;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--template-accent, rgba(139, 92, 246, 0.4));
+  box-shadow: 
+    0 20px 40px var(--template-shadow, rgba(0, 0, 0, 0.1)),
+    0 0 0 1px var(--template-accent, rgba(139, 92, 246, 0.2));
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: var(--template-accent, #8b5cf6);
+  color: white;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.icon::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg, 
+    var(--template-accent, #8b5cf6), 
+    var(--template-accent-alt, #3b82f6)
+  );
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+.value {
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--template-text, #ffffff);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, 
+    var(--template-accent, #8b5cf6), 
+    var(--template-accent-alt, #3b82f6)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+}
+
+.prefix {
+  font-size: 1.5rem;
+  font-weight: normal;
+  color: var(--template-muted, rgba(255, 255, 255, 0.7));
+  margin-left: 0.25rem;
+}
+
+.label {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--template-text, #ffffff);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.description {
+  font-size: 0.875rem;
+  color: var(--template-muted, rgba(255, 255, 255, 0.7));
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.change {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  margin-top: 0.5rem;
+}
+
+.change.positive {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+}
+
+.change.negative {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.change.neutral {
+  background: var(--template-muted, rgba(255, 255, 255, 0.1));
+  color: var(--template-muted, rgba(255, 255, 255, 0.7));
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .card {
+    padding: 1.5rem;
+  }
+  
+  .icon {
+    width: 56px;
+    height: 56px;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  .value {
+    font-size: 2.5rem;
+  }
+  
+  .label {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1rem;
+  }
+  
+  .icon {
+    width: 48px;
+    height: 48px;
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .value {
+    font-size: 2rem;
+  }
+  
+  .prefix {
+    font-size: 1.25rem;
+  }
+}
+
+/* Theme-specific adjustments */
+[data-theme="zen"] .card {
+  background: var(--template-card-bg, rgba(248, 250, 252, 0.95));
+}
+
+[data-theme="zen"] .value,
+[data-theme="zen"] .label {
+  color: var(--template-text, #1e293b);
+}
+
+[data-theme="zen"] .description {
+  color: var(--template-muted, #64748b);
+}
+
+[data-theme="minimaliste"] .card {
+  border-radius: var(--template-radius, 8px);
+  border: 1px solid var(--template-border, #e2e8f0);
+  background: var(--template-card-bg, #ffffff);
+}
+
+[data-theme="minimaliste"] .icon {
+  background: var(--template-accent, #000000);
+}
+
+[data-theme="minimaliste"] .value {
+  background: var(--template-accent, #000000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

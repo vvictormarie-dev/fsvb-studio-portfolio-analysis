@@ -1,0 +1,207 @@
+.sectionDark .ctaButton {
+  background-color: var(--gold-soft);
+  color: var(--bg-primary);
+}
+.sectionDark .ctaButton:hover {
+  background-color: var(--gold-primary);
+  color: var(--bg-primary);
+}
+.sectionGold .ctaButton {
+  background-color: var(--bg-primary);
+  color: var(--gold-primary);
+}
+.sectionGold .ctaButton:hover {
+  background-color: var(--bg-secondary);
+  color: var(--gold-primary);
+}
+
+/* Sections avec gradient Rename IA */
+.sectionDark {
+  background: var(--bg-gradient-main);
+  color: var(--text-primary);
+}
+
+/* Section gold avec gradient or */
+.sectionGold {
+  background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-soft) 100%);
+  color: var(--bg-primary);
+}
+
+.ctaButton {
+  background: var(--gold-primary);
+  color: var(--bg-primary);
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.globalTitle {
+  font-family: var(--font-title, 'Playfair Display', serif);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1B1B2F;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.globalText {
+  font-family: var(--font-body, 'Open Sans', sans-serif);
+  font-size: 1.15rem;
+  color: var(--color-bg-start);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.ctaButton {
+  background-color: var(--accent-gold-bright);
+  color: var(--color-bg-start);
+  font-family: var(--font-body, 'Open Sans', sans-serif);
+  font-weight: 600;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 1rem 2.2rem;
+  font-size: 1.1rem;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: background 0.2s, color 0.2s;
+  margin-top: 1.2rem;
+  margin-bottom: 1.2rem;
+}
+.ctaButton:hover {
+  background-color: var(--color-bg-start);
+  color: var(--accent-gold-bright);
+}
+
+.ctaButtonDark {
+  background-color: var(--color-bg-start);
+  color: var(--accent-gold-bright);
+  font-family: var(--font-body, 'Open Sans', sans-serif);
+  font-weight: 600;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 1rem 2.2rem;
+  font-size: 1.1rem;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: background 0.2s, color 0.2s;
+  margin-top: 1.2rem;
+  margin-bottom: 1.2rem;
+}
+.ctaButtonDark:hover {
+  background-color: var(--accent-gold-bright);
+  color: var(--color-bg-start);
+}
+
+.sectionCard {
+  background: var(--text-primary);
+  border-radius: 1rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  padding: 2rem 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.responsiveImage {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  border-radius: 1rem;
+  object-fit: cover;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+.styledList {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.styledList li {
+  background: var(--gold-bright);
+  color: var(--color-bg-start);
+  border-radius: 0.5rem;
+  padding: 0.7rem 1.2rem;
+  font-family: var(--font-body, 'Open Sans', sans-serif);
+  font-weight: 600;
+}
+
+.responsiveSection {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  min-height: 55vh;
+  max-height: 700px;
+}
+@media (max-width: 900px) {
+  .responsiveSection {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    min-height: 65vh;
+  }
+  .globalTitle {
+    font-size: 2rem;
+  }
+}
+
+/* ===== SECTION BACKGROUNDS (fusionné depuis SectionBackground.module.css) ===== */
+.sectionA {
+  background: linear-gradient(90deg, var(--bg-primary), var(--bg-secondary), var(--bg-tertiary));
+  width: 100%;
+  position: relative;
+}
+
+.sectionB {
+  background: linear-gradient(90deg, var(--bg-tertiary), var(--bg-secondary), var(--bg-primary));
+  width: 100%;
+  position: relative;
+}
+
+.sectionWrapper {
+  width: 100%;
+  min-height: 45vh;
+  max-height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-16) 0;
+}
+
+.sectionWrapper.compact {
+  min-height: auto;
+  padding: var(--space-12) 0;
+}
+
+/* Overlay optionnel pour effet glass */
+.sectionA::before,
+.sectionB::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.02);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sectionWrapper > * {
+  position: relative;
+  z-index: 1;
+  .globalText {
+    font-size: 1rem;
+  }
+}
+
+.ctaButton:hover {
+  background: var(--bg-primary);
+}
