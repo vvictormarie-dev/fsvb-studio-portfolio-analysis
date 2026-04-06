@@ -1,0 +1,4 @@
+.container {
+  padding: var(--spacing-3xl); /* 4rem → 3rem pour cohérence */
+  min-height: 100vh;
+}

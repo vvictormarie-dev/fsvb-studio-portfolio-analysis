@@ -1,0 +1,88 @@
+.heroContent {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 2.5rem;
+}
+.buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.hero {
+  height: 40vh;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  gap: 1rem;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-family: var(--font-title, 'Playfair Display', serif);
+  font-size: 3rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #fff;
+  max-width: 600px;
+}
+
+.subtitle {
+  font-family: var(--font-body, 'Open Sans', sans-serif);
+  font-size: 1.1rem;
+  color: #ffffffcc;
+  margin-bottom: 2rem;
+  max-width: 600px;
+}
+
+.portraitWrapper img {
+  width: 180px;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 1rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  background: #fff;
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 2rem;
+    padding-top: 2.2rem;
+    padding-bottom: 1.5rem;
+  }
+  .portraitWrapper {
+    order: -1;
+    margin-bottom: 2rem;
+    justify-content: center;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+  .content {
+    width: 100%;
+    margin-bottom: 1.2rem;
+  }
+  .buttons {
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    align-items: center;
+  }
+}

@@ -1,0 +1,102 @@
+/* ===== IMPORTS SYSTÈME DESIGN ===== */
+@import './tokens.css';
+@import './portfolio.css';
+
+/* ===== GLOBAL RESET & BASE STYLES ===== */
+:root {
+  font-family: var(--font-primary);
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: dark;
+  color: var(--text-primary);
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-primary);
+  color: var(--text-primary);
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  font-weight: 500;
+  color: var(--text-primary);
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: var(--gold-primary);
+}
+
+code {
+  font-family: var(--font-mono);
+}
+
+/* Wrapper centralisé */
+.wrapper {
+  max-width: 1280px;
+  padding-inline: clamp(1rem, 5vw, 4rem);
+  margin-inline: auto;
+  width: 100%;
+}
+
+/* Global styles - Gradient Rename IA */
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(90deg, var(--bg-gradient-start), var(--bg-gradient-middle), var(--bg-gradient-end));
+  background-attachment: fixed;
+  color: var(--text-primary);
+  font-family: var(--font-primary);
+}
+
+/* Classes utilitaires sections alternées */
+.sectionBgA {
+  background: linear-gradient(
+    90deg,
+    var(--bg-gradient-start),
+    var(--bg-gradient-middle),
+    var(--bg-gradient-end)
+  );
+}
+
+.sectionBgB {
+  background: linear-gradient(
+    90deg,
+    var(--bg-gradient-end),
+    var(--bg-gradient-middle),
+    var(--bg-gradient-start)
+  );
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-primary);
+}
+p, li, a, button, input, textarea, select, span, div {
+  font-family: var(--font-primary);
+}

@@ -1,0 +1,61 @@
+.sectionTitle {
+  padding: 5rem 5vw 2rem 5vw;
+  text-align: center;
+}
+
+.title {
+  font-family: var(--font-title, 'Playfair Display', serif);
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.gallerySection {
+  padding: 0 0 4rem 0;
+}
+
+.testimonialsSection {
+  padding: 4rem 5vw;
+  text-align: center;
+}
+
+.testimonialsTitle {
+  font-family: var(--font-title, 'Playfair Display', serif);
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1B1B2F;
+  margin-bottom: 2.5rem;
+}
+
+.testimonialsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.testimonialCard {
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  padding: 2rem 1.5rem;
+  max-width: 340px;
+  color: #1B1B2F;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.testimonialText {
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.testimonialName {
+  font-weight: 600;
+  color: #CFAE60;
+}
+
+.ctaSection {
+  padding: 5rem 5vw;
+}

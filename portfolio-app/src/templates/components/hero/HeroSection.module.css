@@ -1,0 +1,182 @@
+/* HeroSection - Utilise variables --template-* */
+
+.hero {
+  min-height: 55vh;
+  max-height: 700px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  background-size: cover; /* ✅ Remis: Image remplit tout l'espace pour un effet plus impactant */
+  background-position: center bottom; /* ✅ FIX: Positionner l'image en bas pour respecter le padding-top */
+  background-repeat: no-repeat;
+  /* ✅ FIX: Espacement léger + espacement navbar = positionnement parfait */
+  padding-top: 80px;
+  margin-top: 0;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    var(--template-bg-start) 0%,
+    transparent 50%,
+    var(--template-bg-end) 100%
+  );
+  opacity: 0.8;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--template-space-lg);
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: var(--template-space-xl);
+}
+
+.textContent {
+  flex: 1;
+  max-width: 60%;
+}
+
+.title {
+  /* ✅ Taille adaptative selon la longueur */
+  font-size: clamp(2.5rem, 4.5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--template-text-primary);
+  margin: 0 0 var(--template-space-md) 0;
+  line-height: 1.2;
+  /* ✅ FIX: Débordement texte avec noms entreprise longs */
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  hyphens: auto;
+  /* ✅ Ajustement automatique pour éviter débordement */
+  container-type: inline-size;
+}
+
+/* ✅ Classes dynamiques pour ajustement automatique selon longueur */
+.titleLarge {
+  font-size: clamp(2.5rem, 4.5vw, 3.5rem);
+}
+
+.titleMedium {
+  font-size: clamp(2.2rem, 4vw, 3rem);
+}
+
+.titleSmall {
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  color: var(--template-accent);
+  margin: 0 0 var(--template-space-lg) 0;
+  font-weight: 600;
+}
+
+.description {
+  font-size: 1.125rem;
+  color: var(--template-text-secondary);
+  margin: 0 0 var(--template-space-xl) 0;
+  line-height: 1.6;
+}
+
+.actions {
+  display: flex;
+  gap: var(--template-space-md);
+  flex-wrap: wrap;
+}
+
+.cta {
+  padding: 1rem 2rem;
+  text-decoration: none;
+  border-radius: var(--template-radius-md);
+  font-weight: 600;
+  font-size: 1.125rem;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid transparent;
+}
+
+.primary {
+  background: var(--template-accent);
+  color: var(--template-bg-start);
+}
+
+.primary:hover {
+  background: var(--template-accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.secondary {
+  background: transparent;
+  color: var(--template-accent);
+  border-color: var(--template-accent);
+}
+
+.secondary:hover {
+  background: var(--template-accent);
+  color: var(--template-bg-start);
+  transform: translateY(-2px);
+}
+
+.imageContent {
+  flex: 1;
+  max-width: 40%;
+  display: flex;
+  justify-content: center;
+}
+
+.heroImage {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--template-radius-lg);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero {
+    min-height: 65vh;
+  }
+
+  .content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .textContent,
+  .imageContent {
+    max-width: 100%;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+  }
+  
+  .subtitle {
+    font-size: 1.25rem;
+  }
+  
+  .actions {
+    justify-content: center;
+  }
+  
+  .container {
+    padding: 0 var(--template-space-md);
+  }
+}

@@ -1,0 +1,518 @@
+/**
+ * RENAME IA - DESIGN TOKENS SYSTÈME
+ * Système de thème dual (light/dark) avec CSS variables
+ * Usage: @import './tokens.css' dans vos composants
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+/* Protection globale contre le scroll horizontal */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+  /* 🚨 CORRECTIF : Force nos couleurs et empêche l'override navigateur */
+  color-scheme: dark light;
+  color: var(--text-primary) !important;
+  background: var(--bg-gradient) !important;
+}
+
+:root {
+  /* ========================================
+     🎨 COULEURS DE BASE (CONSTANTES)
+     ======================================== */
+  
+  /* Or principal (identité de marque) */
+  --gold-primary: #CFAE60;
+  --gold-bright: #FFD700;
+  --gold-soft: #E6C570;
+  --gold-dark: #B89A4F;
+  
+  /* Couleurs fonctionnelles (identiques pour tous les thèmes) */
+  --success: #10b981;
+  --success-rgb: 16, 185, 129;
+  --error: #dc3545;
+  --error-rgb: 220, 53, 69;
+  --warning: #ffc107;
+  --info: #007bff;
+  --above-threshold: #ff6b6b;
+  --below-threshold: #4ecdc4;
+  
+  /* Variables calculées et graduées */
+  --color-accent: var(--gold-bright);
+  --color-accent-muted: var(--gold-primary);
+  --bg-accent-muted: rgba(255, 215, 0, 0.1);
+  --gradient-accent: linear-gradient(90deg, var(--gold-bright), #FFA500);
+  
+  /* Gradient de fond - thème dark par défaut */
+  --bg-gradient: linear-gradient(90deg, #04040E, #14133F, #211F68);
+  
+  /* Ombres de texte - thème dark */
+  --text-shadow-hero: 0 0 30px rgba(255, 255, 255, 0.4), 0 0 60px rgba(255, 255, 255, 0.2);
+  --text-shadow-accent: 0 0 20px rgba(207, 174, 96, 0.4), 0 0 40px rgba(207, 174, 96, 0.2);
+  
+  /* Glass morphism amélioré pour meilleur contraste */
+  --glass-bg: rgba(255, 255, 255, 0.08); /* AVANT: 0.05 - Plus opaque */
+  --glass-bg-hover: rgba(255, 255, 255, 0.12); /* AVANT: 0.08 - Plus opaque */
+  
+  /* ========================================
+     🌙 THÈME SOMBRE (DÉFAUT)
+     ======================================== */
+  
+  /* Fond et surfaces */
+  --bg-primary: #04040E;
+  --bg-secondary: #14133F;
+  --bg-tertiary: #211F68;
+  --bg-surface: rgba(255, 255, 255, 0.05);
+  --bg-surface-hover: rgba(255, 255, 255, 0.08);
+  --bg-surface-light: rgba(255, 255, 255, 0.9);
+  --bg-overlay: rgba(0, 0, 0, 0.7);
+  
+  /* Texte */
+  --text-primary: #FFFFFF;
+  --text-secondary: #E0E0E0;
+  --text-tertiary: #A0A0A0;
+  --text-inverse: #1A1A1A;
+  
+  /* Bordures */
+  --border-primary: rgba(255, 255, 255, 0.1);
+  --border-secondary: rgba(255, 255, 255, 0.05);
+  --border-muted: rgba(255, 255, 255, 0.2);
+  --border-active: var(--gold-primary);
+  --border-focus: var(--gold-bright);
+  --border-accent: rgba(255, 215, 0, 0.2);
+  
+  /* Ombres */
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --shadow-color-light: rgba(0, 0, 0, 0.1);
+  --shadow-color-gold: rgba(255, 215, 0, 0.3);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 15px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.2);
+  --shadow-gold: 0 4px 12px rgba(207, 174, 96, 0.3);
+  
+  /* Couleurs sémantiques du thème */
+  --color-primary: var(--gold-primary);
+  --color-accent: var(--gold-bright);
+  --color-accent-muted: #9ca3af;
+  
+  /* Typographie */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  
+  /* Rayons de bordure */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 20px;
+  --radius-full: 50px;
+  
+  /* Variables manquantes pour contraste dark mode */
+  --text-muted: #A0A0A0; /* Alias vers --text-tertiary pour compatibilité */
+  --shadow-button: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.3);
+  
+  /* Ombres */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.15);
+  
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* ========================================
+   ☀️ THÈME CLAIR
+   ======================================== */
+
+[data-theme="light"] {
+  /* Fond et surfaces - tons chauds crème/beige */
+  --bg-primary: #FDF8F3;
+  --bg-secondary: #F7F1E8;
+  --bg-tertiary: #F0E6D6;
+  --bg-surface: rgba(207, 174, 96, 0.08);
+  --bg-surface-hover: rgba(207, 174, 96, 0.15);
+  --bg-overlay: rgba(253, 248, 243, 0.95);
+  
+  /* Gradient de fond - thème light chaleureux */
+  --bg-gradient: linear-gradient(135deg, #FDF8F3, #F7F1E8, #F0E6D6);
+  
+  /* Ombres de texte - thème light */
+  --text-shadow-hero: 0 2px 4px rgba(20, 19, 63, 0.15), 0 0 20px rgba(20, 19, 63, 0.08);
+  --text-shadow-accent: 0 2px 4px rgba(207, 174, 96, 0.4), 0 0 15px rgba(207, 174, 96, 0.2);
+  
+  /* Texte - bleu nuit inspiré du site original */
+  --text-primary: #14133F;
+  --text-secondary: #211F68;
+  --text-tertiary: #4A4A7A;
+  --text-inverse: #FFFFFF;
+  
+  /* Bordures - plus contrastées */
+  --border-primary: rgba(20, 19, 63, 0.2);
+  --border-secondary: rgba(20, 19, 63, 0.1);
+  --border-active: var(--gold-primary);
+  --border-focus: var(--gold-bright);
+  --border-accent: rgba(207, 174, 96, 0.4);
+  
+  /* Ombres - plus chaudes */
+  --shadow-color: rgba(20, 19, 63, 0.15);
+  --shadow-color-light: rgba(20, 19, 63, 0.08);
+  --shadow-color-gold: rgba(207, 174, 96, 0.3);
+  --shadow-sm: 0 2px 8px rgba(20, 19, 63, 0.12);
+  --shadow-md: 0 4px 15px rgba(20, 19, 63, 0.18);
+  --shadow-lg: 0 8px 24px rgba(20, 19, 63, 0.25);
+  
+  /* Couleurs sémantiques adaptées au thème clair */
+  --color-primary: var(--gold-dark);
+  --color-accent: var(--gold-primary);
+  --color-accent-muted: rgba(207, 174, 96, 0.7);
+  --bg-accent-muted: rgba(207, 174, 96, 0.12);
+  --gradient-accent: linear-gradient(90deg, var(--gold-primary), var(--gold-bright));
+}
+
+/* ========================================
+   🔄 DÉTECTION AUTOMATIQUE DU THÈME
+   ======================================== */
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    /* Applique automatiquement le thème clair si pas de préférence stockée */
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F8F9FA;
+    --bg-tertiary: #F1F3F4;
+    --bg-surface: rgba(0, 0, 0, 0.02);
+    --bg-surface-hover: rgba(0, 0, 0, 0.04);
+    --bg-overlay: rgba(255, 255, 255, 0.9);
+    
+    --text-primary: #1A1A1A;
+    --text-secondary: #4A5568;
+    --text-tertiary: #718096;
+    --text-inverse: #FFFFFF;
+    
+    --border-primary: rgba(0, 0, 0, 0.12);
+    --border-secondary: rgba(0, 0, 0, 0.06);
+    --border-active: var(--gold-dark);
+    --border-focus: var(--gold-primary);
+    
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --shadow-color-light: rgba(0, 0, 0, 0.05);
+    --shadow-gold: rgba(184, 154, 79, 0.2);
+    
+    --color-primary: var(--gold-dark);
+    --color-accent: #4F46E5;
+    --color-accent-muted: #6B7280;
+  }
+}
+
+/* ========================================
+   🔤 TYPOGRAPHIE GLOBALE
+   ======================================== */
+
+:root {
+  /* Familles de polices */
+  --font-primary: 'Montserrat', sans-serif;
+  --font-title: 'Playfair Display', serif;
+  --font-body: 'Open Sans', sans-serif;
+  
+  /* Tailles de police */
+  --font-size-hero-title: 4.5rem;
+  --font-size-section-title: 2.5rem;
+  --font-size-hero-subtitle: 1.8rem;
+  --font-size-section-subtitle: 1.2rem;
+  --font-size-base: 1rem;
+  --font-size-small: 0.9rem;
+  --font-size-tiny: 0.8rem;
+  --font-size-micro: 0.75rem;
+  
+  /* Poids de police */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  /* Hauteurs de ligne */
+  --leading-tight: 1.25;
+  --leading-relaxed: 1.625;
+  
+  /* Espacements de lettres */
+  --letter-spacing-tight: 0.5px;
+  --letter-spacing-normal: 1px;
+  --letter-spacing-wide: 2px;
+
+  /* ========================================
+     📐 ESPACEMENTS & DIMENSIONS
+     ======================================== */
+  
+  /* Espacements de base (système 8px) */
+  --space-1: 0.25rem;  /* 4px */
+  --space-2: 0.5rem;   /* 8px */
+  --space-3: 0.75rem;  /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-5: 1.25rem;  /* 20px */
+  --space-6: 1.5rem;   /* 24px */
+  --space-8: 2rem;     /* 32px */
+  --space-10: 2.5rem;  /* 40px */
+  --space-12: 3rem;    /* 48px */
+  --space-16: 4rem;    /* 64px */
+  
+  /* Conteneurs */
+  --container-max-width-sm: 1140px;
+  --container-max-width-lg: 1400px;
+  --container-xl: 1400px;
+  --container-padding-desktop: 2rem;
+  --container-padding-tablet: 1rem;
+  --container-padding-mobile: 0.5rem;
+  
+  /* Espacements sémantiques (alias pour compatibilité) */
+  --spacing-xs: var(--space-1);
+  --spacing-sm: var(--space-2);
+  --spacing-md: var(--space-4);
+  --spacing-lg: var(--space-6);
+  --spacing-xl: var(--space-8);
+  --spacing-2xl: var(--space-12);
+  --spacing-3xl: var(--space-16);
+  --spacing-4xl: var(--space-10); /* 2.5rem (40px) - Réduit pour sections */
+  --spacing-5xl: var(--space-16); /* 4rem (64px) - Pour cas spéciaux */
+  
+  /* Tailles de texte (alias pour compatibilité) */
+  --text-base: var(--text-md);
+
+  /* ========================================
+     🔘 BORDER RADIUS
+     ======================================== */
+  
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-3xl: 24px;
+  --radius-full: 50px;
+
+  /* ========================================
+     🌘 OMBRES
+     ======================================== */
+  
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.3);
+  --shadow-button-hover: 0 4px 15px rgba(207, 174, 96, 0.3);
+  --shadow-button-hover-strong: 0 6px 20px rgba(207, 174, 96, 0.4);
+
+  /* ========================================
+     🔍 EFFET VERRE (GLASS MORPHISM)
+     ======================================== */
+  
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-bg-hover: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-border-hover: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  --glass-blur: blur(10px);
+
+  /* ========================================
+     🎬 ANIMATIONS & TRANSITIONS
+     ======================================== */
+  
+  --transition-fast: all 0.2s ease;
+  --transition-normal: all 0.3s ease;
+  --transition-slow: all 0.5s ease;
+  
+  /* Effets de hover */
+  --hover-lift-small: translateY(-2px);
+  --hover-lift-medium: translateY(-5px);
+  --hover-scale: scale(1.02);
+
+  /* ========================================
+     📱 BREAKPOINTS
+     ======================================== */
+  
+  --bp-mobile: 375px;
+  --bp-tablet: 640px;
+  --bp-desktop: 1200px;
+  --bp-desktop-lg: 1400px;
+
+  /* ========================================
+     🔢 Z-INDEX HIÉRARCHIE
+     ======================================== */
+  
+  --z-dropdown: 10;
+  --z-modal: 40;
+  --z-toast: 1000;
+  --z-tooltip: 1100;
+}
+
+/* ========================================
+   📱 RESPONSIVE BREAKPOINTS
+   ======================================== */
+
+/* Desktop Large: 1200px+ */
+@media (min-width: 1200px) {
+  :root {
+    --container-active-max: var(--container-max-width-lg);
+  }
+}
+
+/* Tablet: 640px - 1199px */
+@media (min-width: 640px) and (max-width: 1199px) {
+  :root {
+    --container-active-max: 100%;
+    --font-size-hero-title: 3.5rem;
+    --font-size-section-title: 2rem;
+    --font-size-hero-subtitle: 1.5rem;
+  }
+}
+
+/* Mobile: 375px - 639px */
+@media (min-width: 375px) and (max-width: 639px) {
+  :root {
+    --container-active-max: 100%;
+    --font-size-hero-title: 2.5rem;
+    --font-size-section-title: 1.5rem;
+    --font-size-hero-subtitle: 1.2rem;
+    --font-size-section-subtitle: 1rem;
+  }
+}
+
+/* ========================================
+   🎨 CLASSES UTILITAIRES RÉUTILISABLES
+   ======================================== */
+
+/* Dégradé de fond principal */
+.bg-gradient-main {
+  background: linear-gradient(90deg, var(--color-bg-start), var(--color-bg-middle), var(--color-bg-end));
+  background-attachment: fixed;
+}
+
+/* Effet verre poli global */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--glass-shadow);
+}
+
+.glass-panel:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+}
+
+/* Bouton principal système */
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-dark), var(--color-bg-end));
+  color: var(--color-white);
+  border: none;
+  padding: var(--space-4) var(--space-8);
+  border-radius: var(--radius-lg);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  transition: var(--transition-normal);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-normal);
+  box-shadow: var(--shadow-button-hover);
+}
+
+.btn-primary:hover {
+  transform: var(--hover-lift-small);
+  box-shadow: var(--shadow-button-hover-strong);
+  background: linear-gradient(135deg, var(--color-bg-end), var(--color-dark));
+}
+
+.btn-primary:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Bouton doré (download/success) */
+.btn-gold {
+  background: var(--color-primary);
+  color: var(--color-bg-start);
+  border: none;
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-lg);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: var(--transition-normal);
+}
+
+.btn-gold:hover {
+  transform: var(--hover-lift-small);
+  box-shadow: var(--shadow-button-hover);
+}
+
+/* Texte avec effet lumineux */
+.text-glow {
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.text-glow-gold {
+  text-shadow: 
+    0 0 20px rgba(207, 174, 96, 0.4),
+    0 0 40px rgba(207, 174, 96, 0.2);
+}
+
+/* Animation de rotation (spinners) */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Animation d'entrée (toasts, modales) */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* === BADGES SYSTÈME === */
+:root {
+  --badge-bg: rgba(207, 174, 96, 0.1);
+  --badge-border: rgba(207, 174, 96, 0.3);
+  --badge-text: var(--gold-primary);
+
+  --badge-info-bg: rgba(102, 126, 234, 0.1);
+  --badge-info-border: rgba(102, 126, 234, 0.3);
+  --badge-info-text: #667eea;
+
+  --badge-success-bg: rgba(16, 185, 129, 0.1);
+  --badge-success-border: rgba(16, 185, 129, 0.3);
+  --badge-success-text: var(--success);
+
+  /* === CARDS SYSTÈME === */
+  --card-radius: 20px;
+  --card-padding: 1.5rem;
+  --card-hover-bg: rgba(255, 255, 255, 0.08);
+
+  /* === ESPACEMENTS SYSTÈME === */
+  --section-spacing: 3rem;
+  --card-gap: 1.5rem;
+  --content-gap: 1rem;
+  --compact-gap: 0.75rem;
+}

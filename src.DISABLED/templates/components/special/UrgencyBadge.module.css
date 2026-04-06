@@ -1,0 +1,185 @@
+/* UrgencyBadge.module.css */
+@import '../../styles/themes.css';
+@import '../../styles/template-base.css';
+@import '../../styles/template-components.css';
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--template-space-xs, 0.5rem);
+  padding: var(--template-space-xs, 0.5rem) var(--template-space-md, 1.5rem);
+  border-radius: 9999px; /* Full rounded */
+  font-size: var(--template-font-size-sm, 0.875rem);
+  font-weight: var(--template-font-weight-semibold, 600);
+  white-space: nowrap;
+  transition: all var(--template-transition-normal, 0.3s ease);
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.badge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 1.5s ease-in-out;
+}
+
+.badge:hover::before {
+  left: 100%;
+}
+
+.icon {
+  font-size: var(--template-font-size-lg, 1.125rem);
+  flex-shrink: 0;
+}
+
+.text {
+  position: relative;
+  z-index: 1;
+}
+
+/* Variant styles */
+.warning {
+  background: var(--template-warning, rgba(245, 158, 11, 0.2));
+  color: var(--template-warning, #f59e0b);
+  border-color: var(--template-warning, rgba(245, 158, 11, 0.4));
+}
+
+.error {
+  background: var(--template-error, rgba(239, 68, 68, 0.2));
+  color: var(--template-error, #ef4444);
+  border-color: var(--template-error, rgba(239, 68, 68, 0.4));
+}
+
+.success {
+  background: var(--template-success, rgba(16, 185, 129, 0.2));
+  color: var(--template-success, #10b981);
+  border-color: var(--template-success, rgba(16, 185, 129, 0.4));
+}
+
+/* Animation styles */
+.animated {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+.animated.warning {
+  animation: pulseWarning 2s infinite;
+}
+
+.animated.error {
+  animation: pulseError 1.5s infinite;
+}
+
+.animated.success {
+  animation: pulseSuccess 3s infinite;
+}
+
+@keyframes pulseWarning {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 var(--template-warning, rgba(245, 158, 11, 0.7));
+  }
+  70% {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 10px var(--template-warning, rgba(245, 158, 11, 0));
+  }
+}
+
+@keyframes pulseError {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 var(--template-error, rgba(239, 68, 68, 0.7));
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 8px var(--template-error, rgba(239, 68, 68, 0));
+  }
+}
+
+@keyframes pulseSuccess {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 var(--template-success, rgba(16, 185, 129, 0.7));
+  }
+  80% {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 12px var(--template-success, rgba(16, 185, 129, 0));
+  }
+}
+
+/* Hover effects */
+.badge:hover {
+  transform: translateY(-1px);
+}
+
+.warning:hover {
+  background: var(--template-warning, rgba(245, 158, 11, 0.3));
+  border-color: var(--template-warning, #f59e0b);
+}
+
+.error:hover {
+  background: var(--template-error, rgba(239, 68, 68, 0.3));
+  border-color: var(--template-error, #ef4444);
+}
+
+.success:hover {
+  background: var(--template-success, rgba(16, 185, 129, 0.3));
+  border-color: var(--template-success, #10b981);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .badge {
+    font-size: var(--template-font-size-xs, 0.75rem);
+    padding: var(--template-space-xs, 0.5rem) var(--template-space-sm, 1rem);
+    gap: var(--template-space-xs, 0.5rem);
+  }
+  
+  .icon {
+    font-size: var(--template-font-size-base, 1rem);
+  }
+}
+
+/* Theme-specific adjustments */
+[data-theme="zen"] .warning {
+  background: var(--template-warning, rgba(245, 158, 11, 0.1));
+}
+
+[data-theme="zen"] .error {
+  background: var(--template-error, rgba(239, 68, 68, 0.1));
+}
+
+[data-theme="zen"] .success {
+  background: var(--template-success, rgba(16, 185, 129, 0.1));
+}
+
+[data-theme="minimaliste"] .warning {
+  background: var(--template-warning, rgba(245, 158, 11, 0.05));
+  border-color: var(--template-warning, #f59e0b);
+}
+
+[data-theme="minimaliste"] .error {
+  background: var(--template-error, rgba(239, 68, 68, 0.05));
+  border-color: var(--template-error, #ef4444);
+}
+
+[data-theme="minimaliste"] .success {
+  background: var(--template-success, rgba(16, 185, 129, 0.05));
+  border-color: var(--template-success, #10b981);
+}

@@ -1,0 +1,148 @@
+.introSection {
+  padding: 4rem 0 3rem 0;
+  text-align: center;
+}
+
+.introContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.portrait {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--gold-primary);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.introText {
+  flex: 1;
+  text-align: left;
+  min-width: 400px;
+}
+
+.name {
+  font-family: var(--font-title, 'Playfair Display', serif);
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.description {
+  font-family: var(--font-body, 'Open Sans', sans-serif);
+  font-size: 1.2rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.skillsSection {
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.skillsTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.skillsList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+  list-style: none;
+  padding: 0;
+}
+
+.skillItem {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 2rem;
+  padding: 0.8rem 1.5rem;
+  color: var(--text-primary);
+  font-weight: 500;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.trustSection {
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.trustTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.trustText {
+  font-size: 1.2rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.title {
+  font-family: var(--font-title, 'Playfair Display', serif);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 1.2rem;
+}
+
+.subtitle {
+  font-family: var(--font-body, 'Open Sans', sans-serif);
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.ctaButton {
+  display: inline-block;
+  background-color: var(--gold-bright);
+  color: var(--bg-primary);
+  font-weight: 600;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 1rem 2.2rem;
+  font-size: 1.1rem;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: background 0.2s, color 0.2s;
+  margin-top: 1.2rem;
+}
+
+.contentSection {
+  padding: 3rem 0 3rem 0;
+  text-align: center;
+}
+
+.ctaSection {
+  padding: 3rem 0 3rem 0;
+  text-align: center;
+}
+
+.ctaTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 1.2rem;
+}
