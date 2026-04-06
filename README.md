@@ -7,9 +7,22 @@ Ce depot sert a analyser, tester, observer et documenter l'application web `FSVB
 - `fsvb-studio-portfolio/` : le depot de l'application cible importe localement
 - `fsvb-studio-portfolio/portfolio-app/` : l'application web principale detectee a ce stade
 - `docs/` : les guides pratiques, modes operatoires et templates
+- `docs/reference/` : les explications descriptives sur le depot et les agents
 - `reports/` : les brouillons, rapports generes, versions consolidees et preuves
 - `tools/` : les scripts simples utiles au quotidien
 - `.codex/agents/` : les profils Codex specialises pour les missions frequentes
+
+Les profils d'analyse couvrent notamment :
+
+- l'UX
+- le design
+- les parcours utilisateur
+- la qualite visible
+- la performance
+- l'accessibilite
+- le SEO
+- la securite
+- la synthese documentaire
 
 ## Principe de fonctionnement
 

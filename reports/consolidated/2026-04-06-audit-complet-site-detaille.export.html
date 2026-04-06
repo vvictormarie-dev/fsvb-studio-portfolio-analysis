@@ -1,0 +1,1303 @@
+﻿<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<title>Audit complet detaille du site FSVB Studio</title>
+<style>body{font-family:Segoe UI,Arial,sans-serif;color:#1f2937;max-width:900px;margin:40px auto;padding:0 24px;line-height:1.6;}h1,h2,h3,h4{color:#111827;line-height:1.25;margin-top:1.4em;}h1{font-size:28px;border-bottom:2px solid #e5e7eb;padding-bottom:10px;}h2{font-size:22px;border-bottom:1px solid #e5e7eb;padding-bottom:6px;}h3{font-size:18px;}h4{font-size:16px;}p{margin:0.6em 0;}ul,ol{margin:0.4em 0 0.8em 1.4em;}li{margin:0.2em 0;}code{font-family:Consolas,monospace;background:#f3f4f6;padding:0.1em 0.35em;border-radius:4px;font-size:0.92em;}strong{color:#111827;}</style></head><body>
+<h1>Audit complet detaille du site FSVB Studio</h1>
+<ul>
+<li>Date : 2026-04-06</li>
+<li>Application auditee : <code>fsvb-studio-portfolio/portfolio-app</code></li>
+<li>Base de mesure performance : build de production locale sur <code>http://127.0.0.1:4174/</code></li>
+<li>Nature du livrable : second audit consolide detaille</li>
+<li>Methode : lecture du code, build production, lint, analyse des rapports Lighthouse, mobilisation des agents specialises du depot</li>
+</ul>
+<h2>1. Resume decisionnel</h2>
+<h3>Verdict global</h3>
+<p>Le site est <strong>montrable et deja convaincant sur la partie vitrine</strong>, mais il reste <strong>fragile sur plusieurs parcours qui comptent pour le business</strong>.
+</p>
+<p>En bref :
+</p>
+<ul>
+<li>la vitrine publique est globalement correcte</li>
+<li>les performances sont suffisantes pour une premiere impression, mais freinees par un chargement initial trop lourd</li>
+<li>le referencement reste trop basique pour bien soutenir l&#39;acquisition</li>
+<li>certains parcours de confiance peuvent donner un faux sentiment de succes ou perdre un contact</li>
+<li>le configurateur concentre une grande partie de la complexite, de la dette technique et des causes possibles de regression</li>
+</ul>
+<h3>Niveau de priorite</h3>
+<ol>
+<li><strong>Priorite haute</strong></li>
+</ol>
+<p>fiabiliser les parcours de conversion et de confiance
+</p>
+<ol>
+<li><strong>Priorite moyenne</strong></li>
+</ol>
+<p>alleger l&#39;application et renforcer les bases SEO
+</p>
+<ol>
+<li><strong>Priorite continue</strong></li>
+</ol>
+<p>reduire la dette technique du configurateur, des formulaires et des parcours admin
+</p>
+<h2>2. Perimetre audite</h2>
+<h3>Pages auditees en runtime</h3>
+<ul>
+<li><code>/</code></li>
+<li><code>/solutions</code></li>
+<li><code>/configurator</code></li>
+<li><code>/about</code></li>
+<li><code>/contact</code></li>
+<li><code>/templates/landing-solo</code></li>
+<li><code>/templates/restaurant</code></li>
+<li><code>/templates/coach</code></li>
+<li><code>/admin/login</code></li>
+</ul>
+<h3>Parcours revus surtout par lecture du code</h3>
+<ul>
+<li><code>/confirmation</code></li>
+<li><code>/order/:id</code></li>
+<li><code>/form/:templateType</code></li>
+<li><code>/form/:templateType/:sessionId</code></li>
+<li><code>/configurator/session/:sessionId</code></li>
+<li><code>/admin/dashboard</code></li>
+</ul>
+<h3>Angles d&#39;analyse couverts</h3>
+<ul>
+<li>coordination generale</li>
+<li>audit UX</li>
+<li>revue design</li>
+<li>test de parcours utilisateur</li>
+<li>verification qualite</li>
+<li>investigation performance</li>
+<li>audit accessibilite</li>
+<li>revue SEO</li>
+<li>revue securite</li>
+<li>synthese documentaire</li>
+</ul>
+<h3>Limites connues</h3>
+<ul>
+<li>pas de session admin reelle fournie</li>
+<li>pas de commande reelle fournie pour <code>/order/:id</code></li>
+<li>pas de paiement reel fourni</li>
+<li>pas de session pre-session reelle fournie en base</li>
+<li>pas de session collaborative reelle fournie</li>
+</ul>
+<h2>3. Tableau performance par page</h2>
+<p>Scores Lighthouse de production locale, profil mobile.
+</p>
+<p>| Page | Performance | Accessibilite | Bonnes pratiques | SEO | FCP | LCP | TBT | CLS |
+<br>|---|---:|---:|---:|---:|---:|---:|---:|---:|
+<br>| Accueil | 82 | 98 | 100 | 83 | 3.0 s | 4.0 s | 20 ms | 0.011 |
+<br>| Solutions | 83 | 98 | 100 | 83 | 3.0 s | 3.8 s | 10 ms | 0.003 |
+<br>| Configurateur | 74 | 94 | 100 | 83 | 3.0 s | 5.4 s | 100 ms | 0.017 |
+<br>| A propos | 75 | 98 | 100 | 83 | 3.0 s | 5.3 s | 0 ms | 0.000 |
+<br>| Contact | 83 | 98 | 100 | 82 | 3.0 s | 3.8 s | 0 ms | 0.001 |
+<br>| Template landing-solo | 74 | 92 | 100 | 83 | 3.0 s | 5.7 s | 40 ms | 0.013 |
+<br>| Template restaurant | 83 | 94 | 100 | 83 | 3.0 s | 3.9 s | 30 ms | 0.012 |
+<br>| Template coach | 78 | 98 | 100 | 83 | 3.0 s | 4.3 s | 30 ms | 0.084 |
+<br>| Admin login | 83 | 88 | 100 | 82 | 3.0 s | 3.8 s | 10 ms | 0.001 |
+</p>
+<h3>Lecture simple</h3>
+<ul>
+<li><strong>Bon niveau</strong> : accueil, solutions, contact, restaurant, admin login</li>
+<li><strong>Niveau moyen</strong> : configurateur, about, landing-solo, coach</li>
+<li><strong>Zone la plus fragile</strong> : configurateur et template landing-solo</li>
+<li><strong>Cause globale la plus probable</strong> : trop de code, de styles et d&#39;elements sont charges des l&#39;ouverture, meme quand la page n&#39;en a pas besoin</li>
+</ul>
+<h2>4. Constats confirmes</h2>
+<h3>4.1 Conversion et confiance</h3>
+<h4>C1. Bug confirme sur le formulaire pre-session landing-solo</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li>le champ email visible principal est lie a <code>responses.email</code></li>
+<li>la logique de validation/sauvegarde peut attendre <code>responses.clientEmail</code> pour le template landing-solo</li>
+</ul>
+<p>Consequences metier :
+</p>
+<ul>
+<li>l&#39;utilisateur peut penser avoir rempli le bon champ</li>
+<li>la validation peut juger l&#39;email incomplet</li>
+<li>l&#39;enregistrement peut partir avec une valeur vide ou incoherente</li>
+<li>le parcours de vente peut etre freine ou casse</li>
+</ul>
+<p>Preuves :
+</p>
+<ul>
+<li>le composant <code>FormulairePr&#195;&#169;Session.tsx</code> utilise a la fois <code>email</code> et <code>clientEmail</code></li>
+<li>la logique de mapping specifique landing-solo force ensuite <code>responses.clientEmail</code></li>
+</ul>
+<p>Cause possible :
+</p>
+<ul>
+<li>deux conventions de nommage coexistent dans le meme composant</li>
+<li>le formulaire a grandi par ajouts successifs au lieu d&#39;avoir un modele unique par template</li>
+</ul>
+<p>Methode de resolution :
+</p>
+<ol>
+<li>definir une seule cle email de reference par template</li>
+<li>aligner champ visible, validation, sauvegarde et persistence sur cette meme cle</li>
+<li>ajouter un test simple sur le cas landing-solo</li>
+</ol>
+<p>Impact :
+</p>
+<ul>
+<li><strong>eleve</strong></li>
+</ul>
+<p>Guide dev debutant :
+</p>
+<p>Probleme explique simplement :
+</p>
+<ul>
+<li>le formulaire ne parle pas toujours du meme email</li>
+<li>l&#39;utilisateur remplit un champ visible</li>
+<li>mais le code ne lit pas toujours cette meme valeur ensuite</li>
+</ul>
+<p>Pourquoi c&#39;est un vrai bug :
+</p>
+<ul>
+<li>un formulaire doit utiliser la meme information du debut a la fin</li>
+<li>ici, le champ visible, la validation et la sauvegarde ne semblent pas totalement alignes</li>
+</ul>
+<p>Etapes conseillees pour corriger :
+</p>
+<ol>
+<li>ouvrir <code>FormulairePr&#195;&#169;Session.tsx</code></li>
+<li>chercher toutes les occurrences de <code>email</code> et <code>clientEmail</code></li>
+<li>identifier quelle cle doit etre la bonne pour <code>landing-solo</code></li>
+<li>aligner :</li>
+</ol>
+<p>le champ visible
+<br>la condition de validation
+<br>l&#39;objet envoye au service
+<br>la reprise eventuelle des donnees
+</p>
+<ol>
+<li>faire un test manuel :</li>
+</ol>
+<p>email rempli -&gt; soumission autorisee
+<br>email vide -&gt; soumission bloquee
+</p>
+<ol>
+<li>refaire un test avec un autre template pour verifier qu&#39;on n&#39;a rien casse</li>
+</ol>
+<p>Piege a eviter :
+</p>
+<ul>
+<li>corriger seulement la ligne du champ sans corriger la logique de sauvegarde</li>
+</ul>
+<h4>C2. La page de confirmation peut afficher un succes sans verification serveur fraiche</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li>la page <code>/confirmation</code> lit des parametres d&#39;URL</li>
+<li>elle reconstruit aussi l&#39;etat depuis <code>localStorage</code></li>
+<li>elle peut donc afficher une confirmation sans relecture serveur immediate</li>
+</ul>
+<p>Consequences metier :
+</p>
+<ul>
+<li>un utilisateur peut voir un message rassurant sans preuve recente cote serveur</li>
+<li>cela fragilise la confiance apres paiement ou commande</li>
+<li>cela complique la gestion des litiges ou des faux positifs</li>
+</ul>
+<p>Preuves :
+</p>
+<ul>
+<li><code>ConfirmationPage.tsx</code> lit <code>paymentId</code>, <code>orderNumber</code>, puis <code>pendingOrder</code> depuis <code>localStorage</code></li>
+</ul>
+<p>Cause possible :
+</p>
+<ul>
+<li>la page de confirmation a ete pensee comme ecran de restitution front plutot que comme ecran de verification</li>
+</ul>
+<p>Methode de resolution :
+</p>
+<ol>
+<li>recuperer la commande cote serveur ou via Supabase a partir d&#39;un identifiant fiable</li>
+<li>n&#39;afficher le succes complet qu&#39;apres verification reelle</li>
+<li>basculer sinon vers un etat neutre ou &quot;verification en cours&quot;</li>
+</ol>
+<p>Impact :
+</p>
+<ul>
+<li><strong>eleve</strong></li>
+</ul>
+<p>Guide dev debutant :
+</p>
+<p>Probleme explique simplement :
+</p>
+<ul>
+<li>la page affiche un resultat tres rassurant</li>
+<li>mais elle peut le faire a partir de donnees deja presentes dans le navigateur</li>
+<li>cela ne garantit pas que la commande a vraiment ete relue et verifiee</li>
+</ul>
+<p>Pourquoi c&#39;est important :
+</p>
+<ul>
+<li>une page de confirmation ne doit pas &quot;supposer&quot; qu&#39;une commande est validee</li>
+<li>elle doit s&#39;appuyer sur une source fiable</li>
+</ul>
+<p>Etapes conseillees pour corriger :
+</p>
+<ol>
+<li>rep&#195;&#169;rer dans <code>ConfirmationPage.tsx</code> ce qui vient de l&#39;URL</li>
+<li>rep&#195;&#169;rer ce qui vient du <code>localStorage</code></li>
+<li>rep&#195;&#169;rer s&#39;il existe deja une fonction fiable pour relire la commande</li>
+<li>choisir un identifiant de commande de reference</li>
+<li>charger la commande a partir de cet identifiant</li>
+<li>afficher :</li>
+</ol>
+<p>un etat de chargement
+<br>un succes seulement si la commande est verifiee
+<br>un message neutre ou d&#39;erreur sinon
+</p>
+<p>Piege a eviter :
+</p>
+<ul>
+<li>garder les memes textes tres affirmatifs avant que la verification reelle soit en place</li>
+</ul>
+<h4>C3. Le formulaire de contact depend surtout de Crisp cote client</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li>le formulaire tente un envoi vers Crisp en front</li>
+<li>si Crisp n&#39;est pas charge, le fallback actuel est un <code>console.log</code></li>
+</ul>
+<p>Consequences metier :
+</p>
+<ul>
+<li>un lead peut etre perdu sans trace exploitable</li>
+<li>l&#39;utilisateur peut croire que sa demande est partie alors qu&#39;elle n&#39;est pas stockee</li>
+</ul>
+<p>Preuves :
+</p>
+<ul>
+<li><code>ContactPage.tsx</code> envoie via <code>window.$crisp.push(...)</code></li>
+<li>en absence de Crisp, les donnees partent dans la console</li>
+</ul>
+<p>Cause possible :
+</p>
+<ul>
+<li>le chat a ete utilise comme canal principal de reception, sans vrai plan de secours metier</li>
+</ul>
+<p>Methode de resolution :
+</p>
+<ol>
+<li>brancher le formulaire sur une persistence fiable ou un envoi backend</li>
+<li>garder Crisp comme canal de conversation, pas comme unique point d&#39;entree</li>
+<li>journaliser l&#39;echec d&#39;envoi et afficher un message honnete a l&#39;utilisateur</li>
+</ol>
+<p>Impact :
+</p>
+<ul>
+<li><strong>eleve</strong></li>
+</ul>
+<p>Guide dev debutant :
+</p>
+<p>Probleme explique simplement :
+</p>
+<ul>
+<li>le formulaire essaie surtout d&#39;envoyer vers Crisp</li>
+<li>si Crisp ne repond pas ou ne charge pas, on n&#39;a pas de vrai filet de securite</li>
+</ul>
+<p>Pourquoi c&#39;est important :
+</p>
+<ul>
+<li>un formulaire de contact doit fonctionner meme si un script tiers est bloque</li>
+</ul>
+<p>Etapes conseillees pour corriger :
+</p>
+<ol>
+<li>ouvrir <code>ContactPage.tsx</code></li>
+<li>reperer la fonction d&#39;envoi actuelle</li>
+<li>verifier le comportement si <code>window.$crisp</code> n&#39;existe pas</li>
+<li>choisir un envoi principal fiable</li>
+<li>brancher ce canal principal avant Crisp</li>
+<li>afficher un message de succes seulement si cet envoi principal reussit</li>
+<li>afficher un message d&#39;erreur clair sinon</li>
+</ol>
+<p>Piege a eviter :
+</p>
+<ul>
+<li>garder <code>console.log</code> comme fallback metier</li>
+</ul>
+<h4>C4. Certains messages de parcours promettent plus que ce qui semble reellement automatise</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li>apres paiement, la page de confirmation promet une suite qui semble automatique</li>
+<li>dans le code lu, l&#39;envoi d&#39;email ou certaines actions aval paraissent encore incompletes ou manuelles</li>
+</ul>
+<p>Consequences metier :
+</p>
+<ul>
+<li>risque de deception apres achat</li>
+<li>ecart entre promesse visible et fonctionnement reel</li>
+<li>confiance entamee si la suite n&#39;arrive pas comme annonce</li>
+</ul>
+<p>Preuves :
+</p>
+<ul>
+<li><code>ConfirmationPage.tsx</code> mentionne un email de confirmation avec lien Calendly</li>
+<li><code>AdminOrderDetail.tsx</code> contient encore un point de traitement non finalise autour de l&#39;email</li>
+</ul>
+<p>Cause possible :
+</p>
+<ul>
+<li>messages de reassurance rediges avant stabilisation complete du circuit de suivi</li>
+</ul>
+<p>Methode de resolution :
+</p>
+<ol>
+<li>n&#39;afficher qu&#39;une promesse que le produit tient vraiment aujourd&#39;hui</li>
+<li>parler d&#39;un delai de recontact realiste tant que l&#39;automatisation complete n&#39;est pas en place</li>
+<li>ne mentionner Calendly que si l&#39;envoi automatique existe reellement</li>
+</ol>
+<p>Impact :
+</p>
+<ul>
+<li><strong>moyen a eleve</strong></li>
+</ul>
+<p>Guide dev debutant :
+</p>
+<p>Probleme explique simplement :
+</p>
+<ul>
+<li>les textes de confirmation semblent dire que certaines actions sont automatiques</li>
+<li>mais le code montre que tout n&#39;est pas encore totalement branche</li>
+</ul>
+<p>Etapes conseillees pour corriger :
+</p>
+<ol>
+<li>lister les promesses affichees a l&#39;utilisateur</li>
+<li>verifier dans le code si chaque promesse est vraiment tenue</li>
+<li>si ce n&#39;est pas le cas, corriger d&#39;abord le texte</li>
+<li>ensuite seulement, automatiser si c&#39;est bien prevu produit</li>
+</ol>
+<h4>C5. Le parcours de contact et de commande manque parfois de clarte</h4>
+<p>Constat confirme ou probable selon le chemin :
+</p>
+<ul>
+<li>l&#39;accueil pousse surtout vers la commande et le configurateur</li>
+<li>la page contact melange deux intentions : poser une question ou commander</li>
+</ul>
+<p>Consequences metier :
+</p>
+<ul>
+<li>certains visiteurs peuvent hesiter sur le bon point d&#39;entree</li>
+<li>le formulaire libre peut faire doublon avec le configurateur</li>
+</ul>
+<p>Preuves :
+</p>
+<ul>
+<li><code>Home.tsx</code> met surtout en avant <code>Commander un site</code> et <code>Configurer mon site</code></li>
+<li><code>ContactPage.tsx</code> propose a la fois configurateur et formulaire libre sur le meme ecran</li>
+</ul>
+<p>Cause possible :
+</p>
+<ul>
+<li>objectifs commerciaux et objectifs de conversation reunis dans la meme page</li>
+</ul>
+<p>Methode de resolution :
+</p>
+<ol>
+<li>separer clairement <code>Commander un site</code> et <code>Poser une question</code></li>
+<li>ajouter un CTA contact plus visible sur l&#39;accueil pour les visiteurs qui ne veulent pas encore configurer</li>
+<li>clarifier le role de chaque entree dans le wording</li>
+</ol>
+<p>Impact :
+</p>
+<ul>
+<li><strong>moyen</strong></li>
+</ul>
+<h4>C6. Le formulaire pre-session demande un effort important sans assez de reperes</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li>le formulaire est dense</li>
+<li>il ne rassure pas assez sur la duree, l&#39;avancement ou la reprise</li>
+<li>en cas de lien invalide, l&#39;utilisateur tombe vite sur une impasse</li>
+</ul>
+<p>Consequences metier :
+</p>
+<ul>
+<li>abandon plus probable</li>
+<li>effort percu plus lourd que necessaire</li>
+<li>frustration en cas de lien casse</li>
+</ul>
+<p>Preuves :
+</p>
+<ul>
+<li><code>FormulairePr&#195;&#169;Session.tsx</code> parle surtout de prendre son temps</li>
+<li>le composant ne montre pas de repere clair de progression</li>
+<li>le message d&#39;erreur <code>Lien invalide</code> reste sec et peu aidant</li>
+</ul>
+<p>Cause possible :
+</p>
+<ul>
+<li>logique de collecte complete privilegiee sur l&#39;accompagnement du parcours</li>
+</ul>
+<p>Methode de resolution :
+</p>
+<ol>
+<li>annoncer une duree indicative simple</li>
+<li>afficher une progression ou des etapes</li>
+<li>dire clairement si les reponses sont sauvegardees ou non</li>
+<li>transformer <code>Lien invalide</code> en message de recuperation avec contact ou renvoi</li>
+</ol>
+<p>Impact :
+</p>
+<ul>
+<li><strong>moyen a eleve</strong></li>
+</ul>
+<h3>4.2 Performance et structure</h3>
+<h4>C4. Le site charge trop de code pour des pages simples</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li>la build actuelle produit un JS principal de <strong>945.62 kB</strong></li>
+<li>elle produit aussi un CSS principal de <strong>210.81 kB</strong></li>
+<li>toutes les grandes pages sont importees statiquement dans <code>App.tsx</code></li>
+</ul>
+<p>Consequences :
+</p>
+<ul>
+<li>pages simples penalisees par des morceaux de l&#39;application qu&#39;elles n&#39;utilisent pas</li>
+<li>temps de chargement percu degrade sur mobile</li>
+<li>marge d&#39;optimisation facile encore disponible</li>
+</ul>
+<p>Preuves :
+</p>
+<ul>
+<li><code>npm run build</code></li>
+<li><code>App.tsx</code> importe directement home, about, contact, solutions, configurateur, admin, templates et confirmations</li>
+<li>les rapports Lighthouse voient de <strong>141 a 183 KiB de JavaScript inutile</strong> et <strong>22 a 31 KiB de CSS inutile</strong></li>
+</ul>
+<p>Cause possible :
+</p>
+<ul>
+<li>absence de chargement differe par route</li>
+<li>socle CSS global trop large</li>
+<li>configurateur, admin et templates inclus trop tot dans le bundle initial</li>
+</ul>
+<p>Methode de resolution :
+</p>
+<ol>
+<li>passer les grosses pages en chargement differe</li>
+<li>separer au minimum configurateur, admin, templates et parcours commande</li>
+<li>reduire le CSS global au strict socle commun</li>
+</ol>
+<p>Impact :
+</p>
+<ul>
+<li><strong>eleve</strong></li>
+</ul>
+<h4>C5. Le LCP est trop haut sur plusieurs pages clefs</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li>configurateur : <strong>5.4 s</strong></li>
+<li>about : <strong>5.3 s</strong></li>
+<li>template landing-solo : <strong>5.7 s</strong></li>
+<li>template coach : <strong>4.3 s</strong></li>
+</ul>
+<p>Lecture metier :
+</p>
+<ul>
+<li>la page commence a apparaitre</li>
+<li>mais le contenu principal arrive trop tard pour donner une sensation de fluidite</li>
+</ul>
+<p>Causes possibles :
+</p>
+<ul>
+<li>bundle initial trop large</li>
+<li>images hero ou visuels de carte trop lourds</li>
+<li>plusieurs ressources externes chargees trop tot</li>
+</ul>
+<p>Methodes de resolution :
+</p>
+<ol>
+<li>alleger et fractionner le chargement initial</li>
+<li>optimiser les images hero et utiliser des tailles adaptees</li>
+<li>mettre les visuels secondaires en chargement differe</li>
+</ol>
+<p>Impact :
+</p>
+<ul>
+<li><strong>moyen a eleve</strong></li>
+</ul>
+<h4>C6. Certaines pages chargent des medias trop tot ou trop lourdement</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li>la page about s&#39;appuie sur une image hero lourde</li>
+<li>home et solutions chargent tres tot plusieurs visuels de cartes</li>
+<li>le template landing-solo charge de nombreuses images externes des l&#39;arrivee</li>
+</ul>
+<p>Consequences :
+</p>
+<ul>
+<li>transfert reseau plus lourd que necessaire</li>
+<li>sentiment de lenteur plus marque sur mobile</li>
+</ul>
+<p>Preuves :
+</p>
+<ul>
+<li>rapport <code>about-prod-lighthouse.json</code></li>
+<li>rapport <code>template-landing-solo-prod-lighthouse.json</code></li>
+<li>visuels appeles dans <code>AboutPage.tsx</code>, <code>Home.tsx</code>, <code>SolutionsPage.tsx</code> et <code>LandingSolo.tsx</code></li>
+</ul>
+<p>Cause possible :
+</p>
+<ul>
+<li>logique de maquette riche conservee telle quelle en production</li>
+</ul>
+<p>Methode de resolution :
+</p>
+<ol>
+<li>prevoir des versions plus petites des medias critiques</li>
+<li>reserver le chargement prioritaire au seul visuel principal</li>
+<li>mettre le reste en <code>loading=&quot;lazy&quot;</code> ou equivalent</li>
+</ol>
+<p>Impact :
+</p>
+<ul>
+<li><strong>moyen a eleve</strong></li>
+</ul>
+<h3>4.3 SEO et contenu technique</h3>
+<h4>C7. Le titre de page est global et statique</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li><code>index.html</code> definit un seul titre global</li>
+<li>aucune logique claire de titre par page n&#39;a ete relevee dans le code lu</li>
+</ul>
+<p>Consequences :
+</p>
+<ul>
+<li>pages moins distinctes pour Google</li>
+<li>onglets navigateur peu informatifs</li>
+</ul>
+<p>Cause possible :
+</p>
+<ul>
+<li>base de site SPA mise en place sans couche SEO page par page</li>
+</ul>
+<p>Methode de resolution :
+</p>
+<ol>
+<li>definir un titre specifique par page</li>
+<li>prioriser les pages business : accueil, solutions, templates, contact</li>
+<li>prevoir une convention simple commune pour tous les titres</li>
+</ol>
+<p>Impact :
+</p>
+<ul>
+<li><strong>moyen</strong></li>
+</ul>
+<h4>C8. Les pages n&#39;ont pas de meta description dediee</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li>aucune meta description exploitable n&#39;a ete relevee dans <code>index.html</code></li>
+<li>les scores SEO restent bloques autour de <strong>82-83</strong></li>
+</ul>
+<p>Consequences :
+</p>
+<ul>
+<li>extraits Google moins maitrisables</li>
+<li>message marketing moins clair en recherche</li>
+</ul>
+<p>Cause possible :
+</p>
+<ul>
+<li>couche SEO minimale ou absente</li>
+</ul>
+<p>Methode de resolution :
+</p>
+<ol>
+<li>ajouter une description par page</li>
+<li>harmoniser le ton et la promesse commerciale</li>
+<li>preparer aussi les bases de partage social dans le meme mouvement</li>
+</ol>
+<p>Impact :
+</p>
+<ul>
+<li><strong>moyen</strong></li>
+</ul>
+<h4>C9. Le maillage SEO public reste trop faible ou parfois incoherent</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li>les routes templates existent bien</li>
+<li>mais l&#39;acces depuis les pages principales passe souvent par des boutons ou des comportements peu favorables au crawl</li>
+<li>le footer pointe aussi vers des chemins qui ne correspondent plus proprement a l&#39;arborescence actuelle</li>
+</ul>
+<p>Consequences :
+</p>
+<ul>
+<li>pages templates moins faciles a decouvrir pour Google</li>
+<li>maillage interne moins robuste</li>
+<li>impression de structure pas totalement stabilisee</li>
+</ul>
+<p>Preuves :
+</p>
+<ul>
+<li><code>SolutionsPage.tsx</code> s&#39;appuie sur des ouvertures de demo plutot que sur un vrai maillage de liens</li>
+<li><code>Footer.tsx</code> renvoie encore vers <code>/templates</code> et <code>/projects</code> alors que l&#39;application redirige ou ne sert pas ces chemins comme pages business pleines</li>
+</ul>
+<p>Cause possible :
+</p>
+<ul>
+<li>priorite donnee a la demonstration visuelle et aux modales plutot qu&#39;au maillage de pages d&#39;acquisition</li>
+</ul>
+<p>Methode de resolution :
+</p>
+<ol>
+<li>ajouter de vrais liens vers les templates publics depuis l&#39;accueil, solutions et footer</li>
+<li>supprimer ou corriger les liens de footer devenus ambigus</li>
+<li>clarifier quelles pages doivent servir a l&#39;acquisition SEO</li>
+</ol>
+<p>Impact :
+</p>
+<ul>
+<li><strong>moyen a eleve</strong></li>
+</ul>
+<h4>C10. Le socle SEO technique est incomplet</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li>je n&#39;ai pas releve de <code>robots.txt</code>, <code>sitemap.xml</code>, canonical, Open Graph, Twitter Cards ou donnees structurees dans le socle public actuel</li>
+</ul>
+<p>Consequences :
+</p>
+<ul>
+<li>indexation moins robuste</li>
+<li>partage social moins maitrise</li>
+<li>signaux techniques faibles pour les moteurs</li>
+</ul>
+<p>Cause possible :
+</p>
+<ul>
+<li>socle Vite/SPA garde proche du minimum technique</li>
+</ul>
+<p>Methode de resolution :
+</p>
+<ol>
+<li>ajouter <code>robots.txt</code> et <code>sitemap.xml</code></li>
+<li>ajouter canonical et metas sociales sur les pages publiques</li>
+<li>prevoir au minimum un schema <code>Organization</code> et des schemas orientes service sur les pages business</li>
+</ol>
+<p>Impact :
+</p>
+<ul>
+<li><strong>moyen</strong></li>
+</ul>
+<h3>4.4 Accessibilite</h3>
+<h4>C11. Des problemes de contraste sont deja confirmes</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li>Lighthouse remonte un contraste insuffisant sur :</li>
+<li><code>/configurator</code></li>
+<li><code>/templates/landing-solo</code></li>
+<li><code>/admin/login</code></li>
+</ul>
+<p>Consequences :
+</p>
+<ul>
+<li>lecture plus difficile</li>
+<li>acces degrade pour certains utilisateurs</li>
+</ul>
+<p>Cause possible :
+</p>
+<ul>
+<li>palette visuelle pensee d&#39;abord pour l&#39;apparence, pas assez verifiee pour la lisibilite</li>
+</ul>
+<p>Methode de resolution :
+</p>
+<ol>
+<li>corriger les couples texte/fond les plus faibles</li>
+<li>figer une palette conforme pour les textes principaux, secondaires et etats focus</li>
+<li>verifier les memes composants sur plusieurs pages</li>
+</ol>
+<p>Impact :
+</p>
+<ul>
+<li><strong>moyen</strong></li>
+</ul>
+<h4>C12. Les formulaires et la structure de page restent incomplets pour l&#39;accessibilite</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li>le formulaire de contact utilise des champs sans labels relies</li>
+<li>plusieurs pages n&#39;ont pas de zone principale <code>&lt;main&gt;</code></li>
+<li>certains niveaux de titres sont incoherents</li>
+</ul>
+<p>Consequences :
+</p>
+<ul>
+<li>navigation plus difficile au lecteur d&#39;ecran</li>
+<li>parcours clavier moins fluides</li>
+<li>comprehension structurelle plus fragile</li>
+</ul>
+<p>Preuves :
+</p>
+<ul>
+<li><code>ContactPage.tsx</code> affiche des <code>input</code> et <code>textarea</code> appuyes surtout sur des placeholders</li>
+<li>les rapports Lighthouse remontent l&#39;absence de zone principale sur plusieurs pages</li>
+<li>le configurateur et solutions montrent une hierarchie de titres perfectible</li>
+</ul>
+<p>Cause possible :
+</p>
+<ul>
+<li>structure semantique ajoutee apres la mise en forme visuelle, au lieu d&#39;etre pensee des le depart</li>
+</ul>
+<p>Methode de resolution :
+</p>
+<ol>
+<li>ajouter des <code>label</code> relies a chaque champ critique</li>
+<li>encapsuler le contenu principal de chaque page dans un <code>&lt;main&gt;</code></li>
+<li>reprendre une hierarchie simple <code>h1 &gt; h2 &gt; h3</code></li>
+</ol>
+<p>Impact :
+</p>
+<ul>
+<li><strong>moyen a eleve</strong></li>
+</ul>
+<h4>C13. Plusieurs elements interactifs et modales restent peu accessibles au clavier</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li>certaines cartes cliquables reposent sur des <code>div</code> avec <code>onClick</code></li>
+<li>plusieurs modales ne montrent pas clairement une gestion de focus et de role accessible</li>
+</ul>
+<p>Consequences :
+</p>
+<ul>
+<li>parcours plus difficiles sans souris</li>
+<li>risque de piege de navigation dans les modales</li>
+</ul>
+<p>Preuves :
+</p>
+<ul>
+<li>composants de cartes templates et portfolio</li>
+<li><code>TemplateModal.tsx</code>, <code>OnboardingModal.tsx</code>, <code>ShareSessionModal.tsx</code>, <code>PreviewModal.tsx</code></li>
+</ul>
+<p>Cause possible :
+</p>
+<ul>
+<li>composants rendus interactifs apres coup, d&#39;abord pour la vue</li>
+</ul>
+<p>Methode de resolution :
+</p>
+<ol>
+<li>remplacer les zones cliquables par de vrais <code>button</code> ou <code>a</code> quand c&#39;est possible</li>
+<li>ajouter <code>role=&quot;dialog&quot;</code>, <code>aria-modal</code>, focus d&#39;ouverture, retention du focus et restitution du focus a la fermeture</li>
+</ol>
+<p>Impact :
+</p>
+<ul>
+<li><strong>moyen a eleve</strong></li>
+</ul>
+<h3>4.5 Qualite technique</h3>
+<h4>C14. La dette technique reste elevee autour du configurateur et des formulaires</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li>le lint remonte <strong>220 problemes</strong></li>
+<li>dont <strong>197 erreurs</strong> et <strong>23 warnings</strong></li>
+<li>le gros du volume se concentre autour de composants deja sensibles</li>
+</ul>
+<p>Zones les plus exposees :
+</p>
+<ul>
+<li><code>ConfiguratorPage.tsx</code></li>
+<li><code>ConfigurationCaptureModalAdaptive.tsx</code></li>
+<li><code>FormulairePr&#195;&#169;Session.tsx</code></li>
+<li>composants de paiement, preview et services associes</li>
+</ul>
+<p>Consequences :
+</p>
+<ul>
+<li>corrections plus lentes</li>
+<li>risque de regression plus fort</li>
+<li>maintenance plus couteuse sur les parcours business</li>
+</ul>
+<p>Cause possible :
+</p>
+<ul>
+<li>composant monolithique</li>
+<li>usage de <code>any</code></li>
+<li>effets React fragiles</li>
+<li>accumulation de logique metier, visuelle et reseau au meme endroit</li>
+</ul>
+<p>Methode de resolution :
+</p>
+<ol>
+<li>decouper le configurateur en sous-modules</li>
+<li>traiter en premier les types et les zones a impact business</li>
+<li>ajouter quelques tests cibles avant les gros refactors</li>
+</ol>
+<p>Impact :
+</p>
+<ul>
+<li><strong>moyen a eleve</strong></li>
+</ul>
+<p>Guide dev debutant :
+</p>
+<p>Probleme explique simplement :
+</p>
+<ul>
+<li>les gros fichiers font beaucoup de choses en meme temps</li>
+<li>ils contiennent beaucoup de <code>any</code> et plusieurs warnings de logique React</li>
+<li>cela rend les bugs plus durs a corriger proprement</li>
+</ul>
+<p>Etapes conseillees pour corriger sans se perdre :
+</p>
+<ol>
+<li>ne pas essayer de tout nettoyer d&#39;un coup</li>
+<li>cibler d&#39;abord les composants lies aux parcours business</li>
+<li>traiter en premier :</li>
+</ol>
+<p>les types de donnees critiques
+<br>les <code>useEffect</code> fragiles
+<br>les erreurs liees aux soumissions et confirmations
+</p>
+<ol>
+<li>relancer le lint regulierement</li>
+<li>valider une petite amelioration stable avant de passer a la suivante</li>
+</ol>
+<h3>4.6 Securite et protection des donnees</h3>
+<h4>C15. Une commande peut probablement etre validee cote client sans verification serveur suffisante</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li>des composants front semblent pouvoir marquer une commande comme payee sans preuve serveur visible dans le parcours lu</li>
+</ul>
+<p>Consequences :
+</p>
+<ul>
+<li>risque critique de faux statut de paiement</li>
+<li>risque metier et financier</li>
+</ul>
+<p>Preuves :
+</p>
+<ul>
+<li><code>OrderValidation.tsx</code></li>
+<li>logique de mise a jour cote client relayee vers <code>supabase.ts</code></li>
+</ul>
+<p>Cause possible :
+</p>
+<ul>
+<li>logique de confiance trop placee dans le navigateur</li>
+</ul>
+<p>Methode de resolution :
+</p>
+<ol>
+<li>deplacer la validation paiement et marketplace dans un backend ou une Edge Function</li>
+<li>verifier le paiement cote serveur</li>
+<li>ne mettre a jour <code>payment_status</code> qu&#39;apres validation reelle</li>
+</ol>
+<p>Impact :
+</p>
+<ul>
+<li><strong>critique</strong></li>
+</ul>
+<p>Guide dev debutant :
+</p>
+<p>Probleme explique simplement :
+</p>
+<ul>
+<li>le navigateur de l&#39;utilisateur ne doit jamais etre l&#39;autorite finale sur le paiement</li>
+<li>s&#39;il peut lui-meme faire passer une commande a <code>paid</code>, c&#39;est un gros risque</li>
+</ul>
+<p>Etapes conseillees pour corriger :
+</p>
+<ol>
+<li>trouver le moment exact ou <code>payment_status</code> passe a <code>paid</code></li>
+<li>verifier si ce changement part directement du front</li>
+<li>creer ou utiliser un point serveur de verification</li>
+<li>faire la verification du paiement a cet endroit</li>
+<li>ne renvoyer au front qu&#39;un resultat deja verifie</li>
+</ol>
+<p>Piege a eviter :
+</p>
+<ul>
+<li>ajouter juste une verification cosmetique dans le front</li>
+</ul>
+<h4>C16. Des donnees client et identifiants de paiement transitent ou restent dans le navigateur</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li>le parcours utilise <code>localStorage</code></li>
+<li>certains identifiants remontent dans l&#39;URL ou dans l&#39;etat front</li>
+</ul>
+<p>Consequences :
+</p>
+<ul>
+<li>confidentialite plus fragile</li>
+<li>exposition inutile de donnees en cas de partage d&#39;URL, machine partagee ou capture d&#39;ecran</li>
+</ul>
+<p>Cause possible :
+</p>
+<ul>
+<li>parcours simplifie par persistance locale et reconstruction de l&#39;etat cote client</li>
+</ul>
+<p>Methode de resolution :
+</p>
+<ol>
+<li>retirer les donnees sensibles du <code>localStorage</code></li>
+<li>supprimer les identifiants de paiement de l&#39;URL quand ils ne sont pas indispensables</li>
+<li>basculer vers des identifiants serveur courts ou des etats de session ephemeres</li>
+</ol>
+<p>Impact :
+</p>
+<ul>
+<li><strong>moyen a eleve</strong></li>
+</ul>
+<p>Guide dev debutant :
+</p>
+<p>Probleme explique simplement :
+</p>
+<ul>
+<li>plus on laisse de donnees sensibles dans l&#39;URL ou le <code>localStorage</code>, plus on augmente le risque d&#39;exposition</li>
+</ul>
+<p>Etapes conseillees pour corriger :
+</p>
+<ol>
+<li>lister ce qui est stocke dans le navigateur</li>
+<li>supprimer ce qui n&#39;a pas besoin d&#39;y rester</li>
+<li>remplacer par un identifiant plus court ou une lecture serveur</li>
+<li>verifier ensuite les parcours de retour apres paiement</li>
+</ol>
+<h4>C17. Les assets client et certaines lectures de commande meritent une revue urgente des policies</h4>
+<p>Constat confirme ou probable selon l&#39;environnement :
+</p>
+<ul>
+<li>les images client semblent converties en URLs publiques</li>
+<li>la lecture de commande <code>/order/:id</code> pourrait etre trop permissive si certaines policies documentees ont ete appliquees telles quelles</li>
+</ul>
+<p>Consequences :
+</p>
+<ul>
+<li>risque de fuite de donnees client</li>
+<li>acces trop large a des informations de commande</li>
+</ul>
+<p>Preuves :
+</p>
+<ul>
+<li><code>supabase.ts</code></li>
+<li><code>AdminOrderDetail.tsx</code></li>
+<li><code>OrderConfirmationPage.tsx</code></li>
+<li>documentation Supabase du projet</li>
+</ul>
+<p>Cause possible :
+</p>
+<ul>
+<li>choix de simplicite pour faciliter l&#39;affichage admin ou la consultation de commande</li>
+</ul>
+<p>Methode de resolution :
+</p>
+<ol>
+<li>passer les buckets sensibles en prive</li>
+<li>utiliser des URLs signees courtes</li>
+<li>verifier toutes les policies <code>SELECT USING (true)</code> ou <code>FOR ALL USING (true)</code></li>
+</ol>
+<p>Impact :
+</p>
+<ul>
+<li><strong>eleve</strong></li>
+</ul>
+<p>Guide dev debutant :
+</p>
+<p>Probleme explique simplement :
+</p>
+<ul>
+<li>une policy trop ouverte peut laisser lire des donnees qu&#39;on ne voulait pas rendre publiques</li>
+</ul>
+<p>Etapes conseillees pour corriger :
+</p>
+<ol>
+<li>lister les tables et buckets sensibles</li>
+<li>ouvrir les fichiers SQL et les policies en place</li>
+<li>chercher les acces trop larges</li>
+<li>fermer ces acces</li>
+<li>retester lecture commande, images et sessions avec un compte non autorise</li>
+</ol>
+<h3>4.7 Coherence visuelle et qualite percue</h3>
+<h4>C18. La promesse visuelle premium n&#39;est pas tenue partout de facon homogene</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li>certaines pages suivent bien le socle bleu nuit / or</li>
+<li>d&#39;autres ecrans glissent vers des gradients violets, des effets visuels et des composants qui sortent du systeme principal</li>
+</ul>
+<p>Consequences :
+</p>
+<ul>
+<li>produit percu comme moins maitrise</li>
+<li>credibilite premium affaiblie</li>
+</ul>
+<p>Preuves :
+</p>
+<ul>
+<li><code>tokens.css</code></li>
+<li><code>AdminLogin.module.css</code></li>
+<li><code>ShareSessionModal.module.css</code></li>
+<li><code>ConfiguratorPage.module.css</code></li>
+</ul>
+<p>Cause possible :
+</p>
+<ul>
+<li>plusieurs couches UI ajoutees a des moments differents avec leurs propres codes visuels</li>
+</ul>
+<p>Methode de resolution :
+</p>
+<ol>
+<li>figer une palette prioritaire</li>
+<li>remplacer les couleurs hors systeme par des variables communes</li>
+<li>verifier les composants sensibles sur admin, modales et configurateur</li>
+</ol>
+<p>Impact :
+</p>
+<ul>
+<li><strong>moyen</strong></li>
+</ul>
+<h4>C19. Le systeme de design existe mais il est partiellement contourne</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li>les tokens et variables existent</li>
+<li>mais plusieurs pages utilisent encore des conventions, alias ou familles typo qui ne semblent pas totalement alignes</li>
+</ul>
+<p>Consequences :
+</p>
+<ul>
+<li>impression de produit inacheve</li>
+<li>maintenance visuelle plus difficile</li>
+</ul>
+<p>Preuves :
+</p>
+<ul>
+<li>ecarts de variables entre <code>Home.tsx</code> et <code>tokens.css</code></li>
+<li>declaration de plusieurs familles de polices avec import ou usage incomplet</li>
+</ul>
+<p>Cause possible :
+</p>
+<ul>
+<li>coexistence d&#39;anciens noms et d&#39;un nouveau systeme de design</li>
+</ul>
+<p>Methode de resolution :
+</p>
+<ol>
+<li>garder un seul vocabulaire de tokens</li>
+<li>limiter l&#39;interface a un petit nombre de familles typographiques reelles</li>
+<li>supprimer progressivement les alias et styles locaux incoherents</li>
+</ol>
+<p>Impact :
+</p>
+<ul>
+<li><strong>moyen</strong></li>
+</ul>
+<h2>5. Hypotheses probables</h2>
+<h3>H1. Le configurateur porte trop de responsabilites dans un seul ecran</h3>
+<p>Probable, car :
+</p>
+<ul>
+<li>le fichier <code>ConfiguratorPage.tsx</code> fait environ <strong>6729 lignes</strong></li>
+<li>il melange logique metier, preview, sessions, personnalisation, donnees et parcours de commande</li>
+</ul>
+<p>Effets probables :
+</p>
+<ul>
+<li>bugs difficiles a isoler</li>
+<li>corrections qui se marchent dessus</li>
+<li>lenteurs plus difficiles a reduire durablement</li>
+</ul>
+<p>Methode de resolution probable :
+</p>
+<ul>
+<li>decoupage par etape ou domaine fonctionnel</li>
+<li>activation du temps reel et des appels externes seulement quand utile</li>
+</ul>
+<h3>H2. La strategie de chargement globale penalise toute la vitrine</h3>
+<p>Probable, car :
+</p>
+<ul>
+<li><code>App.tsx</code> importe toutes les grosses pages des le depart</li>
+<li>le bundle final reste trop gros pour un site vitrine</li>
+</ul>
+<p>Effets probables :
+</p>
+<ul>
+<li>pages simples penalisees par la complexite du configurateur et de l&#39;admin</li>
+</ul>
+<p>Methode de resolution probable :
+</p>
+<ul>
+<li>chargement differe par route</li>
+<li>feuilles de styles plus locales</li>
+</ul>
+<h3>H3. Plusieurs parcours critiques ont ete penses d&#39;abord cote front</h3>
+<p>Probable, car :
+</p>
+<ul>
+<li>confirmation basee sur URL + <code>localStorage</code></li>
+<li>contact tres dependant de Crisp</li>
+<li>plusieurs parcours semblent reconstruire l&#39;etat dans l&#39;interface</li>
+<li>certaines validations et lectures sensibles semblent encore trop proches du navigateur</li>
+</ul>
+<p>Effets probables :
+</p>
+<ul>
+<li>confiance fragile</li>
+<li>faux positifs</li>
+<li>pertes silencieuses de donnees</li>
+</ul>
+<h3>H4. L&#39;experience a grandi par ajouts successifs plus que par harmonisation globale</h3>
+<p>Probable, car :
+</p>
+<ul>
+<li>plusieurs parcours gardent des conventions de donnees, de styles et de messages differentes</li>
+<li>les retours design, accessibilite, SEO et qualite convergent vers une meme idee : le socle existe, mais il n&#39;est pas encore applique partout de facon stable</li>
+</ul>
+<p>Effets probables :
+</p>
+<ul>
+<li>experience moins rassurante qu&#39;attendu</li>
+<li>ecarts plus visibles sur les zones secondaires ou recentes</li>
+</ul>
+<p>Methode de resolution probable :
+</p>
+<ul>
+<li>harmoniser apres priorisation plutot que corriger ecran par ecran au hasard</li>
+</ul>
+<p>Methode de resolution probable :
+</p>
+<ul>
+<li>reintroduire des points de verification serveur ou de persistence fiable</li>
+</ul>
+<h2>6. Points a verifier avec de vraies donnees</h2>
+<ul>
+<li>dashboard admin apres authentification reelle</li>
+<li>page <code>/order/:id</code> avec une vraie commande</li>
+<li>confirmation de paiement de bout en bout</li>
+<li>formulaire pre-session avec ecriture reelle en base</li>
+<li>session collaborative <code>/configurator/session/:sessionId</code></li>
+<li>comportement exact des policies et droits Supabase</li>
+</ul>
+<h2>7. Plan de correction coherent</h2>
+<h3>Lot 1. Securiser les parcours metier</h3>
+<p>Objectif :
+<br>fiabiliser ce qui touche a la confiance et a la conversion.
+</p>
+<p>Actions :
+</p>
+<ol>
+<li>corriger le mapping email du pre-session landing-solo</li>
+<li>verifier la commande cote serveur avant d&#39;afficher une confirmation pleine</li>
+<li>connecter le formulaire contact a une persistence fiable</li>
+<li>garder Crisp en soutien, pas en dependance unique</li>
+</ol>
+<h3>Lot 2. Alleger l&#39;application</h3>
+<p>Objectif :
+<br>ameliorer les performances sans casser la coherence produit.
+</p>
+<p>Actions :
+</p>
+<ol>
+<li>charger les grosses pages a la demande</li>
+<li>isoler <code>configurator</code>, <code>admin</code>, <code>templates</code> et <code>order</code> en chunks separes</li>
+<li>reduire les styles globaux non indispensables</li>
+<li>optimiser les medias hero et differer les visuels secondaires</li>
+</ol>
+<h3>Lot 3. Relever le niveau SEO</h3>
+<p>Objectif :
+<br>donner a chaque page un role clair pour Google et pour l&#39;utilisateur.
+</p>
+<p>Actions :
+</p>
+<ol>
+<li>ajouter un titre par page</li>
+<li>ajouter une meta description par page</li>
+<li>definir un socle commun : title, description, canonical, partage social</li>
+<li>prioriser accueil, solutions, templates et contact</li>
+</ol>
+<h3>Lot 4. Corriger l&#39;accessibilite visible</h3>
+<p>Objectif :
+<br>uniformiser la lisibilite et la navigation.
+</p>
+<p>Actions :
+</p>
+<ol>
+<li>corriger les contrastes faibles</li>
+<li>verifier les etats focus et la lisibilite des textes secondaires</li>
+<li>reprendre les formulaires critiques avec une grille simple de verification</li>
+</ol>
+<h3>Lot 5. Reduire la dette technique</h3>
+<p>Objectif :
+<br>rendre les prochaines corrections plus simples et plus sures.
+</p>
+<p>Actions :
+</p>
+<ol>
+<li>decouper le configurateur</li>
+<li>supprimer progressivement les <code>any</code> sur les zones critiques</li>
+<li>stabiliser les <code>useEffect</code> fragiles</li>
+<li>ajouter quelques tests cibles sur pre-session, confirmation et contact</li>
+</ol>
+<h2>8. Priorisation finale</h2>
+<h3>A faire tout de suite</h3>
+<ul>
+<li>corriger le bug email du formulaire pre-session</li>
+<li>fiabiliser la page de confirmation</li>
+<li>securiser le formulaire contact</li>
+</ul>
+<h3>A faire juste apres</h3>
+<ul>
+<li>chargement differe par route</li>
+<li>titres et meta descriptions par page</li>
+<li>correction des contrastes</li>
+</ul>
+<h3>A faire ensuite</h3>
+<ul>
+<li>refactor du configurateur</li>
+<li>reduction progressive de la dette lint/type</li>
+<li>tests reels avec donnees valides</li>
+</ul>
+<h2>9. Conclusion simple</h2>
+<p>Le site a deja une base credibile et presentable.
+</p>
+<p>Le vrai sujet n&#39;est pas de tout refaire.
+</p>
+<p>Le sujet est de <strong>fiabiliser ce qui compte</strong>, puis de <strong>retirer le poids inutile</strong> qui freine le reste.
+</p>
+<p>La strategie la plus coherente reste :
+</p>
+<ol>
+<li><strong>securiser la conversion</strong></li>
+<li><strong>alleger le chargement</strong></li>
+<li><strong>poser un vrai socle SEO</strong></li>
+<li><strong>stabiliser le configurateur</strong></li>
+</ol>
+<p>Avec ces 4 axes, on ameliore en meme temps :
+</p>
+<ul>
+<li>la confiance utilisateur</li>
+<li>la vitesse percue</li>
+<li>la visibilite SEO</li>
+<li>la capacite a faire evoluer l&#39;outil sans casse</li>
+</ul>
+<h2>10. Preuves principales</h2>
+<ul>
+<li>rapport de reference : <code>reports/consolidated/2026-04-06-audit-complet-site.md</code></li>
+<li>rapports Lighthouse de production dans <code>reports/evidence/</code></li>
+<li>build production locale validee</li>
+<li>lint local execute</li>
+<li>lecture ciblee du code sur les parcours critiques</li>
+<li>consolidation des retours des agents specialises</li>
+</ul>
+</body></html>

@@ -29,6 +29,9 @@ Les profils disponibles dans `.codex/agents/` couvrent les besoins frequents :
 - test de parcours utilisateur
 - verification qualite
 - investigation performance
+- audit accessibilite
+- revue SEO
+- revue securite
 - synthese documentaire
 - coordination generale
 

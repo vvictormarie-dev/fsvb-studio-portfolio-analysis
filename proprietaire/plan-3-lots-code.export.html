@@ -1,0 +1,180 @@
+﻿<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<title>Plan 3 lots code source</title>
+<style>
+body{font-family:Segoe UI,Arial,sans-serif;color:#1f2937;max-width:900px;margin:40px auto;padding:0 24px;line-height:1.6;}
+h1,h2,h3,h4{color:#111827;line-height:1.25;margin-top:1.4em;}
+h1{font-size:28px;border-bottom:2px solid #e5e7eb;padding-bottom:10px;}
+h2{font-size:22px;border-bottom:1px solid #e5e7eb;padding-bottom:6px;}
+h3{font-size:18px;} h4{font-size:16px;}
+p{margin:0.6em 0;} ul,ol{margin:0.4em 0 0.8em 1.4em;} li{margin:0.2em 0;}
+code{font-family:Consolas,monospace;background:#f3f4f6;padding:0.1em 0.35em;border-radius:4px;font-size:0.92em;}
+strong{color:#111827;}
+.meta{color:#4b5563;}
+</style></head><body>
+<h1>Plan 3 lots code source</h1>
+<h2>Lot 1 - Fiabilite immediate</h2>
+<h3>Objectif</h3>
+<p>Securiser ce qui engage directement la confiance du client.
+</p>
+<h3>A traiter</h3>
+<ul>
+<li>corriger l&#39;incoherence email du pre-session</li>
+<li>rendre le contact fiable meme sans Crisp</li>
+<li>fiabiliser la confirmation de commande</li>
+<li>sortir la validation finale du paiement du navigateur</li>
+<li>fermer les policies SQL les plus ouvertes</li>
+</ul>
+<h3>Pourquoi ce lot passe en premier</h3>
+<p>Parce qu&#39;il touche directement :
+</p>
+<ul>
+<li>la prise de contact</li>
+<li>la confiance apres commande</li>
+<li>la validite du paiement</li>
+<li>la confidentialite minimale attendue</li>
+</ul>
+<h3>Methode de resolution pas a pas</h3>
+<ol>
+<li>figer les flux critiques a traiter et les fichiers cibles</li>
+<li>remettre une seule source de verite sur chaque flux</li>
+<li>faire verifier les statuts sensibles hors navigateur</li>
+<li>refermer les acces SQL trop larges</li>
+<li>rejouer les cas nominaux et les cas d&#39;erreur</li>
+</ol>
+<h3>Bonnes pratiques visees dans ce lot</h3>
+<ul>
+<li>source de confiance cote serveur</li>
+<li>droits limites au strict besoin</li>
+<li>messages de succes seulement apres verification reelle</li>
+<li>reduction des dependances a un script tiers pour un besoin metier critique</li>
+</ul>
+<h3>Resultat attendu</h3>
+<ul>
+<li>moins de risque de perte de lead</li>
+<li>moins de faux succes</li>
+<li>moins de risque de statut paiement invalide</li>
+<li>base plus rassurante pour continuer</li>
+</ul>
+<h2>Lot 2 - Stabilisation du socle</h2>
+<h3>Objectif</h3>
+<p>Redonner de la marge a l&#39;equipe pour corriger sans casser.
+</p>
+<h3>A traiter</h3>
+<ul>
+<li>renforcer l&#39;acces admin avec un vrai controle de role</li>
+<li>assainir configuration, valeurs en dur et identifiants tiers</li>
+<li>reduire les logs sensibles cote navigateur</li>
+<li>reduire les <code>any</code> et warnings critiques</li>
+<li>reprendre les types partages</li>
+<li>ajouter les premiers tests automatises</li>
+<li>reduire les donnees sensibles laissees dans le navigateur</li>
+</ul>
+<h3>Pourquoi ce lot vient ensuite</h3>
+<p>Une fois la confiance minimale retablie, il faut rendre le terrain technique plus sain.
+</p>
+<p>Sinon :
+</p>
+<ul>
+<li>chaque correction restera risquee</li>
+<li>le configurateur continuera a freiner tout le monde</li>
+<li>la dette technique mangera les prochains lots</li>
+</ul>
+<h3>Methode de resolution pas a pas</h3>
+<ol>
+<li>traiter d&#39;abord les types utilises partout</li>
+<li>nettoyer configuration, valeurs en dur et logs sensibles</li>
+<li>corriger les alertes lint des parcours business</li>
+<li>installer un petit socle de tests utile tout de suite</li>
+<li>clarifier le role admin et les controles associes</li>
+<li>supprimer ce qui reste inutilement stocke cote navigateur</li>
+</ol>
+<h3>Bonnes pratiques visees dans ce lot</h3>
+<ul>
+<li>contrats de donnees plus stricts</li>
+<li>gestion d&#39;etat plus previsible</li>
+<li>prevention des regressions</li>
+<li>meilleur cloisonnement entre acces utilisateur et acces admin</li>
+<li>configuration plus lisible</li>
+<li>moins d&#39;exposition inutile dans le navigateur</li>
+</ul>
+<h3>Resultat attendu</h3>
+<ul>
+<li>code plus lisible</li>
+<li>risque de regression plus faible</li>
+<li>meilleure capacite a livrer vite ensuite</li>
+</ul>
+<h2>Lot 3 - Montee en qualite</h2>
+<h3>Objectif</h3>
+<p>Ameliorer la qualite percue, la vitesse et la visibilite du site.
+</p>
+<h3>A traiter</h3>
+<ul>
+<li>chargement differe des grosses routes</li>
+<li>police et medias plus legers</li>
+<li>SEO par page</li>
+<li>accessibilite visible</li>
+<li>harmonisation design system</li>
+<li>reprise du socle front</li>
+<li>reprise de la coherence visuelle et de l&#39;integration</li>
+<li>cadrage de gouvernance du front</li>
+</ul>
+<h3>Pourquoi ce lot vient en troisieme</h3>
+<p>Parce qu&#39;il sera bien plus rentable une fois les flux critiques et la dette la plus risquee deja traites.
+</p>
+<h3>Methode de resolution pas a pas</h3>
+<ol>
+<li>decouper le chargement des routes lourdes</li>
+<li>supprimer les couts reseau evitables</li>
+<li>figer les tokens et retirer les overrides inutiles</li>
+<li>reprendre les alignements, centrages et ecarts visuels</li>
+<li>poser les metadonnees page par page</li>
+<li>corriger les points d&#39;accessibilite les plus visibles</li>
+<li>harmoniser les styles et les tokens</li>
+</ol>
+<h3>Bonnes pratiques visees dans ce lot</h3>
+<ul>
+<li>performance par defaut</li>
+<li>semantique et accessibilite coherentes</li>
+<li>SEO technique de base</li>
+<li>coherence du systeme de design</li>
+<li>source de verite unique pour le front</li>
+<li>meilleure gouvernance des composants et styles</li>
+</ul>
+<h3>Resultat attendu</h3>
+<ul>
+<li>site plus rapide</li>
+<li>base SEO plus propre</li>
+<li>experience plus homogene</li>
+<li>sensation de produit plus abouti</li>
+</ul>
+<h2>Lecture tech lead du plan</h2>
+<h3>Ce plan respecte une logique saine</h3>
+<ul>
+<li>d&#39;abord la confiance</li>
+<li>ensuite la stabilite</li>
+<li>enfin la montee en qualite</li>
+</ul>
+<h3>Ce que ce plan ajoute desormais</h3>
+<ul>
+<li>la qualite du code ne se limite plus aux bugs fonctionnels</li>
+<li>la configuration, les valeurs en dur, les logs sensibles et la coherence front entrent maintenant dans le pilotage</li>
+</ul>
+<h3>Ce qu&#39;il faut eviter</h3>
+<ul>
+<li>lancer un gros refactor avant d&#39;avoir ferme les risques paiement et securite</li>
+<li>viser le zero dette partout avant d&#39;avoir protege les flux critiques</li>
+<li>traiter la performance visuelle avant la fiabilite metier</li>
+</ul>
+<h2>Ordre conseille</h2>
+<ol>
+<li>lot 1 sans attendre</li>
+<li>lot 2 juste apres pour stabiliser</li>
+<li>lot 3 ensuite pour faire monter le niveau global</li>
+</ol>
+<h2>Idee simple a garder</h2>
+<p>Le projet n&#39;a pas besoin d&#39;une refonte.
+</p>
+<p>Il a surtout besoin de faire les bonnes corrections dans le bon ordre, avec plus de rigueur sur les bonnes pratiques de developpement.
+</p>
+</body></html>

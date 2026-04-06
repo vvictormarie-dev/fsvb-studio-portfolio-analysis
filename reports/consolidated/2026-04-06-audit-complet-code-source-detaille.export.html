@@ -1,0 +1,959 @@
+﻿<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<title>Audit complet detaille du code source FSVB Studio</title>
+<style>
+body{font-family:Segoe UI,Arial,sans-serif;color:#1f2937;max-width:900px;margin:40px auto;padding:0 24px;line-height:1.6;}
+h1,h2,h3,h4{color:#111827;line-height:1.25;margin-top:1.4em;}
+h1{font-size:28px;border-bottom:2px solid #e5e7eb;padding-bottom:10px;}
+h2{font-size:22px;border-bottom:1px solid #e5e7eb;padding-bottom:6px;}
+h3{font-size:18px;} h4{font-size:16px;}
+p{margin:0.6em 0;} ul,ol{margin:0.4em 0 0.8em 1.4em;} li{margin:0.2em 0;}
+code{font-family:Consolas,monospace;background:#f3f4f6;padding:0.1em 0.35em;border-radius:4px;font-size:0.92em;}
+strong{color:#111827;}
+.meta{color:#4b5563;}
+</style></head><body>
+<h1>Audit complet detaille du code source FSVB Studio</h1>
+<ul>
+<li>Date : 2026-04-06</li>
+<li>Application audittee : <code>fsvb-studio-portfolio/portfolio-app</code></li>
+<li>Nature du livrable : audit complet du code source</li>
+<li>Methode : lecture du code, lecture des scripts SQL, lint local, recoupement avec les preuves Lighthouse existantes, regard tech lead senior sur les bonnes pratiques</li>
+</ul>
+<h2>1. Resume decisionnel</h2>
+<h3>Verdict global</h3>
+<p>Le projet a une vraie base produit.
+</p>
+<p>Il ne demande pas une refonte totale.
+</p>
+<p>En revanche, il demande maintenant une reprise plus rigoureuse sur les bonnes pratiques de developpement, car la logique metier critique a grandi plus vite que le cadre technique.
+</p>
+<h3>Ce qui est confirme</h3>
+<ul>
+<li>la base React + TypeScript + Vite est en place</li>
+<li>le produit couvre deja vitrine, configurateur, pre-session, commande, confirmation et admin</li>
+<li>les risques les plus forts sont concentres sur peu de zones</li>
+<li>les flux critiques melangent encore trop le navigateur, la logique metier et la source de verite</li>
+<li>la maintenabilite commence a baisser fortement sur les gros fichiers</li>
+</ul>
+<h3>Lecture simple</h3>
+<p>En langage direct :
+</p>
+<ol>
+<li>le produit existe vraiment</li>
+<li>la dette n&#39;est pas partout</li>
+<li>les plus gros risques sont localises</li>
+<li>il faut maintenant remettre de l&#39;ordre technique avant d&#39;ajouter beaucoup de nouvelles fonctions</li>
+</ol>
+<h2>2. Perimetre audite</h2>
+<h3>Code source principal</h3>
+<ul>
+<li><code>src/App.tsx</code></li>
+<li>pages publiques : accueil, solutions, about, contact</li>
+<li>parcours business : configurateur, pre-session, commande, confirmation</li>
+<li>espace admin : login, dashboard, detail commande</li>
+<li>templates publics : landing-solo, restaurant, coach</li>
+<li>socle transverse : <code>supabase.ts</code>, services, styles globaux, footer, boutons, modales</li>
+</ul>
+<h3>Preuves complementaires utilisees</h3>
+<ul>
+<li><code>npm run lint</code></li>
+<li>rapports Lighthouse presents dans <code>reports/evidence/</code></li>
+<li><code>package.json</code>, <code>tsconfig.app.json</code>, <code>eslint.config.js</code></li>
+<li>scripts SQL du dossier <code>sql/</code></li>
+<li>contenu du dossier <code>public/</code></li>
+</ul>
+<h2>3. Indicateurs confirmes</h2>
+<h3>Volume et dette</h3>
+<ul>
+<li><code>ConfiguratorPage.tsx</code> : <strong>6963 lignes</strong></li>
+<li><code>FormulairePr&#233;Session.tsx</code> : <strong>2139 lignes</strong></li>
+<li><code>LandingSolo.tsx</code> : <strong>1033 lignes</strong></li>
+<li>lint local : <strong>220 problemes</strong></li>
+<li>dont <strong>197 erreurs</strong> et <strong>23 warnings</strong></li>
+<li>tests automatises visibles : <strong>aucun script de test dans <code>package.json</code></strong></li>
+<li>fichiers de test releves dans le projet : <strong>aucun</strong></li>
+</ul>
+<h3>Structure applicative</h3>
+<ul>
+<li><code>App.tsx</code> importe les grosses pages en statique</li>
+<li>aucun <code>React.lazy</code> releve dans <code>src</code></li>
+<li>le widget Crisp est monte globalement depuis <code>App.tsx</code></li>
+<li><code>index.html</code> expose un seul titre global</li>
+<li><code>public/</code> ne contient ni <code>robots.txt</code> ni <code>sitemap.xml</code></li>
+</ul>
+<h3>Socle outillage</h3>
+<ul>
+<li>TypeScript est en <code>strict: true</code></li>
+<li>ESLint React + TypeScript est en place</li>
+<li>Vite et build info sont en place</li>
+<li>aucun script <code>test</code>, <code>typecheck</code> dedie, <code>format</code> ou <code>ci</code> n&#39;est visible</li>
+</ul>
+<h2>4. Ce qui est deja sain</h2>
+<p>Ces points ne suffisent pas a compenser les risques, mais ils montrent que le projet a de bonnes bases.
+</p>
+<ul>
+<li>le socle moderne React 19 + TypeScript + Vite est present</li>
+<li>le projet utilise deja un linter et un compilateur strict</li>
+<li>une vraie separation existe entre pages, composants, services, config, types et templates</li>
+<li>les scripts SQL sont versionnes dans le depot</li>
+<li>un design system commence a exister avec <code>tokens.css</code></li>
+<li>l&#39;application couvre deja des cas metier concrets, pas seulement une maquette</li>
+</ul>
+<h2>5. Constats confirmes sur les parcours critiques</h2>
+<h3>5.1 Conversion et confiance</h3>
+<h4>C1. Le formulaire pre-session landing-solo contient une incoherence email reelle</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li>le haut du formulaire lit <code>responses.email</code></li>
+<li>la validation landing-solo attend <code>responses.clientEmail</code></li>
+<li>la zone de questions landing-solo utilise ensuite <code>responses.clientEmail</code></li>
+<li>le bouton de soumission regarde encore <code>responses.email</code></li>
+<li>la sauvegarde finale bascule vers <code>clientEmail</code></li>
+</ul>
+<p>Consequences metier :
+</p>
+<ul>
+<li>un prospect peut remplir un champ visible sans que toute la chaine lise la meme valeur</li>
+<li>la validation, le bouton et la persistence ne sont pas alignes</li>
+</ul>
+<p>Impact :
+</p>
+<ul>
+<li><strong>eleve</strong></li>
+</ul>
+<h4>C2. Le formulaire contact n&#39;a pas de canal fiable principal</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li><code>ContactPage.tsx</code> envoie vers Crisp cote navigateur</li>
+<li>si Crisp n&#39;est pas charge, le fallback est surtout un <code>console.log</code></li>
+<li>le message de succes est pilote par la presence de Crisp et un <code>setTimeout</code></li>
+</ul>
+<p>Consequences metier :
+</p>
+<ul>
+<li>un message client peut etre perdu</li>
+<li>l&#39;utilisateur peut croire que le message est parti alors que rien de fiable n&#39;est stocke</li>
+</ul>
+<p>Impact :
+</p>
+<ul>
+<li><strong>eleve</strong></li>
+</ul>
+<h4>C3. La page de confirmation affiche un succes sans relecture fiable cote serveur</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li><code>ConfirmationPage.tsx</code> lit <code>paymentId</code>, <code>orderNumber</code> et <code>source</code> depuis l&#39;URL</li>
+<li>elle reconstruit ensuite l&#39;etat via <code>localStorage</code></li>
+<li>elle affiche des messages tres rassurants avant verification fraiche de la commande</li>
+</ul>
+<p>Consequences metier :
+</p>
+<ul>
+<li>un succes peut etre affiche trop tot</li>
+<li>la preuve de confirmation repose trop sur le navigateur</li>
+</ul>
+<p>Impact :
+</p>
+<ul>
+<li><strong>eleve</strong></li>
+</ul>
+<h4>C4. La validation de paiement reste trop decidee par le front</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li><code>OrderValidation.tsx</code> appelle <code>updateOrderStatus</code></li>
+<li>ce composant peut mettre <code>payment_status = paid</code> depuis le navigateur</li>
+<li><code>supabase.ts</code> expose directement l&#39;update de la table <code>orders</code></li>
+</ul>
+<p>Consequences metier :
+</p>
+<ul>
+<li>le client ne doit pas pouvoir etre la source finale de validation du paiement</li>
+<li>la logique de confiance est du mauvais cote</li>
+</ul>
+<p>Impact :
+</p>
+<ul>
+<li><strong>critique</strong></li>
+</ul>
+<h3>5.2 Securite et donnees</h3>
+<h4>C5. Plusieurs scripts SQL documentent des politiques trop ouvertes</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li><code>create_pre_session_forms.sql</code> ouvre la lecture publique avec <code>USING (true)</code></li>
+<li><code>create_live_sessions.sql</code> ouvre toutes les operations avec <code>FOR ALL USING (true)</code></li>
+<li>la variante <code>pre_session_forms_migration.sql</code> donne les droits a tout utilisateur authentifie sans role admin plus fin</li>
+</ul>
+<p>Consequences metier :
+</p>
+<ul>
+<li>lecture ou modification trop large possible selon le contexte reel de deploiement</li>
+<li>forte dependance a des regles non visibles en dehors du depot</li>
+</ul>
+<p>Impact :
+</p>
+<ul>
+<li><strong>critique</strong></li>
+</ul>
+<h4>C6. Des donnees utiles mais sensibles restent exposees dans le navigateur</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li><code>ConfirmationPage.tsx</code> lit <code>pendingOrder</code> dans <code>localStorage</code></li>
+<li>certains identifiants remontent dans l&#39;URL</li>
+<li><code>supabase.ts</code> diffuse des <code>publicUrl</code> pour les images du bucket</li>
+</ul>
+<p>Consequences metier :
+</p>
+<ul>
+<li>la surface d&#39;exposition est plus large que necessaire</li>
+<li>la confidentialite minimale des donnees client est fragilisee</li>
+</ul>
+<p>Impact :
+</p>
+<ul>
+<li><strong>eleve</strong></li>
+</ul>
+<h3>5.3 Maintenabilite et capacite d&#39;evolution</h3>
+<h4>C7. La dette type et lint est lourde sur les zones business</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li>220 problemes lint</li>
+<li>tres nombreux <code>any</code></li>
+<li>plusieurs <code>useEffect</code> avec dependances fragiles</li>
+<li>variables inutilisees</li>
+<li>interfaces trop larges ou trop floues dans <code>orders.ts</code> et <code>preSession.ts</code></li>
+</ul>
+<p>Impact :
+</p>
+<ul>
+<li><strong>eleve</strong></li>
+</ul>
+<h4>C8. Les gros ecrans concentrent trop de responsabilites</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li><code>ConfiguratorPage.tsx</code> fait 6963 lignes</li>
+<li><code>FormulairePr&#233;Session.tsx</code> fait 2139 lignes</li>
+<li>ces fichiers melangent rendu, validation, logique metier, persistence, navigation et etat local</li>
+</ul>
+<p>Impact :
+</p>
+<ul>
+<li><strong>eleve</strong></li>
+</ul>
+<h4>C9. Il n&#39;y a pas de filet de securite automatise visible</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li>pas de script de test</li>
+<li>pas de tests unitaires ni parcours critiques releves</li>
+</ul>
+<p>Impact :
+</p>
+<ul>
+<li><strong>moyen a eleve</strong></li>
+</ul>
+<h3>5.4 Performance et structure</h3>
+<h4>C10. Le chargement initial est trop large</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li><code>App.tsx</code> importe en statique home, solutions, contact, configurateur, admin, confirmation et templates</li>
+<li>aucun chargement differe par route n&#39;a ete releve</li>
+<li>Crisp est injecte globalement</li>
+</ul>
+<p>Impact :
+</p>
+<ul>
+<li><strong>eleve</strong></li>
+</ul>
+<h4>C11. Les polices et certains assets sont charges de maniere peu rigoureuse</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li>Montserrat est chargee dans <code>index.html</code></li>
+<li>Montserrat est rechargee dans <code>tokens.css</code></li>
+<li>le systeme de tokens declare plusieurs variables en doublon ou redefinies</li>
+</ul>
+<p>Impact :
+</p>
+<ul>
+<li><strong>moyen a eleve</strong></li>
+</ul>
+<h3>5.5 Qualite UI, accessibilite et SEO</h3>
+<h4>C12. La navigation interne ne suit pas toujours les conventions SPA</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li><code>Button.tsx</code> renvoie un <code>&lt;a href&gt;</code> pour la navigation interne</li>
+<li>cela contourne la navigation applicative de React Router</li>
+</ul>
+<p>Impact :
+</p>
+<ul>
+<li><strong>moyen</strong></li>
+</ul>
+<h4>C13. L&#39;accessibilite est presente par endroits mais reste inegale</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li>la page contact utilise surtout des placeholders sans labels visibles</li>
+<li>plusieurs modales et cartes ont deja ete signalees dans les audits existants</li>
+<li>la base est partielle mais pas harmonisee</li>
+</ul>
+<p>Impact :
+</p>
+<ul>
+<li><strong>moyen a eleve</strong></li>
+</ul>
+<h4>C14. Le socle SEO reste minimal</h4>
+<p>Constat confirme :
+</p>
+<ul>
+<li>un seul <code>title</code> global dans <code>index.html</code></li>
+<li>pas de meta description par page</li>
+<li>pas de <code>robots.txt</code></li>
+<li>pas de <code>sitemap.xml</code></li>
+</ul>
+<p>Impact :
+</p>
+<ul>
+<li><strong>moyen</strong></li>
+</ul>
+<h2>6. Audit du respect des bonnes pratiques de developpement</h2>
+<p>Lecture &quot;tech lead&quot; : le projet respecte les bonnes pratiques de base d&#39;un projet web moderne, mais il s&#39;eloigne nettement des bonnes pratiques de robustesse sur les flux business.
+</p>
+<h3>6.1 Architecture et separation des responsabilites</h3>
+<p>Etat :
+</p>
+<ul>
+<li><strong>partiellement respecte</strong></li>
+</ul>
+<p>Points sains :
+</p>
+<ul>
+<li>dossiers <code>pages</code>, <code>components</code>, <code>services</code>, <code>config</code>, <code>types</code>, <code>templates</code></li>
+</ul>
+<p>Ecarts confirmes :
+</p>
+<ul>
+<li>composants trop grands</li>
+<li>logique metier, rendu et acces donnees parfois melanges dans le meme fichier</li>
+<li><code>supabase.ts</code> cumule configuration, acces CRUD, debug et upload</li>
+</ul>
+<p>Lecture tech lead :
+</p>
+<ul>
+<li>la structure generale est bonne</li>
+<li>la discipline de decoupage ne suit plus sur les zones critiques</li>
+</ul>
+<h3>6.2 Typage et contrat de donnees</h3>
+<p>Etat :
+</p>
+<ul>
+<li><strong>insuffisant sur les parcours critiques</strong></li>
+</ul>
+<p>Points sains :
+</p>
+<ul>
+<li>TypeScript strict est active</li>
+<li>des interfaces de base existent</li>
+</ul>
+<p>Ecarts confirmes :
+</p>
+<ul>
+<li><code>any</code> nombreux dans les types et composants</li>
+<li><code>responses: Record&lt;string, any&gt;</code> affaiblit la qualite du pre-session</li>
+<li><code>OrderRecord</code> transporte plusieurs blobs JSON non types</li>
+</ul>
+<p>Lecture tech lead :
+</p>
+<ul>
+<li>le projet a active le bon outil mais ne l&#39;exploite pas encore jusqu&#39;au bout</li>
+</ul>
+<h3>6.3 Tests et prevention des regressions</h3>
+<p>Etat :
+</p>
+<ul>
+<li><strong>non respecte a un niveau suffisant</strong></li>
+</ul>
+<p>Ecarts confirmes :
+</p>
+<ul>
+<li>aucun script de test</li>
+<li>aucun test visible sur les flux critiques</li>
+</ul>
+<p>Lecture tech lead :
+</p>
+<ul>
+<li>sans filet automatise, chaque correction business reste risquee</li>
+</ul>
+<h3>6.4 Securite applicative</h3>
+<p>Etat :
+</p>
+<ul>
+<li><strong>insuffisant sur la source de confiance</strong></li>
+</ul>
+<p>Points sains :
+</p>
+<ul>
+<li>Supabase et RLS sont utilises comme intention de socle</li>
+</ul>
+<p>Ecarts confirmes :
+</p>
+<ul>
+<li>paiement valide depuis le front</li>
+<li>policies SQL trop ouvertes dans plusieurs scripts</li>
+<li>acces admin base sur session visible plutot que role metier confirme</li>
+<li>donnees transitoires utiles stockees cote navigateur</li>
+</ul>
+<p>Lecture tech lead :
+</p>
+<ul>
+<li>la securite est pensee, mais pas encore fermee</li>
+</ul>
+<h3>6.5 Gestion d&#39;etat et effets de bord</h3>
+<p>Etat :
+</p>
+<ul>
+<li><strong>fragile</strong></li>
+</ul>
+<p>Ecarts confirmes :
+</p>
+<ul>
+<li>plusieurs warnings <code>useEffect</code></li>
+<li>dependances manquantes</li>
+<li>reconstruction d&#39;etat depuis <code>URL + localStorage + state</code></li>
+</ul>
+<p>Lecture tech lead :
+</p>
+<ul>
+<li>cela cree des comportements difficiles a prevoir, tester et maintenir</li>
+</ul>
+<h3>6.6 Performance et chargement</h3>
+<p>Etat :
+</p>
+<ul>
+<li><strong>moyen</strong></li>
+</ul>
+<p>Points sains :
+</p>
+<ul>
+<li>socle Vite moderne</li>
+<li>audits Lighthouse deja disponibles</li>
+</ul>
+<p>Ecarts confirmes :
+</p>
+<ul>
+<li>pas de code splitting par route</li>
+<li>widget tiers charge partout</li>
+<li>police chargee deux fois</li>
+</ul>
+<p>Lecture tech lead :
+</p>
+<ul>
+<li>le projet n&#39;est pas hors controle, mais il paie un surcout evitables des l&#39;ouverture</li>
+</ul>
+<h3>6.7 Accessibilite et experience utilisateur</h3>
+<p>Etat :
+</p>
+<ul>
+<li><strong>partiellement respecte</strong></li>
+</ul>
+<p>Ecarts confirmes :
+</p>
+<ul>
+<li>labels manquants sur les formulaires</li>
+<li>navigation clavier et modales inegales</li>
+<li>liens et zones cliquables pas toujours semantiques</li>
+</ul>
+<h3>6.8 SEO technique</h3>
+<p>Etat :
+</p>
+<ul>
+<li><strong>encore debutant</strong></li>
+</ul>
+<p>Ecarts confirmes :
+</p>
+<ul>
+<li>metadonnees globales seulement</li>
+<li>pas de fichiers SEO de base</li>
+</ul>
+<h3>6.9 Design system et coherence front</h3>
+<p>Etat :
+</p>
+<ul>
+<li><strong>partiellement respecte</strong></li>
+</ul>
+<p>Points sains :
+</p>
+<ul>
+<li>un systeme de tokens existe</li>
+</ul>
+<p>Ecarts confirmes :
+</p>
+<ul>
+<li>variables en doublon</li>
+<li>styles inline encore presents</li>
+<li>ecart visuel entre vitrine et admin</li>
+</ul>
+<h3>6.10 Outillage et hygiene d&#39;equipe</h3>
+<p>Etat :
+</p>
+<ul>
+<li><strong>base presente, niveau equipe incomplet</strong></li>
+</ul>
+<p>Points sains :
+</p>
+<ul>
+<li>lint en place</li>
+<li>TypeScript strict en place</li>
+</ul>
+<p>Ecarts confirmes :
+</p>
+<ul>
+<li>pas de CI visible</li>
+<li>pas de tests</li>
+<li>pas de format standard visible</li>
+<li>le lint existe mais l&#39;etat reel du projet n&#39;est pas maintenu propre</li>
+</ul>
+<h3>6.11 Configuration, secrets et valeurs en dur</h3>
+<p>Etat :
+</p>
+<ul>
+<li><strong>partiellement maitrise, mais trop expose cote maintenance</strong></li>
+</ul>
+<p>Constats confirmes :
+</p>
+<ul>
+<li>les identifiants publics sont lus via <code>import.meta.env</code> dans [supabase.ts](c:/Users/Mariedo/OneDrive/Documents/Dev/fsvb-studio-portfolio-analysis/fsvb-studio-portfolio/portfolio-app/src/config/supabase.ts) et [PayPalButton.tsx](c:/Users/Mariedo/OneDrive/Documents/Dev/fsvb-studio-portfolio-analysis/fsvb-studio-portfolio/portfolio-app/src/components/PayPalButton.tsx)</li>
+<li>l&#39;ID Crisp est en dur dans [App.tsx](c:/Users/Mariedo/OneDrive/Documents/Dev/fsvb-studio-portfolio-analysis/fsvb-studio-portfolio/portfolio-app/src/App.tsx#L55)</li>
+<li>plusieurs valeurs metier et visuelles sont en dur dans les composants et services</li>
+<li>le fichier <code>.env</code> local du projet contient des valeurs reelles de configuration front</li>
+</ul>
+<p>Lecture tech lead :
+</p>
+<ul>
+<li>utiliser des variables <code>VITE_*</code> pour des cles publiques front est normal</li>
+<li>en revanche, laisser des valeurs reelles dans <code>.env</code> et multiplier les constantes en dur rend la maintenance plus fragile</li>
+</ul>
+<p>Ce qui est confirme :
+</p>
+<ul>
+<li><strong>cles publiques front</strong> : oui</li>
+<li><strong>secret serveur expose dans le code front</strong> : non releve</li>
+<li><strong>hygiene de configuration insuffisante</strong> : oui</li>
+</ul>
+<p>Ce qui est probable :
+</p>
+<ul>
+<li>le projet n&#39;a pas encore de convention claire entre config centralisee et valeurs en dur</li>
+</ul>
+<p>Ce qui reste a verifier :
+</p>
+<ul>
+<li>si des valeurs live equivalentes existent aussi dans d&#39;autres fichiers non lus ici</li>
+</ul>
+<h3>6.12 Logs sensibles et exposition navigateur</h3>
+<p>Etat :
+</p>
+<ul>
+<li><strong>trop bavard en debug pour un flux business sensible</strong></li>
+</ul>
+<p>Constats confirmes :
+</p>
+<ul>
+<li>[supabase.ts](c:/Users/Mariedo/OneDrive/Documents/Dev/fsvb-studio-portfolio-analysis/fsvb-studio-portfolio/portfolio-app/src/config/supabase.ts) loggue des extraits de configuration, des payloads et des retours base</li>
+<li>[PayPalButton.tsx](c:/Users/Mariedo/OneDrive/Documents/Dev/fsvb-studio-portfolio-analysis/fsvb-studio-portfolio/portfolio-app/src/components/PayPalButton.tsx) loggue le mode, la presence des variables, un apercu de <code>clientId</code> et l&#39;URL de script</li>
+<li>[ContactPage.tsx](c:/Users/Mariedo/OneDrive/Documents/Dev/fsvb-studio-portfolio-analysis/fsvb-studio-portfolio/portfolio-app/src/pages/ContactPage.tsx) loggue le contenu du formulaire en fallback</li>
+<li>[ConfirmationPage.tsx](c:/Users/Mariedo/OneDrive/Documents/Dev/fsvb-studio-portfolio-analysis/fsvb-studio-portfolio/portfolio-app/src/pages/ConfirmationPage.tsx) depend de <code>localStorage</code></li>
+<li>[supabase.ts](c:/Users/Mariedo/OneDrive/Documents/Dev/fsvb-studio-portfolio-analysis/fsvb-studio-portfolio/portfolio-app/src/config/supabase.ts) expose des <code>publicUrl</code> pour les images</li>
+</ul>
+<p>Lecture tech lead :
+</p>
+<ul>
+<li>on n&#39;est pas face a une fuite critique de secret serveur relevee dans le front</li>
+<li>en revanche, le niveau de verbosite debug est trop eleve pour des flux commande, paiement et contact</li>
+</ul>
+<h3>6.13 Incoherence de socle front</h3>
+<p>Etat :
+</p>
+<ul>
+<li><strong>confirme et structurant pour la maintenance</strong></li>
+</ul>
+<p>Constats confirmes :
+</p>
+<ul>
+<li>[tokens.css](c:/Users/Mariedo/OneDrive/Documents/Dev/fsvb-studio-portfolio-analysis/fsvb-studio-portfolio/portfolio-app/src/styles/tokens.css) charge Montserrat alors que [index.html](c:/Users/Mariedo/OneDrive/Documents/Dev/fsvb-studio-portfolio-analysis/fsvb-studio-portfolio/portfolio-app/index.html) la charge deja</li>
+<li>[tokens.css](c:/Users/Mariedo/OneDrive/Documents/Dev/fsvb-studio-portfolio-analysis/fsvb-studio-portfolio/portfolio-app/src/styles/tokens.css) redefinit plusieurs familles de variables et certains noms se chevauchent</li>
+<li>[global.css](c:/Users/Mariedo/OneDrive/Documents/Dev/fsvb-studio-portfolio-analysis/fsvb-studio-portfolio/portfolio-app/src/styles/global.css) definit <code>body</code> deux fois</li>
+<li>[Home.tsx](c:/Users/Mariedo/OneDrive/Documents/Dev/fsvb-studio-portfolio-analysis/fsvb-studio-portfolio/portfolio-app/src/pages/Home.tsx) contient beaucoup de styles inline</li>
+<li>[ContactPage.tsx](c:/Users/Mariedo/OneDrive/Documents/Dev/fsvb-studio-portfolio-analysis/fsvb-studio-portfolio/portfolio-app/src/pages/ContactPage.tsx) contourne aussi le systeme avec du style inline</li>
+</ul>
+<p>Lecture tech lead :
+</p>
+<ul>
+<li>le design system existe</li>
+<li>mais il n&#39;est pas encore la source de verite unique</li>
+</ul>
+<h3>6.14 Dette de coherence UI / design system</h3>
+<p>Etat :
+</p>
+<ul>
+<li><strong>moyenne a elevee</strong></li>
+</ul>
+<p>Constats confirmes :
+</p>
+<ul>
+<li>[crispService.ts](c:/Users/Mariedo/OneDrive/Documents/Dev/fsvb-studio-portfolio-analysis/fsvb-studio-portfolio/portfolio-app/src/services/crispService.ts) remet des couleurs en dur alors que le projet a des tokens</li>
+<li>[Footer.tsx](c:/Users/Mariedo/OneDrive/Documents/Dev/fsvb-studio-portfolio-analysis/fsvb-studio-portfolio/portfolio-app/src/components/Footer.tsx) utilise encore des liens placeholders <code>#</code></li>
+<li>[Button.tsx](c:/Users/Mariedo/OneDrive/Documents/Dev/fsvb-studio-portfolio-analysis/fsvb-studio-portfolio/portfolio-app/src/components/Button.tsx) ne distingue pas navigation interne et lien externe</li>
+<li>la vitrine, les templates et l&#39;admin ne semblent pas gouvernes par le meme niveau de regles visuelles</li>
+</ul>
+<p>Ce qui est probable :
+</p>
+<ul>
+<li>plusieurs ecrans ont ete finalises localement sans passage systematique par une bibliotheque commune</li>
+</ul>
+<h3>6.15 Coherence visuelle et qualite d&#39;integration</h3>
+<p>Etat :
+</p>
+<ul>
+<li><strong>partiellement confirme, a completer idealement par revue visuelle</strong></li>
+</ul>
+<p>Constats confirmes dans le code :
+</p>
+<ul>
+<li>centrage, alignements et espacements sont souvent decides composant par composant via styles inline</li>
+<li>[Home.tsx](c:/Users/Mariedo/OneDrive/Documents/Dev/fsvb-studio-portfolio-analysis/fsvb-studio-portfolio/portfolio-app/src/pages/Home.tsx) force localement <code>textAlign</code>, <code>margin</code>, <code>justifyContent</code>, <code>maxWidth</code></li>
+<li>[global.css](c:/Users/Mariedo/OneDrive/Documents/Dev/fsvb-studio-portfolio-analysis/fsvb-studio-portfolio/portfolio-app/src/styles/global.css) et [tokens.css](c:/Users/Mariedo/OneDrive/Documents/Dev/fsvb-studio-portfolio-analysis/fsvb-studio-portfolio/portfolio-app/src/styles/tokens.css) ne suffisent donc pas a garantir des compositions homogenes</li>
+</ul>
+<p>Ce qui est probable :
+</p>
+<ul>
+<li>des ecarts visuels reels existent entre pages, templates et composants</li>
+<li>les objets, images ou blocs peuvent ne pas partager la meme logique de centrage</li>
+</ul>
+<p>Ce qui reste a verifier :
+</p>
+<ul>
+<li>confirmation visuelle ecran par ecran sur desktop et mobile</li>
+</ul>
+<h3>6.16 Gouvernance du front</h3>
+<p>Etat :
+</p>
+<ul>
+<li><strong>insuffisante</strong></li>
+</ul>
+<p>Constats confirmes :
+</p>
+<ul>
+<li>il existe bien un socle commun</li>
+<li>mais il n&#39;existe pas encore de discipline visible qui impose l&#39;usage prioritaire des tokens, classes, patterns de layout et regles de navigation</li>
+</ul>
+<p>Lecture tech lead :
+</p>
+<ul>
+<li>le probleme n&#39;est pas l&#39;absence de socle</li>
+<li>le probleme est l&#39;absence de gouvernance suffisante autour de ce socle</li>
+</ul>
+<h2>7. Hypotheses probables</h2>
+<h3>H1. Le projet a grandi par ajouts successifs plus que par harmonisation globale</h3>
+<p>Probable, car :
+</p>
+<ul>
+<li>la structure generale est bonne</li>
+<li>mais les conventions deviennent moins stables dans les zones critiques</li>
+</ul>
+<h3>H2. La vitesse de livraison front a pris le pas sur la fermeture technique</h3>
+<p>Probable, car :
+</p>
+<ul>
+<li>plusieurs parcours sont fonctionnels en apparence</li>
+<li>mais la preuve finale reste cote navigateur</li>
+</ul>
+<h3>H3. Le configurateur agit comme centre de gravite de la dette</h3>
+<p>Probable, car :
+</p>
+<ul>
+<li>il concentre taille, logique, etat et warnings</li>
+</ul>
+<h2>8. Points a verifier avec l&#39;environnement reel</h2>
+<ul>
+<li>verification d&#39;un vrai paiement de bout en bout</li>
+<li>verification des policies reellement deployees dans Supabase</li>
+<li>verification du role admin reel, pas seulement de la session visible</li>
+<li>verification du niveau de confidentialite attendu pour les images exposees</li>
+<li>verification de l&#39;usage reel du bucket <code>project-images</code></li>
+</ul>
+<h2>9. Methodes de resolution pas a pas</h2>
+<h3>9.1 Corriger le pre-session landing-solo</h3>
+<p>Objectif :
+</p>
+<p>une seule cle email du champ visible jusqu&#39;a la sauvegarde.
+</p>
+<p>Etapes :
+</p>
+<ol>
+<li>choisir une seule cle canonique : <code>clientEmail</code></li>
+<li>remplacer tous les acces <code>responses.email</code> lies au pre-session landing-solo</li>
+<li>aligner validation, champ, bouton et payload final</li>
+<li>verifier la reprise des donnees existantes si certains brouillons utilisent encore <code>email</code></li>
+<li>ajouter un test simple &quot;champ rempli -&gt; validation -&gt; sauvegarde&quot;</li>
+</ol>
+<h3>9.2 Rendre le contact fiable sans dependance a Crisp</h3>
+<p>Objectif :
+</p>
+<p>le message client doit partir dans un canal principal fiable.
+</p>
+<p>Etapes :
+</p>
+<ol>
+<li>definir un canal principal : table Supabase, email transactionnel ou fonction serveur</li>
+<li>conserver Crisp comme canal secondaire, pas comme source de verite</li>
+<li>afficher le message de succes seulement apres retour positif du canal principal</li>
+<li>journaliser l&#39;erreur et afficher un message clair si l&#39;envoi echoue</li>
+<li>ajouter un test nominal et un test &quot;Crisp absent&quot;</li>
+</ol>
+<h3>9.3 Fiabiliser la confirmation de commande</h3>
+<p>Objectif :
+</p>
+<p>la page de succes doit relire une commande verifiee.
+</p>
+<p>Etapes :
+</p>
+<ol>
+<li>utiliser l&#39;URL seulement pour porter un identifiant de reference</li>
+<li>relire la commande depuis la base ou une fonction serveur</li>
+<li>verifier statut commande et statut paiement</li>
+<li>afficher un ecran d&#39;attente tant que la verification n&#39;est pas terminee</li>
+<li>afficher un ecran d&#39;erreur ou de support si la commande n&#39;est pas retrouvee</li>
+<li>vider les donnees transitoires navigateur une fois la verification terminee</li>
+</ol>
+<h3>9.4 Sortir la validation finale du paiement du navigateur</h3>
+<p>Objectif :
+</p>
+<p>le front ne doit plus pouvoir marquer une commande comme payee.
+</p>
+<p>Etapes :
+</p>
+<ol>
+<li>creer une fonction serveur ou webhook de verification de paiement</li>
+<li>faire remonter au serveur la preuve de paiement recue</li>
+<li>laisser le serveur verifier la preuve puis mettre a jour <code>orders</code></li>
+<li>rendre le front purement declaratif : &quot;j&#39;attends le resultat&quot;</li>
+<li>tracer chaque changement de statut paiement</li>
+<li>tester le cas nominal et le cas fraude ou preuve invalide</li>
+</ol>
+<h3>9.5 Refermer les policies SQL</h3>
+<p>Objectif :
+</p>
+<p>chaque table sensible doit avoir des droits limites au juste besoin.
+</p>
+<p>Etapes :
+</p>
+<ol>
+<li>lister table par table les usages reels : lecture publique, insertion publique, lecture admin, update admin</li>
+<li>supprimer les policies globales <code>USING (true)</code> ou <code>FOR ALL</code></li>
+<li>differencier client public, utilisateur authentifie et admin metier</li>
+<li>verifier les acces storage avec la meme rigueur</li>
+<li>tester chaque policy avec un compte public et un compte admin</li>
+</ol>
+<h3>9.6 Reprendre la dette type et lint</h3>
+<p>Objectif :
+</p>
+<p>remonter rapidement le niveau de confiance du code.
+</p>
+<p>Etapes :
+</p>
+<ol>
+<li>traiter d&#39;abord les fichiers critiques : <code>ConfiguratorPage.tsx</code>, <code>FormulairePr&#233;Session.tsx</code>, <code>OrderValidation.tsx</code>, <code>ConfirmationPage.tsx</code></li>
+<li>remplacer les <code>any</code> les plus structurants par des types reels</li>
+<li>corriger les warnings <code>useEffect</code></li>
+<li>stabiliser les types partages dans <code>orders.ts</code> et <code>preSession.ts</code></li>
+<li>fixer un objectif par palier, par exemple passer de 220 problemes a moins de 80 puis a zero sur les flux critiques</li>
+</ol>
+<h3>9.7 Introduire un premier filet de tests</h3>
+<p>Objectif :
+</p>
+<p>proteger les flux qui font vendre et encaissent.
+</p>
+<p>Etapes :
+</p>
+<ol>
+<li>choisir un socle simple : Vitest + React Testing Library</li>
+<li>couvrir d&#39;abord pre-session, contact, confirmation et validation commande</li>
+<li>ecrire un test nominal et un test d&#39;erreur par flux</li>
+<li>brancher ces tests au lint et au build local</li>
+<li>ajouter ensuite 1 ou 2 parcours E2E sur les moments les plus sensibles</li>
+</ol>
+<h3>9.8 Decouper progressivement le configurateur</h3>
+<p>Objectif :
+</p>
+<p>retirer la concentration de risque d&#39;un seul fichier.
+</p>
+<p>Etapes :
+</p>
+<ol>
+<li>cartographier ses blocs : donnees, navigation, preview, paiement, upload, modales</li>
+<li>sortir d&#39;abord les utilitaires purs et les hooks sans effet visuel</li>
+<li>extraire ensuite les sections UI les moins couplees</li>
+<li>terminer par la logique de paiement et de persistence</li>
+<li>verifier a chaque extraction que le comportement visible ne change pas</li>
+</ol>
+<h3>9.9 Assainir configuration, valeurs en dur et identifiants tiers</h3>
+<p>Objectif :
+</p>
+<p>avoir une seule politique claire pour ce qui doit etre centralise, parametre ou public.
+</p>
+<p>Etapes :
+</p>
+<ol>
+<li>lister toutes les valeurs de service tiers et metier actuellement en dur</li>
+<li>classer en trois familles : public front, config environnement, vrai secret serveur</li>
+<li>sortir du code les valeurs qui relevent de la configuration</li>
+<li>centraliser les constantes metier restantes dans un dossier de config clair</li>
+<li>interdire qu&#39;un vrai secret serveur soit utilise cote front</li>
+</ol>
+<h3>9.10 Reduire les logs sensibles</h3>
+<p>Objectif :
+</p>
+<p>garder des logs utiles sans exposer inutilement configuration, donnees client ou details de paiement.
+</p>
+<p>Etapes :
+</p>
+<ol>
+<li>recenser les <code>console.log</code>, <code>console.warn</code> et <code>console.error</code> des flux contact, commande et paiement</li>
+<li>supprimer les logs de payload, d&#39;extraits de cles et d&#39;URL sensibles</li>
+<li>garder seulement des messages techniques courts, sans donnees client</li>
+<li>limiter les logs detaillees au dev local via un garde-fou centralise</li>
+</ol>
+<h3>9.11 Reprendre la gouvernance du front</h3>
+<p>Objectif :
+</p>
+<p>faire du design system la reference par defaut, et non une option parmi d&#39;autres.
+</p>
+<p>Etapes :
+</p>
+<ol>
+<li>fixer une hi&#233;rarchie simple : tokens, classes utilitaires, composants, exceptions</li>
+<li>supprimer les doublons de polices et de variables dans les styles globaux</li>
+<li>reduire les styles inline sur les pages les plus visibles</li>
+<li>clarifier les regles de couleur, typo, espacements, bordures et ombres</li>
+<li>documenter ce qui est autorise et ce qui ne l&#39;est plus</li>
+</ol>
+<h3>9.12 Reprendre la coherence visuelle et l&#39;integration</h3>
+<p>Objectif :
+</p>
+<p>avoir des pages, composants et templates qui paraissent venir du meme produit.
+</p>
+<p>Etapes :
+</p>
+<ol>
+<li>faire une revue visuelle desktop et mobile des pages publiques, templates et admin</li>
+<li>lister les ecarts de centrage, marges, tailles et alignements</li>
+<li>corriger d&#39;abord les composants communs qui propagent ces ecarts</li>
+<li>harmoniser ensuite les pages les plus visibles</li>
+<li>valider a la fin avec une petite grille de controle UI commune</li>
+</ol>
+<h2>10. Plan de correction coherent</h2>
+<h3>Lot 1. Securiser confiance et conversion</h3>
+<p>Actions :
+</p>
+<ol>
+<li>corriger l&#39;incoherence <code>email/clientEmail</code></li>
+<li>brancher le contact sur un canal fiable principal</li>
+<li>relire la commande avant tout succes complet</li>
+<li>sortir la validation finale du paiement du front</li>
+<li>refermer les policies les plus ouvertes</li>
+</ol>
+<h3>Lot 2. Stabiliser le socle de developpement</h3>
+<p>Actions :
+</p>
+<ol>
+<li>reprendre les types partages</li>
+<li>corriger les <code>any</code> et <code>useEffect</code> les plus risquants</li>
+<li>poser les premiers tests</li>
+<li>clarifier le role admin</li>
+<li>reduire l&#39;exposition des donnees navigateur</li>
+</ol>
+<h3>Lot 3. Faire monter la qualite globale</h3>
+<p>Actions :
+</p>
+<ol>
+<li>charger les grosses routes a la demande</li>
+<li>nettoyer la strategie police et assets</li>
+<li>poser le SEO par page</li>
+<li>harmoniser accessibilite et design system</li>
+<li>decouper progressivement le configurateur</li>
+</ol>
+<h2>11. Priorisation finale</h2>
+<h3>A faire tout de suite</h3>
+<ul>
+<li>validation paiement</li>
+<li>confirmation fiable</li>
+<li>contact fiable</li>
+<li>pre-session landing-solo</li>
+<li>policies SQL</li>
+</ul>
+<h3>A faire juste apres</h3>
+<ul>
+<li>dette lint et types</li>
+<li>acces admin</li>
+<li>premiers tests</li>
+<li>reduction des donnees dans le navigateur</li>
+</ul>
+<h3>A faire ensuite</h3>
+<ul>
+<li>code splitting</li>
+<li>SEO technique</li>
+<li>accessibilite visible</li>
+<li>harmonisation design system</li>
+<li>refactor progressif du configurateur</li>
+</ul>
+<h2>12. Conclusion simple</h2>
+<p>Le projet a deja une vraie valeur.
+</p>
+<p>Le diagnostic &quot;tech lead&quot; ne dit pas de repartir de zero.
+</p>
+<p>Il dit plutot :
+</p>
+<ol>
+<li>remettre la confiance du bon cote</li>
+<li>fermer les ouvertures les plus visibles</li>
+<li>redonner de la lisibilite au code</li>
+<li>installer enfin un cadre de qualite durable</li>
+</ol>
+<p>Le point encourageant reste net :
+</p>
+<ul>
+<li>les problemes majeurs sont confirmes</li>
+<li>ils sont localises</li>
+<li>ils peuvent etre traites par ordre</li>
+</ul>
+<h2>13. Preuves principales</h2>
+<ul>
+<li><code>fsvb-studio-portfolio/portfolio-app/src/App.tsx</code></li>
+<li><code>fsvb-studio-portfolio/portfolio-app/src/pages/ContactPage.tsx</code></li>
+<li><code>fsvb-studio-portfolio/portfolio-app/src/pages/ConfirmationPage.tsx</code></li>
+<li><code>fsvb-studio-portfolio/portfolio-app/src/components/OrderValidation.tsx</code></li>
+<li><code>fsvb-studio-portfolio/portfolio-app/src/components/FormulairePr&#233;Session.tsx</code></li>
+<li><code>fsvb-studio-portfolio/portfolio-app/src/config/supabase.ts</code></li>
+<li><code>fsvb-studio-portfolio/portfolio-app/src/types/orders.ts</code></li>
+<li><code>fsvb-studio-portfolio/portfolio-app/src/types/preSession.ts</code></li>
+<li><code>fsvb-studio-portfolio/portfolio-app/src/styles/tokens.css</code></li>
+<li><code>fsvb-studio-portfolio/portfolio-app/src/components/Button.tsx</code></li>
+<li><code>fsvb-studio-portfolio/portfolio-app/src/pages/AdminDashboard.tsx</code></li>
+<li><code>fsvb-studio-portfolio/portfolio-app/index.html</code></li>
+<li><code>fsvb-studio-portfolio/portfolio-app/sql/create_pre_session_forms.sql</code></li>
+<li><code>fsvb-studio-portfolio/portfolio-app/sql/pre_session_forms_migration.sql</code></li>
+<li><code>fsvb-studio-portfolio/portfolio-app/sql/create_live_sessions.sql</code></li>
+<li><code>npm run lint</code></li>
+</ul>
+</body></html>

@@ -1,0 +1,590 @@
+﻿<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<title>Backlog dev priorise code source</title>
+<style>
+body{font-family:Segoe UI,Arial,sans-serif;color:#1f2937;max-width:900px;margin:40px auto;padding:0 24px;line-height:1.6;}
+h1,h2,h3,h4{color:#111827;line-height:1.25;margin-top:1.4em;}
+h1{font-size:28px;border-bottom:2px solid #e5e7eb;padding-bottom:10px;}
+h2{font-size:22px;border-bottom:1px solid #e5e7eb;padding-bottom:6px;}
+h3{font-size:18px;} h4{font-size:16px;}
+p{margin:0.6em 0;} ul,ol{margin:0.4em 0 0.8em 1.4em;} li{margin:0.2em 0;}
+code{font-family:Consolas,monospace;background:#f3f4f6;padding:0.1em 0.35em;border-radius:4px;font-size:0.92em;}
+strong{color:#111827;}
+.meta{color:#4b5563;}
+</style></head><body>
+<h1>Backlog dev priorise code source</h1>
+<h2>Priorite 1</h2>
+<h3>Corriger l&#39;email du formulaire pre-session landing-solo</h3>
+<ul>
+<li>Impact : eleve</li>
+<li>Pourquoi : un prospect peut remplir le bon champ visible, mais la validation, le bouton et la sauvegarde ne lisent pas toujours la meme cle</li>
+<li>Fichiers a regarder :</li>
+</ul>
+<p><code>src/components/FormulairePr&#233;Session.tsx</code>
+<br><code>src/services/preSessionFormService.ts</code>
+</p>
+<ul>
+<li>Ce qu&#39;il faut verifier :</li>
+</ul>
+<p>le champ visible, la validation, l&#39;objet envoye et la reprise des donnees
+</p>
+<ul>
+<li>Methode de resolution pas a pas :</li>
+</ul>
+<ol>
+<li>choisir <code>clientEmail</code> comme cle unique</li>
+<li>remplacer les lectures <code>responses.email</code> liees a ce parcours</li>
+<li>aligner validation, bouton et persistence</li>
+<li>verifier les cas deja saisis si une ancienne cle <code>email</code> existe</li>
+<li>ajouter un test simple sur le parcours</li>
+</ol>
+<ul>
+<li>Definition de fini :</li>
+</ul>
+<p>une seule cle email est utilisee du debut a la fin
+</p>
+<h3>Rendre le formulaire contact fiable sans Crisp</h3>
+<ul>
+<li>Impact : eleve</li>
+<li>Pourquoi : un message client ne doit pas dependre d&#39;un script tiers charge cote navigateur</li>
+<li>Fichiers a regarder :</li>
+</ul>
+<p><code>src/pages/ContactPage.tsx</code>
+<br><code>src/services/crispService.ts</code>
+</p>
+<ul>
+<li>Ce qu&#39;il faut verifier :</li>
+</ul>
+<p>comportement sans Crisp, stockage du message, message de succes reel
+</p>
+<ul>
+<li>Methode de resolution pas a pas :</li>
+</ul>
+<ol>
+<li>definir un canal principal fiable</li>
+<li>garder Crisp comme option complementaire</li>
+<li>n&#39;afficher le succes qu&#39;apres une vraie confirmation d&#39;envoi</li>
+<li>tracer l&#39;erreur et proposer une issue claire a l&#39;utilisateur</li>
+<li>couvrir le cas nominal et le cas Crisp indisponible</li>
+</ol>
+<ul>
+<li>Definition de fini :</li>
+</ul>
+<p>le message part dans un canal fiable meme si Crisp ne charge pas
+</p>
+<h3>Fiabiliser la confirmation apres commande</h3>
+<ul>
+<li>Impact : eleve</li>
+<li>Pourquoi : la page ne doit pas afficher un succes complet sur la seule base de l&#39;URL ou du navigateur</li>
+<li>Fichiers a regarder :</li>
+</ul>
+<p><code>src/pages/ConfirmationPage.tsx</code>
+<br><code>src/pages/OrderConfirmationPage.tsx</code>
+</p>
+<ul>
+<li>Ce qu&#39;il faut verifier :</li>
+</ul>
+<p>id de commande de reference, relecture cote serveur, etat de chargement, etat d&#39;erreur
+</p>
+<ul>
+<li>Methode de resolution pas a pas :</li>
+</ul>
+<ol>
+<li>ne garder dans l&#39;URL qu&#39;un identifiant de reference</li>
+<li>relire la commande cote serveur ou base de donnees</li>
+<li>verifier les statuts avant affichage</li>
+<li>afficher un ecran d&#39;attente pendant controle</li>
+<li>gerer proprement les cas introuvables ou incoherents</li>
+</ol>
+<ul>
+<li>Definition de fini :</li>
+</ul>
+<p>la confirmation s&#39;appuie sur une commande relue et verifiee
+</p>
+<h3>Sortir la validation finale du paiement du navigateur</h3>
+<ul>
+<li>Impact : critique</li>
+<li>Pourquoi : le front ne doit pas pouvoir decider seul que la commande est <code>paid</code></li>
+<li>Fichiers a regarder :</li>
+</ul>
+<p><code>src/components/OrderValidation.tsx</code>
+<br><code>src/config/supabase.ts</code>
+</p>
+<ul>
+<li>Ce qu&#39;il faut verifier :</li>
+</ul>
+<p>qui met a jour <code>payment_status</code>, sur quelle preuve, via quel point serveur
+</p>
+<ul>
+<li>Methode de resolution pas a pas :</li>
+</ul>
+<ol>
+<li>creer une verification serveur ou webhook</li>
+<li>faire verifier la preuve de paiement hors navigateur</li>
+<li>mettre a jour <code>orders</code> seulement apres verification</li>
+<li>faire du front un simple ecran d&#39;attente et de retour</li>
+<li>tracer les changements de statut</li>
+</ol>
+<ul>
+<li>Definition de fini :</li>
+</ul>
+<p>le statut de paiement est mis a jour seulement apres verification serveur
+</p>
+<h3>Revoir les policies SQL trop ouvertes</h3>
+<ul>
+<li>Impact : critique</li>
+<li>Pourquoi : plusieurs scripts du depot autorisent des lectures ou operations trop larges</li>
+<li>Fichiers a regarder :</li>
+</ul>
+<p><code>sql/create_pre_session_forms.sql</code>
+<br><code>sql/pre_session_forms_migration.sql</code>
+<br><code>sql/create_live_sessions.sql</code>
+</p>
+<ul>
+<li>Ce qu&#39;il faut verifier :</li>
+</ul>
+<p>lecture publique, acces trop larges, compte authentifie trop permissif
+</p>
+<ul>
+<li>Methode de resolution pas a pas :</li>
+</ul>
+<ol>
+<li>lister les besoins reels par table</li>
+<li>supprimer les policies globales ouvertes</li>
+<li>separer acces public, acces authentifie et acces admin</li>
+<li>verifier les droits storage associes</li>
+<li>tester les droits reellement deployes</li>
+</ol>
+<ul>
+<li>Definition de fini :</li>
+</ul>
+<p>orders, pre-session, live sessions et images n&#39;ont plus de policy trop ouverte
+</p>
+<h2>Priorite 2</h2>
+<h3>Renforcer l&#39;acces admin</h3>
+<ul>
+<li>Impact : eleve</li>
+<li>Pourquoi : la simple presence d&#39;une session ne suffit pas a montrer un vrai controle de role</li>
+<li>Fichiers a regarder :</li>
+</ul>
+<p><code>src/pages/AdminLogin.tsx</code>
+<br><code>src/pages/AdminDashboard.tsx</code>
+<br>policies Supabase reelles
+</p>
+<ul>
+<li>Methode de resolution pas a pas :</li>
+</ul>
+<ol>
+<li>definir le role admin attendu</li>
+<li>verifier ce role au login et sur les donnees</li>
+<li>refuser l&#39;acces si la session existe sans bon role</li>
+<li>tracer les refus utiles</li>
+</ol>
+<ul>
+<li>Definition de fini :</li>
+</ul>
+<p>l&#39;acces admin depend d&#39;un vrai role ou claim controle
+</p>
+<h3>Assainir configuration, valeurs en dur et identifiants tiers</h3>
+<ul>
+<li>Impact : eleve</li>
+<li>Pourquoi : plusieurs valeurs importantes restent en dur ou dupliquees, ce qui complique la maintenance et augmente le risque d&#39;erreur</li>
+<li>Fichiers a regarder :</li>
+</ul>
+<p><code>src/App.tsx</code>
+<br><code>src/config/supabase.ts</code>
+<br><code>src/components/PayPalButton.tsx</code>
+<br><code>.env</code>
+</p>
+<ul>
+<li>Ce qu&#39;il faut verifier :</li>
+</ul>
+<p>ID Crisp, emails metier, modes de paiement, valeurs de fallback, variables publiques vs valeurs en dur
+</p>
+<ul>
+<li>Methode de resolution pas a pas :</li>
+</ul>
+<ol>
+<li>lister les valeurs metier et techniques encore en dur</li>
+<li>separer ce qui doit vivre en config, en env public ou en constante de design</li>
+<li>retirer les doublons entre code et configuration</li>
+<li>documenter ce qui est public et ce qui ne doit jamais etre cote front</li>
+<li>tester chaque environnement apres nettoyage</li>
+</ol>
+<ul>
+<li>Definition de fini :</li>
+</ul>
+<p>les identifiants tiers, valeurs metier globales et modes de configuration ont une source unique claire
+</p>
+<h3>Reduire les logs sensibles et l&#39;exposition navigateur</h3>
+<ul>
+<li>Impact : eleve</li>
+<li>Pourquoi : plusieurs logs affichent trop d&#39;informations sur la configuration, les paiements ou les payloads</li>
+<li>Fichiers a regarder :</li>
+</ul>
+<p><code>src/config/supabase.ts</code>
+<br><code>src/components/PayPalButton.tsx</code>
+<br><code>src/pages/ContactPage.tsx</code>
+</p>
+<ul>
+<li>Ce qu&#39;il faut verifier :</li>
+</ul>
+<p>logs de config, logs de paiement, payloads clients, details commandes
+</p>
+<ul>
+<li>Methode de resolution pas a pas :</li>
+</ul>
+<ol>
+<li>lister les logs de debug encore presents</li>
+<li>retirer ceux qui exposent donnees ou configuration</li>
+<li>garder seulement des logs utiles, courts et non sensibles</li>
+<li>reserver le debug detaille a un mode local maitrise</li>
+</ol>
+<ul>
+<li>Definition de fini :</li>
+</ul>
+<p>aucun log sensible inutile n&#39;est expose dans le navigateur
+</p>
+<h3>Reduire la dette type/lint sur les parcours critiques</h3>
+<ul>
+<li>Impact : eleve</li>
+<li>Pourquoi : le lint en echec ralentit toutes les corrections suivantes</li>
+<li>Fichiers a regarder :</li>
+</ul>
+<p><code>src/pages/ConfiguratorPage.tsx</code>
+<br><code>src/components/ConfigurationCaptureModalAdaptive.tsx</code>
+<br><code>src/components/FormulairePr&#233;Session.tsx</code>
+<br><code>src/components/OrderValidation.tsx</code>
+<br><code>src/types/orders.ts</code>
+<br><code>src/types/preSession.ts</code>
+</p>
+<ul>
+<li>Methode de resolution pas a pas :</li>
+</ul>
+<ol>
+<li>traiter d&#39;abord les types partages</li>
+<li>remplacer les <code>any</code> structurants</li>
+<li>corriger les warnings <code>useEffect</code></li>
+<li>viser d&#39;abord les flux business critiques</li>
+<li>descendre par paliers mesurables</li>
+</ol>
+<ul>
+<li>Definition de fini :</li>
+</ul>
+<p>baisse nette des erreurs lint sur les ecrans business
+</p>
+<h3>Poser un premier filet de securite de tests</h3>
+<ul>
+<li>Impact : moyen a eleve</li>
+<li>Pourquoi : aucun socle de test clair n&#39;est visible aujourd&#39;hui</li>
+<li>A couvrir d&#39;abord :</li>
+</ul>
+<p>pre-session
+<br>contact
+<br>confirmation
+<br>validation commande
+</p>
+<ul>
+<li>Methode de resolution pas a pas :</li>
+</ul>
+<ol>
+<li>installer un socle de test simple</li>
+<li>ecrire un test nominal par parcours</li>
+<li>ecrire un test d&#39;erreur par parcours</li>
+<li>brancher ces tests au travail quotidien</li>
+</ol>
+<ul>
+<li>Definition de fini :</li>
+</ul>
+<p>au moins un test nominal et un test d&#39;erreur sur chaque parcours critique
+</p>
+<h3>Revoir l&#39;exposition des donnees dans le navigateur</h3>
+<ul>
+<li>Impact : eleve</li>
+<li>Pourquoi : <code>localStorage</code>, IDs URL et <code>publicUrl</code> exposent plus que necessaire</li>
+<li>Fichiers a regarder :</li>
+</ul>
+<p><code>src/pages/ConfirmationPage.tsx</code>
+<br><code>src/pages/ConfiguratorPage.tsx</code>
+<br><code>src/config/supabase.ts</code>
+</p>
+<ul>
+<li>Methode de resolution pas a pas :</li>
+</ul>
+<ol>
+<li>lister les donnees stockees cote navigateur</li>
+<li>garder seulement le strict utile</li>
+<li>reduire les identifiants visibles dans les URL</li>
+<li>revoir le besoin reel de <code>publicUrl</code></li>
+</ol>
+<ul>
+<li>Definition de fini :</li>
+</ul>
+<p>moins de donnees sensibles persistent dans le navigateur
+</p>
+<h2>Priorite 3</h2>
+<h3>Reprendre l&#39;incoherence de socle front</h3>
+<ul>
+<li>Impact : moyen a eleve</li>
+<li>Pourquoi : le projet a deja des tokens, mais ils sont contournes par des styles inline, des fallback en dur et des overrides locaux</li>
+<li>Fichiers a regarder :</li>
+</ul>
+<p><code>src/styles/tokens.css</code>
+<br><code>src/pages/Home.tsx</code>
+<br><code>src/pages/ContactPage.tsx</code>
+<br><code>src/pages/ConfiguratorPage.tsx</code>
+<br><code>src/components/ConfigurationCaptureModalAdaptive.tsx</code>
+</p>
+<ul>
+<li>Ce qu&#39;il faut verifier :</li>
+</ul>
+<p>source de verite des couleurs, polices, espacements, radius, ombres et transitions
+</p>
+<ul>
+<li>Methode de resolution pas a pas :</li>
+</ul>
+<ol>
+<li>figer les tokens officiels</li>
+<li>retirer les doubles definitions et les overrides inutiles</li>
+<li>remplacer les styles inline repetes par des classes ou composants</li>
+<li>verifier les pages principales apres harmonisation</li>
+</ol>
+<ul>
+<li>Definition de fini :</li>
+</ul>
+<p>le socle front a une source de verite unique et lisible
+</p>
+<h3>Reprendre la dette de coherence UI / design system</h3>
+<ul>
+<li>Impact : moyen</li>
+<li>Pourquoi : plusieurs nuances, polices, boutons et comportements visuels coexistent sans regle assez claire</li>
+<li>Fichiers a regarder :</li>
+</ul>
+<p><code>src/styles/tokens.css</code>
+<br><code>src/components/Button.tsx</code>
+<br><code>src/components/Button.module.css</code>
+<br>templates publics
+<br>pages publiques
+</p>
+<ul>
+<li>Ce qu&#39;il faut verifier :</li>
+</ul>
+<p>couleurs de bleu, boutons, typographie, variantes, etats hover et contrastes
+</p>
+<ul>
+<li>Methode de resolution pas a pas :</li>
+</ul>
+<ol>
+<li>definir une palette et une hierarchie typographique stables</li>
+<li>aligner les composants partages sur ces regles</li>
+<li>corriger les exceptions page par page</li>
+<li>documenter les usages autorises</li>
+</ol>
+<ul>
+<li>Definition de fini :</li>
+</ul>
+<p>couleurs, polices et composants partages suivent un cadre unique
+</p>
+<h3>Reprendre la coherence visuelle et la qualite d&#39;integration</h3>
+<ul>
+<li>Impact : moyen</li>
+<li>Pourquoi : certains objets, images, centrages et espacements ne donnent pas la meme impression de finition d&#39;un ecran a l&#39;autre</li>
+<li>Fichiers a regarder :</li>
+</ul>
+<p>pages publiques
+<br>templates
+<br>cartes
+<br>modales
+</p>
+<ul>
+<li>Ce qu&#39;il faut verifier :</li>
+</ul>
+<p>alignements, centrages, grille, comportement responsive, hauteur visuelle des blocs et positionnement des medias
+</p>
+<ul>
+<li>Methode de resolution pas a pas :</li>
+</ul>
+<ol>
+<li>auditer ecran par ecran les ecarts de centrage et d&#39;espacement</li>
+<li>definir des regles communes de grille et d&#39;alignement</li>
+<li>corriger les composants les plus reutilises en premier</li>
+<li>verifier desktop et mobile</li>
+</ol>
+<ul>
+<li>Definition de fini :</li>
+</ul>
+<p>les principaux ecrans ont une integration visuelle homogene
+</p>
+<h3>Reprendre la gouvernance du front</h3>
+<ul>
+<li>Impact : moyen</li>
+<li>Pourquoi : le projet a les briques d&#39;un systeme front, mais pas encore des regles assez fermes sur quoi utiliser et comment</li>
+<li>Fichiers a regarder :</li>
+</ul>
+<p><code>src/styles/tokens.css</code>
+<br><code>src/components/Footer.tsx</code>
+<br><code>src/components/Button.tsx</code>
+<br>composants et pages fortement personnalises
+</p>
+<ul>
+<li>Ce qu&#39;il faut verifier :</li>
+</ul>
+<p>liens placeholders, composants de navigation, patterns dupliques, exceptions non documentees
+</p>
+<ul>
+<li>Methode de resolution pas a pas :</li>
+</ul>
+<ol>
+<li>definir les regles d&#39;usage du socle front</li>
+<li>lister les composants officiels</li>
+<li>retirer les placeholders et cas non finis</li>
+<li>documenter les choix pour la suite</li>
+</ol>
+<ul>
+<li>Definition de fini :</li>
+</ul>
+<p>l&#39;equipe sait quelle brique utiliser et les ecarts non voulus sont reduits
+</p>
+<h3>Passer les grosses routes en chargement differe</h3>
+<ul>
+<li>Impact : moyen a eleve</li>
+<li>Pourquoi : le site charge trop de code des l&#39;ouverture</li>
+<li>Fichiers a regarder :</li>
+</ul>
+<p><code>src/App.tsx</code>
+</p>
+<ul>
+<li>Methode de resolution pas a pas :</li>
+</ul>
+<ol>
+<li>identifier les routes lourdes</li>
+<li>passer configurateur, admin, templates et confirmations en chargement differe</li>
+<li>verifier les ecrans de fallback</li>
+</ol>
+<ul>
+<li>Definition de fini :</li>
+</ul>
+<p>configurateur, admin, templates, commande et confirmation sont separes en chunks utiles
+</p>
+<h3>Supprimer les doublons de police et alleger les medias</h3>
+<ul>
+<li>Impact : moyen</li>
+<li>Pourquoi : la vitesse percue reste penalisee par des couts evitables</li>
+<li>Fichiers a regarder :</li>
+</ul>
+<p><code>index.html</code>
+<br><code>src/styles/tokens.css</code>
+<br>pages avec hero et images
+</p>
+<ul>
+<li>Methode de resolution pas a pas :</li>
+</ul>
+<ol>
+<li>choisir une seule source de chargement police</li>
+<li>verifier les usages reels</li>
+<li>differer les medias non critiques</li>
+</ol>
+<ul>
+<li>Definition de fini :</li>
+</ul>
+<p>une seule strategie police, medias non critiques differes
+</p>
+<h3>Poser le socle SEO par page</h3>
+<ul>
+<li>Impact : moyen</li>
+<li>Pourquoi : le site a de la matiere, mais pas encore le cadre technique SEO</li>
+<li>Fichiers a regarder :</li>
+</ul>
+<p><code>index.html</code>
+<br>pages publiques
+<br><code>src/components/Footer.tsx</code>
+<br><code>public/</code>
+</p>
+<ul>
+<li>Methode de resolution pas a pas :</li>
+</ul>
+<ol>
+<li>definir title et description par page</li>
+<li>ajouter canonical et metas sociales</li>
+<li>generer <code>robots.txt</code> et <code>sitemap.xml</code></li>
+<li>verifier les liens internes</li>
+</ol>
+<ul>
+<li>Definition de fini :</li>
+</ul>
+<p>title, description, canonical, <code>robots.txt</code>, <code>sitemap.xml</code> et maillage propre
+</p>
+<h3>Corriger les points d&#39;accessibilite les plus visibles</h3>
+<ul>
+<li>Impact : moyen</li>
+<li>Pourquoi : labels, modales, focus et landmarks restent trop inegaux</li>
+<li>Fichiers a regarder :</li>
+</ul>
+<p><code>src/pages/ContactPage.tsx</code>
+<br><code>src/components/TemplateModal.tsx</code>
+<br><code>src/components/OnboardingModal.tsx</code>
+<br><code>src/components/PreviewModal.tsx</code>
+<br><code>src/components/TemplateCardNew.tsx</code>
+</p>
+<ul>
+<li>Methode de resolution pas a pas :</li>
+</ul>
+<ol>
+<li>remettre les labels visibles sur les formulaires</li>
+<li>corriger la gestion du focus dans les modales</li>
+<li>verifier le clavier sur les cartes et boutons</li>
+<li>refaire un passage Lighthouse accessibilite</li>
+</ol>
+<ul>
+<li>Definition de fini :</li>
+</ul>
+<p>labels visibles, focus fiable, modales clavier correctes, contrastes repris
+</p>
+<h3>Harmoniser le systeme de design</h3>
+<ul>
+<li>Impact : moyen</li>
+<li>Pourquoi : le socle existe deja, mais trop de styles en dur et de variables ambigu&#235;s restent en place</li>
+<li>Fichiers a regarder :</li>
+</ul>
+<p><code>src/styles/tokens.css</code>
+<br>pages publiques
+<br>admin
+<br>modales
+</p>
+<ul>
+<li>Methode de resolution pas a pas :</li>
+</ul>
+<ol>
+<li>retirer les doublons de variables</li>
+<li>reduire les styles inline</li>
+<li>clarifier les tokens de couleur, texte et ombre</li>
+<li>rapprocher l&#39;admin et la vitrine</li>
+</ol>
+<ul>
+<li>Definition de fini :</li>
+</ul>
+<p>tokens plus clairs, moins de styles inline, admin et vitrine mieux alignes
+</p>
+<h2>Chantier transverse bonnes pratiques</h2>
+<h3>Ce que l&#39;audit tech lead demande en plus</h3>
+<ul>
+<li>une separation plus claire entre interface, logique metier et acces donnees</li>
+<li>une source de verite cote serveur pour les statuts sensibles</li>
+<li>des contrats de donnees plus stricts</li>
+<li>un niveau minimum de tests sur les flux qui vendent et encaissent</li>
+<li>une hygiene continue du lint au lieu d&#39;un rattrapage occasionnel</li>
+<li>une configuration plus propre et moins de valeurs en dur</li>
+<li>moins de logs sensibles dans le navigateur</li>
+<li>un vrai cadre de gouvernance du front</li>
+<li>une meilleure coherence visuelle entre pages, templates et composants</li>
+</ul>
+<h3>Regle simple de travail</h3>
+<p>Pour chaque sujet code source :
+</p>
+<ol>
+<li>confirmer le comportement actuel</li>
+<li>corriger d&#39;abord le risque business</li>
+<li>tester tout de suite</li>
+<li>seulement apres, nettoyer plus large</li>
+</ol>
+</body></html>

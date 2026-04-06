@@ -18,6 +18,7 @@ La strategie recommandee est `mixed` :
 - les scripts utilitaires generiques
 - les templates de parcours ou de comptes rendus
 - les chemins de sorties dans `reports/`
+- la configuration MCP du depot quand elle ne contient pas de secret, par exemple `.mcp.json`
 
 ## Ce qui doit rester local
 
@@ -35,6 +36,16 @@ La strategie recommandee est `mixed` :
 4. ouvrir un navigateur outille via MCP
 5. executer un parcours cible
 6. stocker les preuves dans `reports/evidence/`
+
+## Configuration preparee dans ce depot
+
+Le depot contient maintenant :
+
+- `.mcp.json`
+
+Cette configuration prepare le serveur MCP `chrome-devtools` pour piloter un navigateur Chrome via le package officiel `chrome-devtools-mcp`.
+
+Si Codex Desktop n'affiche pas encore ce serveur, il faut en general recharger le workspace ou relancer l'application pour que la nouvelle configuration soit prise en compte.
 
 ## Premier parcours conseille
 
