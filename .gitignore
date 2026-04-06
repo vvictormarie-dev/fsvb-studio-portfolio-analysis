@@ -1,0 +1,39 @@
+# Environnement local
+.env
+.env.local
+.env.*.local
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Python
+.venv/
+venv/
+__pycache__/
+
+# Build / caches
+dist/
+build/
+.next/
+.nuxt/
+.cache/
+coverage/
+
+# Logs
+*.log
+
+# MCP / navigateur / preuves temporaires
+playwright-report/
+test-results/
+tmp/
+.tmp/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
