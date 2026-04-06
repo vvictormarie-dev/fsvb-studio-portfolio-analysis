@@ -30,10 +30,34 @@ La strategie recommandee est `mixed` :
 ## Mise en place conseillee
 
 1. verifier que l'application cible peut tourner localement
-2. configurer la base URL locale dans l'environnement
-3. ouvrir un navigateur outille via MCP
-4. executer un parcours cible
-5. stocker les preuves dans `reports/evidence/`
+2. lancer de preference `fsvb-studio-portfolio/portfolio-app/` via la commande documentee
+3. configurer la base URL locale dans l'environnement
+4. ouvrir un navigateur outille via MCP
+5. executer un parcours cible
+6. stocker les preuves dans `reports/evidence/`
+
+## Premier parcours conseille
+
+Pour une premiere verification simple :
+
+1. lancer le site local
+2. ouvrir la page d'accueil
+3. verifier que les contenus principaux se chargent
+4. noter les points de friction ou d'incomprehension
+5. faire une capture ou creer une note de preuve
+6. transformer cela en constat priorise
+
+## Exemple de base URL locale
+
+Si Vite demarre sur son port habituel, la base URL locale sera souvent proche de :
+
+- `http://localhost:5173`
+
+Dans ce depot, une verification reelle a confirme le fonctionnement sur :
+
+- `http://127.0.0.1:4173/`
+
+Ce point peut varier si un autre port est choisi ou deja occupe sur votre poste.
 
 ## Bonnes pratiques
 
@@ -41,6 +65,7 @@ La strategie recommandee est `mixed` :
 - lier chaque preuve a un constat ou a un risque
 - preferer des parcours courts et verifiables
 - noter les limites de l'observation quand un acces manque
+- separer clairement les secrets locaux du depot d'analyse
 
 ## Ressources utiles
 

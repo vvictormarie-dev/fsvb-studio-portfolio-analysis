@@ -18,6 +18,18 @@ Ce dossier decrit une organisation simple, sans moteur de workflow externe.
 4. conserver les preuves
 5. transformer les constats en synthese metier
 
+## Workflow minimal recommande
+
+Pour demarrer sans Tiagento :
+
+1. `tools/check-environment.ps1`
+2. `tools/run-target-app.ps1` ou lancement masque documente
+3. observation locale ou parcours MCP
+4. `tools/collect-evidence.ps1`
+5. redaction dans `docs/templates/`
+6. `tools/generate-consolidated-report.ps1`
+7. `tools/stop-target-app.ps1`
+
 ## Evolution possible plus tard
 
 Cette organisation pourra accueillir Tiagento ou un autre orchestrateur sans changer les emplacements principaux :

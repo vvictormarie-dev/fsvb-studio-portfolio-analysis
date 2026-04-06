@@ -4,7 +4,8 @@ Ce depot sert a analyser, tester, observer et documenter l'application web `FSVB
 
 ## Ce que contient ce depot
 
-- `fsvb-studio-portfolio/` : l'application cible importee localement pour etre observee et testee
+- `fsvb-studio-portfolio/` : le depot de l'application cible importe localement
+- `fsvb-studio-portfolio/portfolio-app/` : l'application web principale detectee a ce stade
 - `docs/` : les guides pratiques, modes operatoires et templates
 - `reports/` : les brouillons, rapports generes, versions consolidees et preuves
 - `tools/` : les scripts simples utiles au quotidien
@@ -23,10 +24,21 @@ Le depot est organise pour permettre un travail simple :
 
 L'application cible est importee en `subtree` dans `fsvb-studio-portfolio/`. Cela permet de garder un depot d'analyse separe, tout en conservant une copie locale de l'application a etudier.
 
+Dans l'etat actuel du depot d'analyse, la copie locale est alignee sur la branche cible `analyse-marie`.
+
+Le stack principal detecte est :
+
+- application frontend React
+- TypeScript
+- Vite
+- dependances fonctionnelles vers Supabase et PayPal
+
+La racine importee contient un script de confort, mais l'application utile a lancer se trouve surtout dans `fsvb-studio-portfolio/portfolio-app/`.
+
 Commande de mise a jour future :
 
 ```powershell
-git subtree pull --prefix fsvb-studio-portfolio app-target main --squash
+git subtree pull --prefix fsvb-studio-portfolio https://github.com/Sue70623/fsvb-studio-portfolio.git analyse-marie --squash
 ```
 
 ## Logique MCP
@@ -61,3 +73,15 @@ Tiagento n'est pas installe dans cette phase. L'organisation du depot laisse tou
 ## Demarrage rapide
 
 Commencez par [docs/how-to/quickstart.md](/C:/Users/Mariedo/OneDrive/Documents/Dev/fsvb-studio-portfolio-analysis/docs/how-to/quickstart.md).
+
+## Parcours recommande pour une premiere analyse
+
+1. verifier l'environnement local
+2. installer les dependances de l'application cible
+3. lancer l'application cible localement
+4. verifier une ou deux pages clefs dans le navigateur
+5. collecter les preuves utiles
+6. remplir un template de rapport
+7. produire une synthese consolidee
+
+Ce parcours permet de commencer simplement, sans moteur externe, tout en gardant une trace claire des constats.
